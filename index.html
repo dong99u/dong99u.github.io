@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>박동규 - Backend Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --accent-color: #fbbf24;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --border-color: #e5e7eb;
+            --success-color: #10b981;
+            --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--bg-white);
+            box-shadow: var(--card-shadow);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-dark);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            margin-top: 80px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-quote {
+            font-style: italic;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-white);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 4rem 0;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about-content {
+            background-color: var(--bg-white);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-content:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background-color: var(--bg-white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .skill-category {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-list {
+            list-style: none;
+            color: var(--text-light);
+            line-height: 2;
+        }
+
+        .skill-list li {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .skill-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+
+        /* Competencies Section */
+        .competencies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .competency-card {
+            background-color: var(--bg-white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .competency-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .competency-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .competency-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        /* Projects Section */
+        .projects-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--border-color);
+            transform: translateX(-50%);
+        }
+
+        .project-item {
+            position: relative;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            width: calc(50% - 2rem);
+        }
+
+        .project-item:nth-child(odd) {
+            margin-left: auto;
+            margin-right: 2rem;
+        }
+
+        .project-item:nth-child(even) {
+            margin-left: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--bg-white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .project-dot {
+            position: absolute;
+            top: 2rem;
+            width: 16px;
+            height: 16px;
+            background-color: var(--primary-color);
+            border: 4px solid var(--bg-light);
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .project-item:nth-child(odd) .project-dot {
+            left: -2rem;
+            transform: translateX(-50%);
+        }
+
+        .project-item:nth-child(even) .project-dot {
+            right: -2rem;
+            transform: translateX(50%);
+        }
+
+        .project-date {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .project-achievement {
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Architecture Details */
+        .architecture-btn {
+            margin-top: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .architecture-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .architecture-detail {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+            border-radius: 12px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .architecture-detail.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .arch-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .arch-component {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .arch-component:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .arch-component strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .arch-component p {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .tech-detail {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .tech-detail h5 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .tech-detail ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tech-detail li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.8;
+        }
+
+        .tech-detail li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .tech-detail strong {
+            color: var(--text-dark);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem;
+            border-radius: 16px;
+            background-color: var(--bg-light);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            background-color: var(--bg-white);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .contact-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.25rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .timeline-line {
+                left: 2rem;
+            }
+
+            .project-item {
+                width: 100%;
+                margin-left: 3rem !important;
+                margin-right: 0 !important;
+            }
+
+            .project-dot {
+                left: 2rem !important;
+                transform: translateX(-50%) !important;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">박동규</div>
+            <ul class="nav-links">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#about">소개</a></li>
+                <li><a href="#skills">기술스택</a></li>
+                <li><a href="#competencies">핵심역량</a></li>
+                <li><a href="#projects">프로젝트</a></li>
+                <li><a href="#contact">연락처</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Backend Developer</h1>
+                <p class="subtitle">박동규 / Park Dong Kyu</p>
+                <p class="hero-quote">"좋은 코드는 좋은 문화에서 나온다 - 사용자 중심 기술을 실현하는 개발자"</p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <span>프로젝트 보기</span>
+                        <span>→</span>
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <span>연락하기</span>
+                        <span>✉</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container fade-in">
+        <h2 class="section-title">소개</h2>
+        <div class="about-content">
+            <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 2rem;">
+                안녕하세요! <strong>사용자 중심 기술을 실현하는</strong> 백엔드 개발자 <strong>박동규</strong>입니다.<br>
+                저는 단순히 코드를 작성하는 것을 넘어, <strong>팀의 문화를 형성하고 함께 성장하는 리더십</strong>을 추구합니다.
+                Google Solution Challenge Global Top 100에 선정된 경험과 다양한 프로젝트 리더 역할을 통해,
+                기술적 우수성과 팀워크의 시너지가 만들어내는 가치를 깊이 이해하게 되었습니다.
+            </p>
+            <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 2rem;">
+                <strong>"좋은 코드는 좋은 문화에서 나온다"</strong>는 신념으로, GitHub 코드 리뷰 문화를 정착시키고 
+                팀원들과 함께 기술적 도전 과제를 해결해 나가는 과정을 즐깁니다. 
+                사용자의 실제 문제를 해결하는 것이 최우선이며, 이를 위해 끊임없이 소통하고 개선합니다.
+            </p>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-icon">🎓</div>
+                    <div>
+                        <h4>학력</h4>
+                        <p>한국외국어대학교 컴퓨터전자시스템공학부</p>
+                        <p style="color: var(--text-light);">2020.02 ~</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">🏆</div>
+                    <div>
+                        <h4>주요 성과</h4>
+                        <p>Google Solution Challenge 2024<br>Global Top 100 선정</p>
+                        <p>한국외대 공과대학 코드 페스티벌 1위</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">💼</div>
+                    <div>
+                        <h4>경험</h4>
+                        <p>UMC 4th, 6th, 7th, 8th 활동</p>
+                        <p>GDSC 5th 활동</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">🎯</div>
+                    <div>
+                        <h4>관심 분야</h4>
+                        <p>마이크로서비스 아키텍처</p>
+                        <p>성능 최적화 & 클린 코드</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="container fade-in">
+        <h2 class="section-title">기술 스택</h2>
+        <div class="skills-container">
+            <div class="skill-card">
+                <h3 class="skill-category">
+                    <span>💻</span>
+                    <span>Backend</span>
+                </h3>
+                <ul class="skill-list">
+                    <li>Java, Kotlin, Spring Boot</li>
+                    <li>Spring Security, JPA, QueryDSL</li>
+                    <li>REST API, FastAPI</li>
+                    <li>Redis, MySQL, MongoDB</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3 class="skill-category">
+                    <span>🎨</span>
+                    <span>Frontend</span>
+                </h3>
+                <ul class="skill-list">
+                    <li>Flutter, React</li>
+                    <li>HTML/CSS, JavaScript</li>
+                    <li>Responsive Design</li>
+                    <li>State Management</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3 class="skill-category">
+                    <span>🛠</span>
+                    <span>DevOps & Tools</span>
+                </h3>
+                <ul class="skill-list">
+                    <li>AWS (EC2, S3, ECR, ECS)</li>
+                    <li>Docker, Kubernetes, Nginx</li>
+                    <li>GitHub Actions, Argo CD</li>
+                    <li>GitOps, CI/CD Pipeline</li>
+                    <li>Linux, Certbot</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3 class="skill-category">
+                    <span>🤝</span>
+                    <span>Collaboration</span>
+                </h3>
+                <ul class="skill-list">
+                    <li>Swagger API Documentation</li>
+                    <li>Postman API Testing</li>
+                    <li>Figma, Notion</li>
+                    <li>Agile Methodology</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competencies Section -->
+    <section id="competencies" class="container fade-in">
+        <h2 class="section-title">핵심 역량</h2>
+        <div class="competencies-grid">
+            <div class="competency-card">
+                <h3 class="competency-title">
+                    <span>🔐</span>
+                    <span>Spring Security</span>
+                </h3>
+                <p>카카오, 애플, 로컬 로그인 등 다양한 인증 방식 구현 및 OAuth2 연동</p>
+            </div>
+            <div class="competency-card">
+                <h3 class="competency-title">
+                    <span>☁️</span>
+                    <span>AWS 인프라</span>
+                </h3>
+                <p>EC2, S3, Nginx, Docker, Docker-Compose 활용한 서버 인프라 구축</p>
+            </div>
+            <div class="competency-card">
+                <h3 class="competency-title">
+                    <span>⚡</span>
+                    <span>성능 최적화</span>
+                </h3>
+                <p>Presigned URL 도입으로 파일 업로드 속도 20-30% 개선, 서버 부하 감소</p>
+            </div>
+            <div class="competency-card">
+                <h3 class="competency-title">
+                    <span>🗄️</span>
+                    <span>데이터베이스 최적화</span>
+                </h3>
+                <p>Fetch Join 사용하여 N+1 문제 해결, Redis 캐싱 적용</p>
+            </div>
+            <div class="competency-card">
+                <h3 class="competency-title">
+                    <span>🔄</span>
+                    <span>CI/CD & GitOps</span>
+                </h3>
+                <p>GitHub Actions와 Argo CD를 활용한 GitOps 기반 자동화 배포 파이프라인 구축</p>
+            </div>
+            <div class="competency-card">
+                <h3 class="competency-title">
+                    <span>🐳</span>
+                    <span>컨테이너 오케스트레이션</span>
+                </h3>
+                <p>ECS Cluster와 Kubernetes를 활용한 컨테이너 기반 마이크로서비스 운영</p>
+            </div>
+            <div class="competency-card">
+                <h3 class="competency-title">
+                    <span>🤖</span>
+                    <span>AI 최적화</span>
+                </h3>
+                <p>TensorFlow Lite 모델 변환 및 모바일 환경 최적화</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="container fade-in">
+        <h2 class="section-title">프로젝트 경험</h2>
+        <div class="projects-timeline">
+            <div class="timeline-line"></div>
+            
+            <div class="project-item">
+                <div class="project-dot"></div>
+                <div class="project-card">
+                    <p class="project-date">2025.01 ~ 2025.02</p>
+                    <h3 class="project-title">LOVE KEEPER</h3>
+                    <p>커플의 사랑을 지키기 위해 소통을 도와주는 서비스</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">AWS</span>
+                        <span class="tech-tag">Redis</span>
+                    </div>
+                    <p style="margin-top: 1rem;">
+                        <strong>주요 성과:</strong><br>
+                        • 백엔드와 iOS 앱 개발 모두 담당<br>
+                        • App Store 배포 예정<br>
+                        • 커밋 77개 (100% 기여)
+                    </p>
+                    <button class="architecture-btn" onclick="toggleArchitecture('lovekeeper')">
+                        🏗️ AWS 아키텍처 보기
+                    </button>
+                    <div class="architecture-detail" id="lovekeeper-arch">
+                        <h4>AWS ECS 기반 마이크로서비스 아키텍처</h4>
+                        <div class="arch-diagram">
+                            <div class="arch-component">
+                                <strong>Internet Gateway & VPC</strong>
+                                <p>• VPC (10.0.0.0/16) 구성<br>
+                                • 2개의 Availability Zone<br>
+                                • Public/Private Subnet 분리<br>
+                                • NAT Gateway 설정</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>Application Load Balancer</strong>
+                                <p>• HTTPS (443) 리스너<br>
+                                • SSL/TLS 인증서 적용<br>
+                                • ECS 서비스로 라우팅<br>
+                                • Health Check 설정</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>ECS Cluster (Fargate)</strong>
+                                <p>• SpringBoot 컨테이너<br>
+                                • Auto Scaling 설정<br>
+                                • Service Discovery<br>
+                                • Task Definition 관리</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>RDS & ElastiCache</strong>
+                                <p>• RDS MySQL (Private Subnet)<br>
+                                • ElastiCache Redis 클러스터<br>
+                                • 자동 백업 및 복제<br>
+                                • VPC Endpoint 연결</p>
+                            </div>
+                        </div>
+                        <div class="tech-detail">
+                            <h5>인프라 구성 상세</h5>
+                            <ul>
+                                <li><strong>고가용성 구성:</strong> Multi-AZ 배포로 ap-northeast-2a, 2c에 걸쳐 서비스 분산</li>
+                                <li><strong>보안 강화:</strong> Private Subnet에 ECS, RDS 배치하고 Security Group으로 최소 권한 설정</li>
+                                <li><strong>컨테이너 관리:</strong> ECS Fargate로 서버리스 컨테이너 실행, 운영 부담 최소화</li>
+                                <li><strong>CI/CD 파이프라인:</strong> GitHub Actions → ECR → ECS 자동 배포 구축</li>
+                                <li><strong>External Services 연동:</strong> S3 (파일 저장), Gmail SMTP (이메일), Route 53 (DNS)</li>
+                                <li><strong>모니터링:</strong> CloudWatch Container Insights로 실시간 모니터링 및 알람 설정</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-dot"></div>
+                <div class="project-card">
+                    <p class="project-date">2025.01 ~ 2025.02</p>
+                    <h3 class="project-title">MODY</h3>
+                    <p>개인 맞춤 패션 스타일 추천 앱</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">OAuth2</span>
+                        <span class="tech-tag">AWS S3</span>
+                    </div>
+                    <p style="margin-top: 1rem;">
+                        <strong>주요 성과:</strong><br>
+                        • Presigned URL 도입으로 파일 업로드 속도 20% 개선<br>
+                        • 회원가입 사용자 100명 이상 확보<br>
+                        • 2개월간 집중 개발 (Deep Dive)
+                    </p>
+                    <button class="architecture-btn" onclick="toggleArchitecture('mody')">
+                        🏗️ AWS 아키텍처 보기
+                    </button>
+                    <div class="architecture-detail" id="mody-arch">
+                        <h4>AWS 인프라 구성</h4>
+                        <div class="arch-diagram">
+                            <div class="arch-component">
+                                <strong>EC2 Instance</strong>
+                                <p>• t3.medium 인스턴스<br>
+                                • Docker 환경 구성<br>
+                                • SSL 인증서 적용 (Certbot)</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>S3 & CloudFront</strong>
+                                <p>• 정적 파일 저장소<br>
+                                • 이미지 CDN 배포<br>
+                                • Presigned URL 활용</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>RDS MySQL</strong>
+                                <p>• 프로덕션 DB 분리<br>
+                                • 자동 백업 설정<br>
+                                • 읽기 전용 복제본 검토</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>Container Registry</strong>
+                                <p>• Amazon ECR 활용<br>
+                                • Docker 이미지 관리<br>
+                                • 버전 관리 체계화</p>
+                            </div>
+                        </div>
+                        <div class="tech-detail">
+                            <h5>주요 기술적 구현</h5>
+                            <ul>
+                                <li><strong>마이크로서비스 준비:</strong> Docker Compose로 서비스별 컨테이너 분리</li>
+                                <li><strong>파일 업로드 최적화:</strong> 클라이언트 → S3 직접 업로드로 서버 부하 감소</li>
+                                <li><strong>OAuth2 통합:</strong> Kakao OAuth2 Provider 패턴으로 확장 가능한 인증 구조</li>
+                                <li><strong>성능 모니터링:</strong> CloudWatch 로그 그룹 설정 및 알람 구성</li>
+                                <li><strong>보안 강화:</strong> VPC 설정, Security Group 최소 권한 원칙 적용</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-dot"></div>
+                <div class="project-card">
+                    <p class="project-date">2024.01 ~ 2024.03</p>
+                    <h3 class="project-title">NUGGET</h3>
+                    <p>시각장애인을 위한 보행보조 어플리케이션</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">TensorFlow Lite</span>
+                        <span class="tech-tag">Google Maps</span>
+                    </div>
+                    <div class="project-achievement">
+                        🏆 Google Solution Challenge Global Top 100 선정
+                    </div>
+                    <p style="margin-top: 1rem;">
+                        <strong>주요 성과:</strong><br>
+                        • 시각장애인 보행 보조 앱 개발<br>
+                        • 실시간 장애물 인식 및 음성 안내 기능 구현<br>
+                        • 프론트엔드 개발 90%, 테스트 및 배포 100%
+                    </p>
+                    <button class="architecture-btn" onclick="toggleArchitecture('nugget')">
+                        🏗️ 기술 아키텍처 보기
+                    </button>
+                    <div class="architecture-detail" id="nugget-arch">
+                        <h4>모바일 앱 아키텍처</h4>
+                        <div class="arch-diagram">
+                            <div class="arch-component">
+                                <strong>Flutter Frontend</strong>
+                                <p>• MVVM 패턴 적용<br>
+                                • Provider 상태 관리<br>
+                                • 멀티스레딩 처리</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>TensorFlow Lite</strong>
+                                <p>• 모델 경량화 (90% → 30MB)<br>
+                                • 실시간 객체 인식<br>
+                                • 온디바이스 AI 처리</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>Google Maps API</strong>
+                                <p>• 실시간 위치 추적<br>
+                                • 장애물 정보 매핑<br>
+                                • 경로 안내 시스템</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>Flutter Isolation</strong>
+                                <p>• 백그라운드 처리<br>
+                                • UI 블로킹 방지<br>
+                                • 성능 최적화</p>
+                            </div>
+                        </div>
+                        <div class="tech-detail">
+                            <h5>주요 기술적 도전과 해결</h5>
+                            <ul>
+                                <li><strong>AI 모델 최적화:</strong> TensorFlow Lite 변환으로 모델 크기 70% 감소, 추론 속도 3배 향상</li>
+                                <li><strong>실시간 처리:</strong> Flutter Isolate로 AI 모델과 UI 스레드 분리, 60fps 유지</li>
+                                <li><strong>접근성 최적화:</strong> TalkBack/VoiceOver 완벽 지원, 진동 피드백 구현</li>
+                                <li><strong>배터리 최적화:</strong> 위치 추적 주기 동적 조절로 배터리 소모 40% 감소</li>
+                                <li><strong>오프라인 지원:</strong> 주요 기능 오프라인 동작 가능하도록 설계</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-dot"></div>
+                <div class="project-card">
+                    <p class="project-date">2023.09 ~ 2023.12</p>
+                    <h3 class="project-title">CHALIM</h3>
+                    <p>외국인 관광객을 위한 메뉴판 번역 앱</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">Papago API</span>
+                        <span class="tech-tag">ChatGPT</span>
+                    </div>
+                    <p style="margin-top: 1rem;">
+                        <strong>주요 성과:</strong><br>
+                        • 메뉴판 번역 UI 구현<br>
+                        • 환율 API 및 위치 기반 맛집 추천 기능<br>
+                        • 커밋 39개 (100% 기여)
+                    </p>
+                    <button class="architecture-btn" onclick="toggleArchitecture('chalim')">
+                        🏗️ 시스템 아키텍처 보기
+                    </button>
+                    <div class="architecture-detail" id="chalim-arch">
+                        <h4>외부 API 통합 아키텍처</h4>
+                        <div class="arch-diagram">
+                            <div class="arch-component">
+                                <strong>Flutter App</strong>
+                                <p>• Stack Widget UI<br>
+                                • 카메라 실시간 프리뷰<br>
+                                • 다국어 지원 (i18n)</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>Papago OCR API</strong>
+                                <p>• 이미지 텍스트 추출<br>
+                                • 한국어 메뉴 인식<br>
+                                • 번역 정확도 향상</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>ChatGPT API</strong>
+                                <p>• 메뉴 설명 생성<br>
+                                • 문화적 맥락 설명<br>
+                                • 재료 알레르기 정보</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>위치 기반 서비스</strong>
+                                <p>• 주변 맛집 추천<br>
+                                • 실시간 환율 정보<br>
+                                • 오프라인 캐싱</p>
+                            </div>
+                        </div>
+                        <div class="tech-detail">
+                            <h5>주요 기술적 구현</h5>
+                            <ul>
+                                <li><strong>이미지 처리 최적화:</strong> 메뉴판 촬영 시 자동 크롭 및 보정으로 OCR 정확도 향상</li>
+                                <li><strong>API 비용 최적화:</strong> 응답 캐싱 및 배치 처리로 API 호출 횟수 50% 감소</li>
+                                <li><strong>UX 최적화:</strong> 스켈레톤 UI와 점진적 렌더링으로 체감 속도 개선</li>
+                                <li><strong>다국어 지원:</strong> 영어, 중국어, 일본어 등 5개 언어 실시간 번역</li>
+                                <li><strong>오프라인 모드:</strong> 주요 메뉴 데이터 로컬 저장으로 부분적 오프라인 지원</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-dot"></div>
+                <div class="project-card">
+                    <p class="project-date">2023.06 ~ 2023.08</p>
+                    <h3 class="project-title">MAPPING 101</h3>
+                    <p>주식 투자 정보 시각화 플랫폼</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Express.js</span>
+                        <span class="tech-tag">D3.js</span>
+                        <span class="tech-tag">Chart.js</span>
+                    </div>
+                    <p style="margin-top: 1rem;">
+                        <strong>주요 성과:</strong><br>
+                        • D3 라이브러리로 네트워크 그래프 구현<br>
+                        • 대용량 데이터 처리 및 시각화<br>
+                        • 150개 커밋 (팀 내 높은 비중)
+                    </p>
+                    <button class="architecture-btn" onclick="toggleArchitecture('mapping')">
+                        🏗️ 기술 스택 & 아키텍처 보기
+                    </button>
+                    <div class="architecture-detail" id="mapping-arch">
+                        <h4>풀스택 웹 애플리케이션 아키텍처</h4>
+                        <div class="arch-diagram">
+                            <div class="arch-component">
+                                <strong>React Frontend</strong>
+                                <p>• SPA 아키텍처<br>
+                                • Redux 상태 관리<br>
+                                • Webpack 번들링</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>Express.js Backend</strong>
+                                <p>• RESTful API 설계<br>
+                                • JWT 인증 시스템<br>
+                                • 미들웨어 체인</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>D3.js 시각화</strong>
+                                <p>• 235만 데이터 렌더링<br>
+                                • 인터랙티브 그래프<br>
+                                • 실시간 업데이트</p>
+                            </div>
+                            <div class="arch-component">
+                                <strong>데이터 처리</strong>
+                                <p>• 대용량 CSV 파싱<br>
+                                • 메모리 최적화<br>
+                                • 캐싱 전략</p>
+                            </div>
+                        </div>
+                        <div class="tech-detail">
+                            <h5>주요 기술적 도전과 해결</h5>
+                            <ul>
+                                <li><strong>대용량 데이터 시각화:</strong> D3.js force-directed graph로 235만 개 노드 렌더링, 가상화 기법 적용</li>
+                                <li><strong>성능 최적화:</strong> React.memo와 useMemo로 불필요한 리렌더링 방지, 60fps 달성</li>
+                                <li><strong>데이터 처리:</strong> Web Worker로 메인 스레드 블로킹 방지, 청크 단위 처리</li>
+                                <li><strong>인터랙티브 UI:</strong> 줌, 팬, 필터링 기능으로 사용자 경험 극대화</li>
+                                <li><strong>반응형 디자인:</strong> 다양한 화면 크기에서 그래프 자동 조정</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact fade-in">
+        <div class="container">
+            <h2 class="section-title">연락처</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">✉</div>
+                    <h4>이메일</h4>
+                    <a href="mailto:qkrehdrb0813@gmail.com">qkrehdrb0813@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <h4>전화</h4>
+                    <a href="tel:01086614677">010-8661-4677</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🐙</div>
+                    <h4>GitHub</h4>
+                    <a href="https://github.com/dong99u" target="_blank">github.com/dong99u</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Park Dong Kyu. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Architecture Toggle
+        function toggleArchitecture(projectId) {
+            const archDetail = document.getElementById(`${projectId}-arch`);
+            archDetail.classList.toggle('active');
+            
+            // 다른 아키텍처 섹션 닫기
+            document.querySelectorAll('.architecture-detail').forEach(detail => {
+                if (detail.id !== `${projectId}-arch`) {
+                    detail.classList.remove('active');
+                }
+            });
+        }
+
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 500);
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active');
+        });
+
+        // Fade In Animation on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Active Navigation Link
+        const sections = document.querySelectorAll('section[id]');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href').slice(1) === current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Project Cards Hover Effect
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Typing Effect for Hero Title
+        const heroTitle = document.querySelector('.hero h1');
+        const text = heroTitle.textContent;
+        heroTitle.textContent = '';
+        let index = 0;
+
+        function typeWriter() {
+            if (index < text.length) {
+                heroTitle.textContent += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+
+        setTimeout(typeWriter, 800);
+    </script>
+</body>
+</html>
