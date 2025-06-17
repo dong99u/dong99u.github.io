@@ -3,7 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>박동규 - Backend Developer</title>
+    <title>박동규 - Backend Developer Portfolio</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="사용자 중심 기술을 실현하는 백엔드 개발자 박동규입니다. Java, Kotlin, Spring Boot, AWS, Docker, Kubernetes 전문. Google Solution Challenge Global Top 100 수상.">
+    <meta name="keywords" content="박동규, Park Dong Kyu, Backend Developer, 백엔드 개발자, Spring Boot, AWS, Docker, Kubernetes, Java, Kotlin, 포트폴리오">
+    <meta name="author" content="박동규">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags (소셜 미디어 공유) -->
+    <meta property="og:title" content="박동규 - Backend Developer">
+    <meta property="og:description" content="사용자 중심 기술을 실현하는 백엔드 개발자. Google Solution Challenge Global Top 100 수상자.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dong99u.github.io">
+    <meta property="og:image" content="https://dong99u.github.io/profile-image.jpg">
+    <meta property="og:locale" content="ko_KR">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="박동규 - Backend Developer">
+    <meta name="twitter:description" content="사용자 중심 기술을 실현하는 백엔드 개발자. Google Solution Challenge Global Top 100 수상자.">
+    <meta name="twitter:image" content="https://dong99u.github.io/profile-image.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://dong99u.github.io">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "박동규",
+        "alternateName": "Park Dong Kyu",
+        "url": "https://dong99u.github.io",
+        "jobTitle": "Backend Developer",
+        "worksFor": {
+            "@type": "Organization",
+            "name": "한국외국어대학교"
+        },
+        "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "한국외국어대학교"
+        },
+        "sameAs": [
+            "https://github.com/dong99u",
+            "https://www.linkedin.com/in/dongkyu-park"
+        ],
+        "knowsAbout": ["Java", "Kotlin", "Spring Boot", "AWS", "Docker", "Kubernetes", "MySQL", "Redis"],
+        "award": "Google Solution Challenge 2024 Global Top 100"
+    }
+    </script>
     <style>
         * {
             margin: 0;
@@ -152,20 +204,42 @@
             z-index: 10;
         }
 
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            overflow: hidden;
+            box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.1), var(--hover-shadow);
+            animation: fadeInUp 0.8s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 8px rgba(37, 99, 235, 0.2), var(--hover-shadow);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .hero h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: fadeInUp 0.8s ease;
+            animation: fadeInUp 0.8s ease 0.2s both;
         }
 
         .hero .subtitle {
             font-size: 1.5rem;
             color: var(--text-light);
             margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease 0.2s both;
+            animation: fadeInUp 0.8s ease 0.4s both;
         }
 
         .hero-quote {
@@ -173,7 +247,7 @@
             color: var(--text-light);
             max-width: 600px;
             margin: 0 auto 3rem;
-            animation: fadeInUp 0.8s ease 0.4s both;
+            animation: fadeInUp 0.8s ease 0.6s both;
         }
 
         @keyframes fadeInUp {
@@ -800,6 +874,9 @@
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
+                <div class="profile-image">
+                    <img src="profile-image.jpg" alt="박동규 프로필 사진">
+                </div>
                 <h1>Backend Developer</h1>
                 <p class="subtitle">박동규 / Park Dong Kyu</p>
                 <p class="hero-quote">"좋은 코드는 좋은 문화에서 나온다 - 사용자 중심 기술을 실현하는 개발자"</p>
