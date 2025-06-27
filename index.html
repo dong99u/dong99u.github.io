@@ -855,6 +855,758 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* ===== MOMENTO FEATURED PROJECT STYLES ===== */
+        
+        /* Momento Hero Section */
+        .momento-hero {
+            perspective: 1000px;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, 
+                rgba(37, 99, 235, 0.03) 0%, 
+                rgba(168, 85, 247, 0.02) 50%, 
+                rgba(251, 191, 36, 0.03) 100%);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .momento-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(37, 99, 235, 0.1), transparent);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .momento-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 0 auto;
+            max-width: 1000px;
+            box-shadow: 
+                0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04),
+                0 0 0 1px rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform-style: preserve-3d;
+        }
+
+        .momento-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 
+                0 35px 60px -12px rgba(37, 99, 235, 0.25),
+                0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Momento Header */
+        .momento-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .momento-logo {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            font-size: 3rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .momento-logo h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), #a855f7, var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .momento-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .achievement-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .achievement-icon {
+            font-size: 1.2rem;
+            animation: rocket 3s ease-in-out infinite;
+        }
+
+        @keyframes rocket {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(-5deg); }
+            75% { transform: translateY(-3px) rotate(5deg); }
+        }
+
+        /* Performance Showcase */
+        .performance-showcase {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            border: 2px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .performance-showcase h4 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            font-size: 1.3rem;
+        }
+
+        .performance-comparison {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .performance-before, .performance-after {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 16px;
+            min-width: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .performance-before {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid #f59e0b;
+        }
+
+        .performance-after {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            border: 2px solid #10b981;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 5px rgba(16, 185, 129, 0.4); }
+            to { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
+        }
+
+        .performance-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .performance-value {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 0.25rem;
+        }
+
+        .performance-value.old {
+            color: #d97706;
+        }
+
+        .performance-value.new {
+            color: #059669;
+            animation: countUp 2s ease-out;
+        }
+
+        @keyframes countUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .performance-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .performance-arrow {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            animation: arrow-move 1.5s ease-in-out infinite;
+        }
+
+        @keyframes arrow-move {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        .performance-improvement {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), #a855f7);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .improvement-percent {
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .improvement-text {
+            font-weight: 600;
+        }
+
+        /* Architecture Flow */
+        .tech-architecture {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #fafafa, #f4f4f5);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tech-architecture h4 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+            font-size: 1.3rem;
+        }
+
+        .architecture-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .arch-step {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            min-width: 140px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .arch-step:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: var(--primary-color);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .arch-step[data-step="1"] { animation-delay: 0s; }
+        .arch-step[data-step="2"] { animation-delay: 0.2s; }
+        .arch-step[data-step="3"] { animation-delay: 0.4s; }
+
+        .arch-step {
+            animation: slideInUp 0.8s ease-out both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .arch-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .arch-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .arch-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .arch-connector {
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+            position: relative;
+            margin: 0 0.5rem;
+        }
+
+        .arch-connector::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: -3px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid var(--accent-color);
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+
+        /* Tech Stack Grid */
+        .tech-stack-momento {
+            margin: 2rem 0;
+        }
+
+        .tech-stack-momento h4 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 1.3rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+
+        .tech-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .tech-item.backend {
+            border-left-color: #3b82f6;
+        }
+
+        .tech-item.ai {
+            border-left-color: #8b5cf6;
+        }
+
+        .tech-item.cache {
+            border-left-color: #ef4444;
+        }
+
+        .tech-item.cloud {
+            border-left-color: #f59e0b;
+        }
+
+        .tech-item.database {
+            border-left-color: #10b981;
+        }
+
+        .tech-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Features Grid */
+        .momento-features {
+            margin: 2rem 0;
+        }
+
+        .momento-features h4 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 1.3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--primary-color);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .feature-content h5 {
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .feature-content p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Impact Stats */
+        .momento-impact {
+            margin: 2rem 0;
+        }
+
+        .momento-impact h4 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 1.3rem;
+        }
+
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #fafafa, #f4f4f5);
+            padding: 2rem 1rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, white, #f8fafc);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Momento Buttons */
+        .momento-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-momento {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-momento.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-momento.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6);
+        }
+
+        .btn-momento.secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-momento.secondary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Momento Details */
+        .momento-details {
+            margin-top: 2rem;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .momento-details.active {
+            max-height: 2000px;
+            opacity: 1;
+            padding: 2rem;
+        }
+
+        .details-content h4 {
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 1.4rem;
+        }
+
+        .architecture-detailed {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .arch-layer {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .arch-layer h5 {
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .arch-layer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .arch-layer li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        .arch-layer li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .arch-layer strong {
+            color: var(--text-dark);
+        }
+
+        /* Performance Timeline */
+        .performance-timeline {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .performance-timeline h5 {
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+        }
+
+        .timeline-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .timeline-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h6 {
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .step-content p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Responsive Design for Momento */
+        @media (max-width: 768px) {
+            .momento-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .momento-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .performance-comparison {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .architecture-flow {
+                flex-direction: column;
+            }
+
+            .arch-connector {
+                width: 3px;
+                height: 40px;
+                transform: rotate(90deg);
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .impact-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .momento-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .architecture-detailed {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Particle Effect for Background */
+        .momento-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
+            animation: float 15s ease-in-out infinite;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
@@ -872,6 +1624,7 @@
                 <li><a href="#about">소개</a></li>
                 <li><a href="#skills">기술스택</a></li>
                 <li><a href="#competencies">핵심역량</a></li>
+                <li><a href="#featured-project">Featured</a></li>
                 <li><a href="#projects">프로젝트</a></li>
                 <li><a href="#contact">연락처</a></li>
             </ul>
@@ -1076,6 +1829,239 @@
                     <span>AI 최적화</span>
                 </h3>
                 <p>TensorFlow Lite 모델 변환 및 모바일 환경 최적화</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Project: Momento -->
+    <section id="featured-project" class="container fade-in" style="padding: 6rem 0;">
+        <h2 class="section-title">Featured Project</h2>
+        <div class="momento-hero">
+            <div class="momento-card">
+                <div class="momento-header">
+                    <div class="momento-logo">
+                        <div class="logo-icon">🎊</div>
+                        <h3>Momento</h3>
+                        <div class="momento-subtitle">AI 기반 가족 소통 플랫폼</div>
+                    </div>
+                    <div class="achievement-badge">
+                        <span class="achievement-icon">🚀</span>
+                        <span>99.985% 성능 개선</span>
+                    </div>
+                </div>
+                
+                <div class="momento-description">
+                    <p>가족 구성원들이 서로의 일상을 공유하고 소통할 수 있도록 돕는 <strong>AI 기반 가족 소통 플랫폼</strong>입니다. 
+                    OpenAI GPT-4 Assistant를 활용한 개인화된 질문 생성으로 자연스러운 대화를 유도합니다.</p>
+                </div>
+
+                <div class="performance-showcase">
+                    <h4>🎯 혁신적 성능 최적화</h4>
+                    <div class="performance-comparison">
+                        <div class="performance-before">
+                            <div class="performance-label">개선 전</div>
+                            <div class="performance-value old">60초</div>
+                            <div class="performance-desc">첫 질문 생성</div>
+                        </div>
+                        <div class="performance-arrow">→</div>
+                        <div class="performance-after">
+                            <div class="performance-label">개선 후</div>
+                            <div class="performance-value new">9ms</div>
+                            <div class="performance-desc">즉시 응답</div>
+                        </div>
+                    </div>
+                    <div class="performance-improvement">
+                        <span class="improvement-percent">99.985%</span>
+                        <span class="improvement-text">성능 개선</span>
+                    </div>
+                </div>
+
+                <div class="tech-architecture">
+                    <h4>🏗️ 3-Tier 캐싱 아키텍처</h4>
+                    <div class="architecture-flow">
+                        <div class="arch-step" data-step="1">
+                            <div class="arch-icon">⚡</div>
+                            <div class="arch-title">Redis Cache</div>
+                            <div class="arch-desc">9ms 즉시 응답</div>
+                        </div>
+                        <div class="arch-connector"></div>
+                        <div class="arch-step" data-step="2">
+                            <div class="arch-icon">🔄</div>
+                            <div class="arch-title">Background Pool</div>
+                            <div class="arch-desc">비동기 질문 생성</div>
+                        </div>
+                        <div class="arch-connector"></div>
+                        <div class="arch-step" data-step="3">
+                            <div class="arch-icon">🤖</div>
+                            <div class="arch-title">AI Generation</div>
+                            <div class="arch-desc">OpenAI GPT-4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack-momento">
+                    <h4>💻 기술 스택</h4>
+                    <div class="tech-grid">
+                        <div class="tech-item backend">
+                            <span class="tech-icon">🔧</span>
+                            <span>Spring Boot 3.5.3</span>
+                        </div>
+                        <div class="tech-item backend">
+                            <span class="tech-icon">📱</span>
+                            <span>Kotlin 1.9.25</span>
+                        </div>
+                        <div class="tech-item ai">
+                            <span class="tech-icon">🤖</span>
+                            <span>OpenAI GPT-4</span>
+                        </div>
+                        <div class="tech-item cache">
+                            <span class="tech-icon">⚡</span>
+                            <span>Redis Cache</span>
+                        </div>
+                        <div class="tech-item cloud">
+                            <span class="tech-icon">☁️</span>
+                            <span>AWS EC2</span>
+                        </div>
+                        <div class="tech-item database">
+                            <span class="tech-icon">🗄️</span>
+                            <span>MySQL + QueryDSL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="momento-features">
+                    <h4>✨ 핵심 기능</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">🤖</div>
+                            <div class="feature-content">
+                                <h5>AI 질문 생성</h5>
+                                <p>가족 구성원 맞춤형 질문 자동 생성</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">👥</div>
+                            <div class="feature-content">
+                                <h5>가족 그룹 관리</h5>
+                                <p>초대 코드 기반 간편한 가족 구성</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📝</div>
+                            <div class="feature-content">
+                                <h5>AI 버킷리스트</h5>
+                                <p>가족 맞춤형 활동 제안 및 추적</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔐</div>
+                            <div class="feature-content">
+                                <h5>OAuth2 인증</h5>
+                                <p>카카오 로그인 간편 인증</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="momento-impact">
+                    <h4>📊 프로젝트 임팩트</h4>
+                    <div class="impact-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">99.985%</div>
+                            <div class="stat-label">성능 개선</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1000+</div>
+                            <div class="stat-label">동시 사용자 지원</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">9ms</div>
+                            <div class="stat-label">질문 생성 속도</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3-Tier</div>
+                            <div class="stat-label">캐싱 전략</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="momento-actions">
+                    <button class="btn-momento primary" onclick="toggleMomentoDetails()">
+                        <span>🏗️ 아키텍처 상세보기</span>
+                    </button>
+                    <a href="https://github.com/CHALLKATHON-Official/momento" class="btn-momento secondary" target="_blank">
+                        <span>📁 GitHub 보기</span>
+                    </a>
+                </div>
+
+                <div class="momento-details" id="momento-details">
+                    <div class="details-content">
+                        <h4>🔧 상세 아키텍처</h4>
+                        <div class="architecture-detailed">
+                            <div class="arch-layer">
+                                <h5>📱 Application Layer</h5>
+                                <ul>
+                                    <li><strong>Spring Boot 3.5.3:</strong> 메인 웹 프레임워크</li>
+                                    <li><strong>Spring Security:</strong> OAuth2 + JWT 인증</li>
+                                    <li><strong>Spring Data JPA:</strong> ORM 및 데이터 접근</li>
+                                    <li><strong>QueryDSL:</strong> 복잡한 쿼리 처리</li>
+                                </ul>
+                            </div>
+                            <div class="arch-layer">
+                                <h5>🤖 AI Service Layer</h5>
+                                <ul>
+                                    <li><strong>OpenAI Assistant API:</strong> GPT-4 기반 질문 생성</li>
+                                    <li><strong>Family Context Analyzer:</strong> 가족 구성원 분석</li>
+                                    <li><strong>Question Generation Manager:</strong> 질문 생성 관리</li>
+                                    <li><strong>ApplicationReadyEvent:</strong> 앱 시작시 질문 풀 초기화</li>
+                                </ul>
+                            </div>
+                            <div class="arch-layer">
+                                <h5>💾 Data Layer</h5>
+                                <ul>
+                                    <li><strong>Redis:</strong> 질문 캐시 및 세션 관리</li>
+                                    <li><strong>MySQL:</strong> 메인 데이터베이스</li>
+                                    <li><strong>AWS S3:</strong> 파일 스토리지</li>
+                                    <li><strong>3-Tier Caching:</strong> Cache → Pool → AI 생성</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="performance-timeline">
+                            <h5>⚡ 성능 최적화 과정</h5>
+                            <div class="timeline-steps">
+                                <div class="timeline-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">
+                                        <h6>문제 발견</h6>
+                                        <p>첫 질문 생성 시 60초 대기 문제 확인</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">
+                                        <h6>Cache-First 설계</h6>
+                                        <p>Redis 기반 3-Tier 캐싱 전략 도입</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-content">
+                                        <h6>Pre-warming 구현</h6>
+                                        <p>앱 시작시 질문 풀 사전 생성</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-content">
+                                        <h6>성과 달성</h6>
+                                        <p>99.985% 성능 개선 달성</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1440,6 +2426,18 @@
     </footer>
 
     <script>
+        // Momento Details Toggle
+        function toggleMomentoDetails() {
+            const momentoDetails = document.getElementById('momento-details');
+            momentoDetails.classList.toggle('active');
+            
+            const button = document.querySelector('.btn-momento.primary');
+            const isActive = momentoDetails.classList.contains('active');
+            button.innerHTML = isActive 
+                ? '<span>🔼 아키텍처 숨기기</span>' 
+                : '<span>🏗️ 아키텍처 상세보기</span>';
+        }
+
         // Architecture Toggle
         function toggleArchitecture(projectId) {
             const archDetail = document.getElementById(`${projectId}-arch`);
@@ -1559,6 +2557,129 @@
         }
 
         setTimeout(typeWriter, 800);
+
+        // Momento Specific Animations
+        // Performance Counter Animation for Momento
+        function animateCounter(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const current = Math.floor(progress * (end - start) + start);
+                element.textContent = current + (element.textContent.includes('%') ? '%' : '');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Observe Momento section for animations
+        const momentoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Trigger performance counter animations
+                    const performanceValue = entry.target.querySelector('.performance-value.new');
+                    if (performanceValue && !performanceValue.dataset.animated) {
+                        performanceValue.dataset.animated = 'true';
+                        performanceValue.style.opacity = '0';
+                        setTimeout(() => {
+                            performanceValue.style.opacity = '1';
+                            performanceValue.style.animation = 'countUp 2s ease-out';
+                        }, 500);
+                    }
+
+                    // Trigger stat animations
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach((stat, index) => {
+                        if (!stat.dataset.animated) {
+                            stat.dataset.animated = 'true';
+                            setTimeout(() => {
+                                const text = stat.textContent;
+                                if (text.includes('%')) {
+                                    animateCounter(stat, 0, 99.985, 2000);
+                                } else if (text.includes('ms')) {
+                                    stat.textContent = '9ms';
+                                } else if (text.includes('+')) {
+                                    animateCounter(stat, 0, 1000, 2000);
+                                }
+                            }, index * 200);
+                        }
+                    });
+
+                    // Stagger animation for architecture steps
+                    const archSteps = entry.target.querySelectorAll('.arch-step');
+                    archSteps.forEach((step, index) => {
+                        step.style.animationDelay = `${index * 0.2}s`;
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        // Observe the Momento section
+        const momentoSection = document.getElementById('featured-project');
+        if (momentoSection) {
+            momentoObserver.observe(momentoSection);
+        }
+
+        // Enhanced scroll performance with throttling
+        let ticking = false;
+        function updateNavbar() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateNavbar);
+                ticking = true;
+            }
+        });
+
+        // Preload critical animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Preload critical CSS animations
+            const preloadStyles = document.createElement('style');
+            preloadStyles.textContent = `
+                .arch-step { will-change: transform; }
+                .momento-card { will-change: transform; }
+                .performance-value { will-change: opacity, transform; }
+                .stat-item { will-change: transform; }
+            `;
+            document.head.appendChild(preloadStyles);
+
+            // Initialize intersection observers early
+            const lazyImages = document.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            lazyImages.forEach(img => imageObserver.observe(img));
+        });
+
+        // Optimize performance for mobile
+        if (window.innerWidth <= 768) {
+            // Reduce animation complexity on mobile
+            document.documentElement.style.setProperty('--animation-duration', '0.5s');
+            
+            // Simplify particle effects
+            const momentoHero = document.querySelector('.momento-hero');
+            if (momentoHero) {
+                momentoHero.style.animation = 'none';
+            }
+        }
     </script>
 </body>
 </html>
