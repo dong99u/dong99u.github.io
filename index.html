@@ -874,18 +874,12 @@
         .momento-hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(37, 99, 235, 0.1), transparent);
-            animation: rotate 20s linear infinite;
+            top: -25%;
+            left: -25%;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(from 0deg, transparent, rgba(37, 99, 235, 0.05), transparent);
             z-index: -1;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         .momento-card {
@@ -905,10 +899,10 @@
         }
 
         .momento-card:hover {
-            transform: translateY(-10px) rotateX(5deg);
+            transform: translateY(-5px);
             box-shadow: 
-                0 35px 60px -12px rgba(37, 99, 235, 0.25),
-                0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                0 25px 40px -12px rgba(37, 99, 235, 0.2),
+                0 15px 20px -5px rgba(0, 0, 0, 0.08);
         }
 
         /* Momento Header */
@@ -1592,7 +1586,171 @@
             }
         }
 
-        /* Particle Effect for Background */
+        /* Role Section Styles */
+        .momento-role {
+            margin: 2rem 0;
+        }
+
+        .momento-role h4 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 1.3rem;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .role-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .role-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--primary-color);
+        }
+
+        .role-icon {
+            font-size: 1.8rem;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .role-content h5 {
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .role-content p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* CI/CD Architecture Styles */
+        .ci-cd-architecture {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 20px;
+            border: 2px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .ci-cd-architecture h4 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+            font-size: 1.3rem;
+        }
+
+        .cicd-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .cicd-step {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            min-width: 140px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .cicd-step:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-color);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .cicd-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cicd-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .cicd-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .cicd-connector {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 0 0.5rem;
+        }
+
+        .cicd-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .cicd-detail-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .cicd-detail-item strong {
+            color: var(--text-dark);
+        }
+
+        /* Mobile Responsive for new sections */
+        @media (max-width: 768px) {
+            .role-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cicd-flow {
+                flex-direction: column;
+            }
+
+            .cicd-connector {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+
+            .cicd-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Particle Effect for Background - Simplified */
         .momento-hero::after {
             content: '';
             position: absolute;
@@ -1601,10 +1759,8 @@
             right: 0;
             bottom: 0;
             background-image: 
-                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
-            animation: float 15s ease-in-out infinite;
+                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
             z-index: -1;
         }
     </style>
@@ -1963,6 +2119,97 @@
                     </div>
                 </div>
 
+                <div class="momento-role">
+                    <h4>👨‍💻 내 역할 (Backend Lead)</h4>
+                    <div class="role-grid">
+                        <div class="role-item">
+                            <div class="role-icon">🤖</div>
+                            <div class="role-content">
+                                <h5>AI 질문 생성 시스템 설계</h5>
+                                <p>OpenAI GPT-4 Assistant 기반 3-Tier 캐싱 아키텍처 구축</p>
+                            </div>
+                        </div>
+                        <div class="role-item">
+                            <div class="role-icon">⚡</div>
+                            <div class="role-content">
+                                <h5>성능 최적화 (60초→9ms)</h5>
+                                <p>ApplicationReadyEvent 기반 Pre-warming 시스템 구현</p>
+                            </div>
+                        </div>
+                        <div class="role-item">
+                            <div class="role-icon">🏗️</div>
+                            <div class="role-content">
+                                <h5>전체 백엔드 아키텍처</h5>
+                                <p>Spring Boot + Kotlin 기반 마이크로서비스 아키텍처 설계</p>
+                            </div>
+                        </div>
+                        <div class="role-item">
+                            <div class="role-icon">🔐</div>
+                            <div class="role-content">
+                                <h5>인증/인가 시스템</h5>
+                                <p>Spring Security + OAuth2 + JWT 기반 보안 시스템</p>
+                            </div>
+                        </div>
+                        <div class="role-item">
+                            <div class="role-icon">🔄</div>
+                            <div class="role-content">
+                                <h5>CI/CD 파이프라인 구축</h5>
+                                <p>GitHub Actions + Docker + AWS EC2 자동 배포 시스템</p>
+                            </div>
+                        </div>
+                        <div class="role-item">
+                            <div class="role-icon">🗄️</div>
+                            <div class="role-content">
+                                <h5>데이터베이스 설계</h5>
+                                <p>MySQL + QueryDSL + Redis 캐싱 전략 설계</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ci-cd-architecture">
+                    <h4>🔄 CI/CD 아키텍처</h4>
+                    <div class="cicd-flow">
+                        <div class="cicd-step">
+                            <div class="cicd-icon">📝</div>
+                            <div class="cicd-title">Code Push</div>
+                            <div class="cicd-desc">develop 브랜치 Push</div>
+                        </div>
+                        <div class="cicd-connector">→</div>
+                        <div class="cicd-step">
+                            <div class="cicd-icon">🔄</div>
+                            <div class="cicd-title">GitHub Actions</div>
+                            <div class="cicd-desc">자동 빌드 & 테스트</div>
+                        </div>
+                        <div class="cicd-connector">→</div>
+                        <div class="cicd-step">
+                            <div class="cicd-icon">🐳</div>
+                            <div class="cicd-title">Docker Build</div>
+                            <div class="cicd-desc">컨테이너 이미지 생성</div>
+                        </div>
+                        <div class="cicd-connector">→</div>
+                        <div class="cicd-step">
+                            <div class="cicd-icon">☁️</div>
+                            <div class="cicd-title">AWS EC2 Deploy</div>
+                            <div class="cicd-desc">무중단 배포</div>
+                        </div>
+                    </div>
+                    <div class="cicd-details">
+                        <div class="cicd-detail-item">
+                            <strong>Trigger:</strong> develop/main 브랜치 push 시 자동 실행
+                        </div>
+                        <div class="cicd-detail-item">
+                            <strong>Build:</strong> Gradle clean build + JAR 패키징
+                        </div>
+                        <div class="cicd-detail-item">
+                            <strong>Deploy:</strong> SSH 접속 → 기존 프로세스 종료 → 새 버전 배포
+                        </div>
+                        <div class="cicd-detail-item">
+                            <strong>Monitoring:</strong> Spring Boot Actuator 헬스체크 + 30초 검증
+                        </div>
+                    </div>
+                </div>
+
                 <div class="momento-impact">
                     <h4>📊 프로젝트 임팩트</h4>
                     <div class="impact-stats">
@@ -1989,7 +2236,7 @@
                     <button class="btn-momento primary" onclick="toggleMomentoDetails()">
                         <span>🏗️ 아키텍처 상세보기</span>
                     </button>
-                    <a href="https://github.com/CHALLKATHON-Official/momento" class="btn-momento secondary" target="_blank">
+                    <a href="https://github.com/dong99u/momento/tree/develop" class="btn-momento secondary" target="_blank">
                         <span>📁 GitHub 보기</span>
                     </a>
                 </div>
@@ -2672,13 +2919,23 @@
         // Optimize performance for mobile
         if (window.innerWidth <= 768) {
             // Reduce animation complexity on mobile
-            document.documentElement.style.setProperty('--animation-duration', '0.5s');
+            document.documentElement.style.setProperty('--animation-duration', '0.3s');
             
-            // Simplify particle effects
-            const momentoHero = document.querySelector('.momento-hero');
-            if (momentoHero) {
-                momentoHero.style.animation = 'none';
-            }
+            // Disable heavy animations on mobile
+            const heavyAnimations = document.querySelectorAll('.glow, .pulse, .bounce, .rocket');
+            heavyAnimations.forEach(element => {
+                element.style.animation = 'none';
+            });
+        }
+
+        // Performance optimization: Reduce motion for users who prefer it
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const allAnimations = document.querySelectorAll('*');
+            allAnimations.forEach(element => {
+                element.style.animationDuration = '0.01ms';
+                element.style.animationIterationCount = '1';
+                element.style.transitionDuration = '0.01ms';
+            });
         }
     </script>
 </body>
