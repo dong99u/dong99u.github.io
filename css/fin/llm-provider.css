@@ -1,0 +1,65 @@
+/* 떠먹는 금융 ③ LLM 호출 한 곳. 부품: .one(고정 장면: 클라이언트를 만드는 줄 5곳이 1곳으로 모인다).
+   기본 모습이 끝 상태다(옛 줄에 줄이 가고 새 호출이 보인다, 1곳·0개). 스크롤 단계는 js 가 .is-live, .is-done, 숫자로 바꾼다. */
+
+.nb { white-space: nowrap; }
+.tbl td small { margin-top: 2px; }
+
+.one { --pad: clamp(16px, 2.6vw, 34px); padding: clamp(12px, 2vh, 22px) var(--pad) 0; }
+.one__main { display: grid; grid-template-columns: minmax(0, 2.7fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 44px); align-items: center; }
+
+.one__rows { display: grid; min-width: 0; }
+.one__rows li { display: grid; grid-template-columns: minmax(0, 13.5em) minmax(0, 1fr); gap: 2px 18px; align-items: baseline; padding: clamp(6px, 1.1vh, 10px) 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.one__rows li:last-child { border-bottom: 0; }
+.one__file { grid-row: span 2; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 0; font: 500 13.5px/1.5 var(--font-mono); color: var(--soft); min-width: 0; }
+.one__file b { font-weight: 500; color: var(--text); }
+.one__file em { flex-basis: 100%; font: 500 12.5px/1.4 var(--font-sans); color: var(--mute); }
+.one__rows code { display: block; font-size: clamp(12.5px, 1.02vw, 13.5px); line-height: 1.5; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: color var(--t-move), opacity var(--t-move) var(--ease-out); }
+.one__old { color: var(--dim); text-decoration: line-through; text-decoration-color: var(--mute); }
+.one__new { color: var(--agent); }
+.one__keep { color: var(--text); }
+.one__add { font-size: 13px; line-height: 1.45; color: var(--mute); transition: opacity var(--t-move) var(--ease-out); }
+.one__hub { padding-bottom: clamp(8px, 1.4vh, 14px) !important; border-bottom-color: var(--line-2) !important; }
+.one__hub .one__file b { color: var(--agent); }
+
+.one__side { display: grid; gap: clamp(16px, 3vh, 30px); justify-items: start; min-width: 0; }
+.one__count { display: flex; align-items: baseline; gap: 12px; }
+.one__count b { font: 600 clamp(72px, 9vw, 128px)/.9 var(--font-sans); letter-spacing: -.05em; font-variant-numeric: tabular-nums; min-width: .62em; text-align: right; }
+.one__count span { display: grid; gap: 6px; font: 500 var(--fs-lg)/1.2 var(--font-mono); color: var(--mute); }
+.one__count small { font: 500 var(--fs-sm)/1.4 var(--font-sans); color: var(--soft); }
+.one__count--sm b { font-size: clamp(40px, 4.4vw, 60px); }
+
+.one__steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: clamp(12px, 2vh, 22px) calc(var(--pad) * -1) 0; border-top: 1px solid var(--line); }
+.one__steps li { position: relative; padding: 11px 16px 13px; font-size: 14.5px; line-height: 1.45; color: var(--soft); transition: color var(--t-ui), background var(--t-ui); }
+.one__steps li + li { border-left: 1px solid var(--line); }
+.one__steps li::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--text); transform: scaleX(0); transform-origin: left; transition: transform var(--t-move) var(--ease-out); }
+.one__steps b { display: block; margin-bottom: 4px; font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .06em; color: var(--text); }
+.one__steps li.is-on { color: var(--text); background: rgba(255, 255, 255, .03); }
+.one__steps li.is-on::before { transform: none; }
+.one__steps li.is-off, .one__steps li.is-off b { color: var(--dim); }
+
+/* 아직 옮기지 않은 줄: 옛 코드가 살아 있고 새 호출은 보이지 않는다 */
+.one.is-live li:not(.is-done) .one__old { color: var(--text); text-decoration-color: transparent; }
+.one.is-live li:not(.is-done) .one__new, .one.is-live li:not(.is-done) .one__add { opacity: 0; }
+.one.is-live li.is-now { background: linear-gradient(90deg, rgba(95, 224, 255, .07), transparent 70%); }
+
+@media (max-width: 900px) {
+  .one__main { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .one__side { order: -1; grid-template-columns: auto auto; gap: 18px; align-items: end; justify-content: start; }
+  .one__count b { font-size: 56px; }
+  .one__count--sm b { font-size: 36px; }
+  .one__count span { font-size: 15px; gap: 3px; }
+  .one__count small { font-size: 12px; max-width: 8em; }
+  .one__rows li { grid-template-columns: minmax(0, 1fr); gap: 1px; padding: 7px 0; }
+  .one__file { grid-row: auto; font-size: 12.5px; }
+  .one__file em { flex-basis: auto; margin-left: 10px; }
+  .one__rows code { font-size: 12px; }
+  .one__add { font-size: 12.5px; }
+  .one__steps { grid-template-columns: minmax(0, 1fr); }
+  .one__steps li { display: flex; gap: 12px; align-items: baseline; padding: 7px 14px 8px; font-size: 14px; }
+  .one__steps li + li { border-left: 0; border-top: 1px solid var(--line); }
+  .one__steps b { margin: 0; flex: none; min-width: 4.4em; }
+  [data-one-ch] .ch__cap { margin-top: 10px; font-size: 13.5px; line-height: 1.45; }
+}
+
+/* 근거 줄의 긴 코드(테스트 이름, 명령)는 좁은 화면에서 줄을 바꾼다 */
+.refs code { white-space: normal; }

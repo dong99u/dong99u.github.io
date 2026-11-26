@@ -1,0 +1,100 @@
+/* 떠먹는 금융 ① 답과 출처. 부품: .src(수정 전 두 줄), .gate(고정 장면: 검색 5건 → ① 바닥 → ② 1등 대비 85% → ③ 답변 확인).
+   기본 모습이 끝 상태다(4건 탈락, 설명 네 개가 모두 보인다). 스크롤 단계는 js 가 .is-live 와 data-step 으로 바꾼다. */
+
+.nb { white-space: nowrap; }
+
+/* ---------- 수정 전 두 줄 ---------- */
+.src { display: grid; gap: 6px; padding: clamp(22px, 4.5vh, 40px) clamp(18px, 3vw, 40px); }
+.src__file { font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .06em; color: var(--mute); margin-bottom: 10px; }
+.src__line { display: grid; grid-template-columns: 2.6em minmax(0, 1fr) auto; gap: 6px 16px; align-items: baseline; padding: 14px 16px; border-radius: var(--radius-sm); background: rgba(255, 255, 255, .05); }
+.src__line i { font: 500 var(--fs-sm)/1.5 var(--font-mono); color: var(--dim); text-align: right; }
+.src__line code { font-size: clamp(15px, 1.6vw, 21px); line-height: 1.5; color: var(--text); }
+.src__line span { font-size: 15px; color: var(--soft); white-space: nowrap; }
+.src__gap { padding-left: calc(2.6em + 32px); font: 500 var(--fs-md)/1 var(--font-mono); color: var(--dim); }
+
+/* ---------- 고정 장면 ---------- */
+.gate { --pad: clamp(16px, 2.6vw, 34px); --floor: 13.33%; --ratio: 46.8%; padding: clamp(16px, 2.6vh, 26px) var(--pad) 0; }
+.gate__main { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: center; }
+
+.gate__plot { display: grid; gap: 8px; min-width: 0; }
+.gate__head, .gate__row { display: grid; grid-template-columns: 34px minmax(0, 1fr) 80px 44px; gap: 12px; align-items: center; }
+.gate__head { font: 500 var(--fs-xs)/1.3 var(--font-mono); letter-spacing: .04em; color: var(--mute); align-items: end; padding-bottom: 4px; }
+.gate__head > span:first-child { white-space: nowrap; }
+.gate__axis { position: relative; display: block; height: 3.4em; }
+.gate__axis i { position: absolute; bottom: 0; padding: 0 0 2px 7px; border-left: 1px solid var(--text); color: var(--text); white-space: nowrap; transition: opacity var(--t-move) var(--ease-out); }
+.gate__t1 { left: var(--floor); height: 3.2em; }
+.gate__t2 { left: var(--ratio); height: 1.6em; display: flex; align-items: flex-end; }
+.gate__row { font: 500 var(--fs-sm)/1 var(--font-mono); color: var(--soft); }
+.gate__row > span:first-child { color: var(--mute); }
+.gate__track { position: relative; height: clamp(34px, 5.2vh, 46px); border-radius: 3px; background: rgba(255, 255, 255, .05); }
+.gate__track::before, .gate__track::after { content: ""; position: absolute; top: -8px; bottom: 0; width: 1px; background: var(--text); transition: opacity var(--t-move) var(--ease-out); }
+.gate__track::before { left: var(--floor); }
+.gate__track::after { left: var(--ratio); }
+.gate__dot, .gate__bar { position: absolute; top: 50%; height: 12px; margin-top: -6px; border-radius: 6px; background: var(--agent); transition: background var(--t-move), opacity var(--t-move); }
+.gate__dot { left: var(--x); width: 12px; margin-left: -6px; box-shadow: 0 0 12px var(--agent); }
+.gate__bar { left: var(--floor); right: calc(100% - var(--ratio) + 1px); }
+.gate__row b { font-weight: 500; color: var(--text); white-space: nowrap; transition: color var(--t-move); }
+.gate__row em { font: 600 12px/1 var(--font-sans); white-space: nowrap; transition: opacity var(--t-move) var(--ease-out); }
+.gate__row.is-top em { color: var(--agent); }
+.gate__row.is-cut em { color: var(--mute); }
+.gate__row.is-cut b { color: var(--dim); text-decoration: line-through; }
+.gate__row.is-cut .gate__bar { background: var(--dim); }
+
+.gate__msgs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 26px; }
+.gate__msgs li { min-width: 0; display: grid; gap: 10px; align-content: start; }
+.gate__tag { font: 500 var(--fs-xs)/1.4 var(--font-mono); letter-spacing: .05em; color: var(--mute); }
+.gate__say { font-size: 14.5px; line-height: 1.55; color: var(--soft); }
+.gate__say em { font-weight: 600; color: var(--text); }
+.gate__fork { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; align-items: baseline; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--panel-2); font-size: 14.5px; color: var(--soft); }
+.gate__fork b { font-weight: 600; color: var(--c); }
+
+.gate__steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: clamp(16px, 3vh, 28px) calc(var(--pad) * -1) 0; border-top: 1px solid var(--line); }
+.gate__steps li { position: relative; padding: 12px 18px 14px; font-size: 15px; line-height: 1.45; color: var(--soft); transition: color var(--t-ui), background var(--t-ui); }
+.gate__steps li + li { border-left: 1px solid var(--line); }
+.gate__steps li::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--text); transform: scaleX(0); transform-origin: left; transition: transform var(--t-move) var(--ease-out); }
+.gate__steps b { display: block; margin-bottom: 4px; font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .06em; color: var(--text); }
+.gate__steps li.is-on { color: var(--text); background: rgba(255, 255, 255, .03); }
+.gate__steps li.is-on::before { transform: none; }
+.gate__steps li.is-off, .gate__steps li.is-off b { color: var(--dim); }
+
+/* 단계별 모습. data-step 0 검색, 1 바닥, 2 상대 기준, 3 답변 확인 */
+.gate.is-live[data-step="0"] .gate__t1, .gate.is-live[data-step="0"] .gate__track::before,
+.gate.is-live[data-step="0"] .gate__t2, .gate.is-live[data-step="0"] .gate__track::after,
+.gate.is-live[data-step="1"] .gate__t2, .gate.is-live[data-step="1"] .gate__track::after { opacity: 0; }
+.gate.is-live[data-step="0"] .gate__row em, .gate.is-live[data-step="1"] .gate__row em { opacity: 0; }
+.gate.is-live[data-step="0"] .gate__row.is-cut b, .gate.is-live[data-step="1"] .gate__row.is-cut b { color: var(--text); text-decoration: none; }
+.gate.is-live[data-step="0"] .gate__row.is-cut .gate__bar, .gate.is-live[data-step="1"] .gate__row.is-cut .gate__bar { background: var(--agent); }
+.gate.is-live .gate__msgs li { transition: opacity var(--t-move) var(--ease-out), visibility 0s var(--t-move); }
+.gate.is-live:not(.is-done) .gate__msgs li:not(.is-on) { opacity: .28; }
+
+/* 붙잡혔을 때: 설명은 한 자리에 겹쳐 두고 지금 단계 것만 보인다 */
+@media (min-width: 901px) and (min-height: 700px) {
+  .gate.is-live .gate__msgs { grid-template-columns: minmax(0, 1fr); align-items: center; }
+  .gate.is-live .gate__msgs li, .gate.is-live:not(.is-done) .gate__msgs li:not(.is-on) { grid-area: 1 / 1; opacity: 0; visibility: hidden; }
+  .gate.is-live .gate__msgs li.is-on { opacity: 1; visibility: visible; transition-delay: 0s; }
+  .gate.is-live .gate__say { font-size: clamp(15.5px, 1.4vw, 19px); line-height: 1.6; }
+  .gate.is-live .gate__fork { font-size: clamp(15px, 1.3vw, 17px); padding: 14px 16px; }
+  .gate.is-live .gate__msgs li { gap: 14px; }
+}
+
+@media (max-width: 900px) {
+  .src__line { grid-template-columns: 2em minmax(0, 1fr); padding: 12px; }
+  .src__line span { grid-column: 2; white-space: normal; font-size: 14px; }
+  .src__gap { padding-left: calc(2em + 28px); }
+
+  .gate__main { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .gate__head, .gate__row { grid-template-columns: 22px minmax(0, 1fr) 70px; gap: 8px; }
+  .gate__head > span:first-child { visibility: hidden; }
+  .gate__head > span:last-child, .gate__row em { display: none; }
+  .gate__axis { font-size: 11px; }
+  .gate__track { height: 30px; }
+  .gate__row { font-size: 13px; }
+  .gate__msgs { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .gate__msgs li { gap: 6px; }
+  .gate__say, .gate__fork { font-size: 14px; line-height: 1.5; }
+  .gate__steps { grid-template-columns: minmax(0, 1fr); margin-top: 14px; }
+  .gate__steps li { display: flex; gap: 12px; align-items: baseline; padding: 7px 14px 8px; font-size: 14px; }
+  .gate__steps li + li { border-left: 0; border-top: 1px solid var(--line); }
+  .gate__steps b { margin: 0; flex: none; min-width: 8.6em; }
+  [data-gate-ch] .ch__cap { margin-top: 10px; font-size: 13.5px; line-height: 1.45; }
+}

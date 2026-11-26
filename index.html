@@ -26,6 +26,14 @@
   <li><a href="dero/doc-weight/"><span class="list__lab">DERO ④</span><span class="list__name">줄 수와 토큰</span><span class="list__say">줄 수로는 문서의 무게를 알 수 없었다. 69줄 문서가 17,597토큰, 99줄 문서가 4,025토큰이었다.</span></a></li>
   <li><a href="dero/connection-pool/"><span class="list__lab">DERO ⑤</span><span class="list__name">연결 풀</span><span class="list__say">DB 연결을 쥔 채 외부 응답을 기다리면, 재현 프로그램에서 연결 10개에 동시 요청 16개로 상관없는 조회가 5초대로 느려졌다.</span></a></li>
   <li><a href="dero/search-min-gram/"><span class="list__lab">DERO ⑥</span><span class="list__name">검색 설정 한 줄</span><span class="list__say">없는 제품 이름을 쳐도 결과가 나오던 검색을, 색인 설정의 숫자 하나를 1에서 2로 바꿔 0건이 나오게 고쳤다. 오타 검색은 그대로 된다.</span></a></li>
+  <li><a href="dero/gardener/"><span class="list__lab">DERO ⑦</span><span class="list__name">정원사</span><span class="list__say">에이전트는 통과하는 가장 짧은 길로 간다. 그래서 임시방편은 늘지 못하게 숫자로 묶고, 정원사가 하루에 하나씩 맞는 길로 바꿔 그 숫자를 내린다.</span></a></li>
+  <li><a href="dero/queue-kept/"><span class="list__lab">DERO ⑧</span><span class="list__name">남긴 큐</span><span class="list__say">이미지 생성기를 노트북에서 외부 API로 바꾸기로 한 날, 큐를 둔 첫 이유는 사라졌지만 서버가 재시작해도 작업을 잃지 않는다는 이유로 큐는 그대로 두었다.</span></a></li>
+</ul>
+<h2 class="home__project"><a href="fin/">떠먹는 금융</a></h2>
+<ul class="list">
+  <li><a href="fin/qa-sources/"><span class="list__lab">떠먹는 금융 ①</span><span class="list__name">답과 출처</span><span class="list__say">검색은 늘 5건을 돌려준다. 그 5건을 점수 바닥, 1등 대비 85%, 답변이 거부문인지로 세 번 거른 뒤 남은 것만 출처로 보여 준다.</span></a></li>
+  <li><a href="fin/sent-before-confirm/"><span class="list__lab">떠먹는 금융 ②</span><span class="list__name">보내고, 확인하고, 기록</span><span class="list__say">크롤러가 전달을 확인하기 전에 보냈다고 기록하던 순서를, 보내고 확인한 뒤에 전달된 것만 기록하는 순서로 바꿨다.</span></a></li>
+  <li><a href="fin/llm-provider/"><span class="list__lab">떠먹는 금융 ③</span><span class="list__name">LLM 호출 한 곳</span><span class="list__say">LLM 클라이언트를 만드는 줄이 5곳이던 것을 1곳으로 모아, 공급자를 환경변수로 바꾸게 했다.</span></a></li>
 </ul>
 </main>
 

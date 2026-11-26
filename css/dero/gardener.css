@@ -1,0 +1,96 @@
+/* ⑦ 정원사. 부품: .weed(고정 장면: 번진다 → 뚜껑 → 17 → 16), .gday(정원사의 하루).
+   기본 모습이 끝 상태다(16곳, 설명 네 개가 모두 보인다). 스크롤 단계는 js 가 .is-live, data-step, 인라인 opacity·transform 으로 바꾼다. */
+
+.nb { white-space: nowrap; }
+
+/* ---------- 고정 장면 ---------- */
+.weed { --s: clamp(34px, 3.4vw, 46px); --pad: clamp(16px, 2.6vw, 34px); padding: clamp(16px, 2.6vh, 26px) var(--pad) 0; }
+.weed__main { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: center; }
+
+.weed__msgs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 28px; }
+.weed__msgs li { min-width: 0; display: grid; gap: 10px; align-content: start; }
+.weed__tag { font: 500 var(--fs-xs)/1.4 var(--font-mono); letter-spacing: .05em; color: var(--mute); }
+.weed__msgs li[data-who] .weed__tag { color: var(--c); }
+.weed__say { font-size: 15px; line-height: 1.55; color: var(--soft); }
+.weed__code { margin: 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--panel-2); font: 500 13px/1.6 var(--font-mono); color: var(--mute); overflow: hidden; white-space: pre-wrap; }
+.weed__code code { font-size: inherit; }
+.weed__code mark { background: rgba(255, 255, 255, .1); color: var(--text); padding: 1px 2px; border-radius: 2px; }
+.weed__err { padding: 10px 14px; border-left: 2px solid var(--block); background: rgba(255, 91, 107, .07); font: 500 13.5px/1.6 var(--font-mono); color: var(--text); }
+.weed__why { padding-left: 14px; border-left: 2px solid var(--agent); font-size: 15.5px; line-height: 1.6; color: var(--text); }
+
+.weed__side { display: grid; gap: 14px; justify-items: start; min-width: 0; }
+.weed__lid { display: grid; gap: 8px; width: 100%; font: 500 var(--fs-xs)/1.3 var(--font-mono); letter-spacing: .05em; color: var(--mute); }
+.weed__lid i { display: block; height: 2px; background: var(--text); transform-origin: left; }
+.weed__count { display: flex; align-items: baseline; gap: 12px; }
+.weed__count b { font: 600 clamp(64px, 8vw, 112px)/.9 var(--font-sans); letter-spacing: -.05em; font-variant-numeric: tabular-nums; min-width: 1.15em; text-align: right; }
+.weed__count span { display: grid; gap: 4px; font: 500 var(--fs-lg)/1.2 var(--font-mono); color: var(--mute); }
+.weed__count small { font-size: var(--fs-sm); }
+.weed__count em { color: var(--soft); }
+
+.weed__cells { display: grid; grid-template-columns: repeat(8, var(--s)); gap: calc(var(--s) * .16); }
+.weed__cells i { position: relative; display: flex; align-items: center; justify-content: center; gap: 4px; width: var(--s); height: var(--s); border-radius: 3px; background: rgba(255, 255, 255, .09); }
+.weed__cells b { display: block; width: calc(var(--s) * .26); height: calc(var(--s) * .26); border-radius: 50%; background: var(--text); }
+.weed__cells i[data-out] { background: rgba(95, 224, 255, .1); box-shadow: inset 0 0 0 1px var(--agent); }
+.weed__cells i[data-out] b { opacity: 0; }
+.weed__try { background: none !important; box-shadow: inset 0 0 0 1px var(--block); opacity: 0; }
+.weed__try b { background: var(--block); }
+.weed__key { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--mute); }
+.weed__key span { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.weed__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text); }
+.weed__box { width: 13px; height: 13px; border-radius: 2px; background: rgba(255, 255, 255, .14); }
+
+.weed__steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: clamp(16px, 3vh, 28px) calc(var(--pad) * -1) 0; border-top: 1px solid var(--line); }
+.weed__steps li { position: relative; padding: 12px 18px 14px; font-size: 15px; line-height: 1.45; color: var(--soft); transition: color var(--t-ui), background var(--t-ui); }
+.weed__steps li + li { border-left: 1px solid var(--line); }
+.weed__steps li::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--text); transform: scaleX(0); transform-origin: left; transition: transform var(--t-move) var(--ease-out); }
+.weed__steps b { display: block; margin-bottom: 4px; font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .06em; color: var(--text); }
+.weed__steps li.is-on { color: var(--text); background: rgba(255, 255, 255, .03); }
+.weed__steps li.is-on::before { transform: none; }
+.weed__steps li.is-off, .weed__steps li.is-off b { color: var(--dim); }
+
+/* 붙잡혔을 때: 설명은 한 자리에 겹쳐 두고 지금 단계 것만 보인다 */
+.weed.is-live .weed__msgs { grid-template-columns: minmax(0, 1fr); align-items: center; }
+.weed.is-live .weed__msgs li { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity var(--t-move) var(--ease-out), visibility 0s var(--t-move); }
+.weed.is-live .weed__msgs li.is-on { opacity: 1; visibility: visible; transition-delay: 0s; }
+.weed.is-live .weed__say { font-size: clamp(15px, 1.35vw, 18px); }
+.weed.is-live .weed__why { font-size: clamp(16px, 1.6vw, 21px); }
+.weed.is-live .weed__code { font-size: clamp(13px, 1.2vw, 16px); padding: 16px 18px; }
+.weed.is-live .weed__err { font-size: clamp(13.5px, 1.15vw, 15.5px); }
+
+/* ---------- 정원사의 하루 ---------- */
+.gday { display: grid; grid-template-columns: 1.3fr 1.2fr .9fr 1.3fr 1.1fr; counter-reset: gday; padding: clamp(28px, 6vh, 56px) clamp(18px, 2.6vw, 36px); }
+.gday li { position: relative; display: grid; align-content: start; gap: 10px; padding: 34px 18px 0 0; counter-increment: gday; min-width: 0; }
+.gday li::before { content: ""; position: absolute; left: 0; right: 0; top: 6px; height: 1px; background: var(--line-2); }
+.gday li:last-child::before { right: 40%; }
+.gday li::after { content: ""; position: absolute; left: 0; top: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--c); box-shadow: 0 0 12px var(--c); }
+.gday b { font: 650 clamp(18px, 1.7vw, 23px)/1.3 var(--font-sans); letter-spacing: -.02em; color: var(--c); }
+.gday b::before { content: counter(gday, decimal-leading-zero); display: block; margin-bottom: 6px; font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .08em; color: var(--mute); }
+.gday span { font-size: 15px; line-height: 1.6; color: var(--soft); }
+.gday code { display: block; margin-top: 6px; font-size: 12.5px; color: var(--mute); white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .weed__main { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .weed__side { order: -1; gap: 10px; }
+  .weed__msgs { grid-template-columns: minmax(0, 1fr); }
+  .weed { --s: min(34px, (100vw - 2 * var(--gut) - 2 * var(--pad)) / 9.4); }
+  .weed__count b { font-size: 56px; }
+  .weed__steps { grid-template-columns: minmax(0, 1fr); margin-top: 14px; }
+  .weed__steps li { display: flex; gap: 12px; align-items: baseline; padding: 7px 14px 8px; font-size: 14px; }
+  .weed__steps li + li { border-left: 0; border-top: 1px solid var(--line); }
+  .weed__steps b { margin: 0; flex: none; min-width: 6.4em; }
+  .weed.is-live .weed__msgs { min-height: 13.5em; align-items: start; }
+  .weed.is-live .weed__say, .weed__say { font-size: 14px; line-height: 1.5; }
+  .weed.is-live .weed__why { font-size: 15px; line-height: 1.5; }
+  .weed.is-live .weed__code { font-size: 12.5px; padding: 10px 12px; }
+  .weed.is-live .weed__err { font-size: 12.5px; line-height: 1.5; padding: 8px 12px; }
+  .weed.is-live .weed__msgs li { gap: 8px; }
+  .weed.is-live .weed__key { display: none; }
+  [data-weed-ch] .ch__cap { margin-top: 10px; font-size: 13.5px; line-height: 1.45; }
+
+  .gday { grid-template-columns: minmax(0, 1fr); padding: 22px 18px; gap: 18px; }
+  .gday li { padding: 0 0 0 28px; gap: 4px; }
+  .gday li::before { left: 6px; right: auto; top: 6px; bottom: -18px; width: 1px; height: auto; }
+  .gday li:last-child::before { display: none; }
+  .gday li::after { top: 4px; }
+  .gday span { font-size: 14.5px; line-height: 1.5; }
+}

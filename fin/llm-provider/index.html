@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>박동규 · LLM 호출 한 곳</title>
+<script>document.documentElement.classList.add("js")</script>
+<meta name="description" content="LLM 클라이언트를 만드는 줄이 5곳이던 것을 1곳으로 모아, 공급자를 환경변수로 바꾸게 했다.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5.3.0/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.3.0/index.css">
+<link rel="stylesheet" href="../../css/base.css">
+<link rel="stylesheet" href="../../css/fin/llm-provider.css">
+</head>
+<body>
+<nav class="bar" aria-label="위치">
+  <p class="bar__left"><a href="../../">박동규</a><a href="../">떠먹는 금융</a></p>
+  <p class="bar__at" data-at aria-live="off"></p>
+  <p class="bar__right"><a href="../sent-before-confirm/" aria-label="이전: 보내고, 확인하고, 기록">이전</a><span aria-hidden="true">다음</span></p>
+</nav>
+<ol class="prog" data-prog aria-label="장"></ol>
+<main class="story">
+<section class="ch ch--head" data-ch="머리">
+<p class="ch__label"><b>떠먹는 금융 ③</b>LLM 호출 한 곳</p>
+<h1 class="ch__say">LLM 클라이언트를 만드는 줄이 5곳이던 것을 1곳으로 모아, 공급자를 환경변수로 바꾸게 했다.</h1>
+<p class="ch__when">2026-07-02 정리</p>
+<p class="ch__hint" aria-hidden="true">스크롤</p>
+</section>
+<section class="ch" data-ch="배경">
+  <h2 class="ch__title">LLM을 쓰는 기능이 넷이고, 호출을 모으는 파일은 이미 있었다.</h2>
+  <p class="ch__text" data-words>떠먹는 금융은 금융 뉴스를 모아 검색, Q&amp;A, 알림으로 보여 주는 서비스다. LLM은 Q&amp;A 답변, 답변 채점, 개장 전 브리핑 요약, 자연어 종목 조건검색에 쓴다. <span class="nb">2026-06-23</span>에 LLM 호출을 한 곳에 모으는 파일 <code>chat.py</code>를 만들어 두었다.</p>
+</section>
+
+<section class="ch" data-ch="문제">
+  <h2 class="ch__title">그 뒤에 들어온 코드 세 곳이 그 파일을 거치지 않았다.</h2>
+  <p class="ch__text" data-words>조건검색과 브리핑은 팀원의 코드로, 클라이언트를 직접 만들었다. 채점은 내 코드인데 환경변수를 따로 읽었다. 공급자 주소와 모델 이름이 <em>파일 4개</em>에 문자열로 흩어졌고, 키를 읽는 환경변수 이름도 세 가지가 섞여 있었다.</p>
+</section>
+
+<section class="ch" data-ch="계기">
+  <h2 class="ch__title">학교가 준 LLM 게이트웨이의 키가 꺼졌다.</h2>
+  <p class="ch__text" data-words>문서에는 게이트웨이가 401 「This GMS key is not Active」를 돌려줬다는 한 줄이 남아 있다. 공급자를 바꾸려면 그 네 파일을 다 고쳐야 했다. <span class="nb">2026-07-02</span> 13:37부터 13:43까지 커밋 네 개로 정리했다. 브랜치 전체는 12파일 +524 −208이다.</p>
+</section>
+
+<section class="ch ch--fig ch--wide ch--tight" data-ch="동작" data-one-ch>
+  <h2 class="ch__title">클라이언트를 만드는 줄 다섯이 하나로 모인다.</h2>
+  <figure class="ch__fig">
+    <div class="one frame frame--pins" data-one data-step="4">
+      <div class="one__main">
+        <ol class="one__rows" data-rows>
+          <li class="one__hub" data-at="1">
+            <p class="one__file">common/clients/chat.py<b data-line>:90</b><em>공통 지점</em></p>
+            <code class="one__keep">OpenAI(base_url=base_url, api_key=api_key, timeout=timeout)</code>
+            <p class="one__add">13:37 · gemini 종류, 쓰는 곳별 환경변수, function calling, 온도 인자를 더했다</p>
+          </li>
+          <li data-at="2">
+            <p class="one__file">screening/llm.py<b>:24</b><em>조건검색</em></p>
+            <code class="one__old">openai.OpenAI(api_key=api_key, base_url=…, timeout=…)</code>
+            <code class="one__new">provider_from_env(prefix="SCREENING_LLM")</code>
+          </li>
+          <li data-at="3">
+            <p class="one__file">run_burst_alert.py<b>:112</b><em>브리핑</em></p>
+            <code class="one__old">openai.OpenAI(api_key=api_key, base_url=base_url, timeout=10.0)</code>
+            <code class="one__new">provider = _get_chat_provider()</code>
+          </li>
+          <li data-at="3">
+            <p class="one__file">run_burst_alert.py<b>:150</b><em>브리핑</em></p>
+            <code class="one__old">openai.OpenAI(api_key=api_key, base_url=base_url, timeout=10.0)</code>
+            <code class="one__new">provider = _get_chat_provider()</code>
+          </li>
+          <li data-at="3">
+            <p class="one__file">run_burst_alert.py<b>:192</b><em>브리핑</em></p>
+            <code class="one__old">openai.OpenAI(api_key=api_key, base_url=base_url, timeout=10.0)</code>
+            <code class="one__new">provider = _get_chat_provider()</code>
+          </li>
+          <li class="one__env" data-at="4">
+            <p class="one__file">qa/eval/judge.py<em>채점</em></p>
+            <code class="one__old">chat_seam.openai_provider(base_url=os.getenv(…), …)</code>
+            <code class="one__new">chat_seam.provider_from_env(…)</code>
+          </li>
+        </ol>
+        <div class="one__side">
+          <p class="one__count"><b data-n>1</b><span>곳<small>클라이언트를 만드는 줄</small></span></p>
+          <p class="one__count one__count--sm"><b data-m>0</b><span>개<small>공통 지점을 거치지 않는 파일</small></span></p>
+        </div>
+      </div>
+      <ol class="one__steps" data-steps>
+        <li><b>수정 전</b>5곳, 파일 3개</li>
+        <li><b>13:37</b>공통 지점을 넓힌다</li>
+        <li><b>13:40</b>조건검색 1곳</li>
+        <li><b>13:42</b>브리핑 3곳</li>
+        <li><b>13:43</b>채점</li>
+      </ol>
+    </div>
+    <figcaption class="ch__cap">줄 번호는 수정 직전과 지금의 <code>git grep "OpenAI("</code> 결과다. 인자는 줄여 적었다. 브리핑의 <code>_get_chat_provider</code>는 <code>provider_from_env</code>를 한 번 부르고 재사용한다. 채점 파일은 클라이언트를 만드는 줄이 없어 5곳에 들지 않는다. 임베딩용 한 줄은 뺐다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="교체">
+  <h2 class="ch__title">그 뒤 공급자를 두 번 바꿨다.</h2>
+  <div class="tbl-wrap">
+    <table class="tbl tbl--stack">
+      <thead><tr><th scope="col">날짜</th><th scope="col">바꾼 것</th><th scope="col">바꾼 환경변수</th><th scope="col">고친 코드</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">2026-07-02</th><td>학교 게이트웨이 → Gemini</td><td>2줄<small>공급자, 키</small></td><td>없음</td></tr>
+        <tr data-who="human"><th scope="row">2026-07-05</th><td>Gemini → 로컬 모델 exaone3.5:7.8b</td><td>4개<small>공급자, 키, 주소, 모델</small></td><td>3곳<small>다음 장</small></td></tr>
+      </tbody>
+      <caption>바꾸는 값의 수는 공급자에 따라 2~4개다. 코드 주석은 공급자, 키, 모델 세 값이라고 적고 설정 예시 파일은 두 줄이라고 적는다. 주소가 기본값이 아니면 하나가 더 든다. 두 번 다 클라이언트를 만드는 한 줄은 그대로였다.</caption>
+    </table>
+  </div>
+</section>
+
+<section class="ch" data-ch="한계">
+  <h2 class="ch__title">로컬 모델로 바꾼 날, 출력이 달라 코드 세 곳을 고쳤다.</h2>
+  <div class="tbl-wrap">
+    <table class="tbl tbl--stack">
+      <thead><tr><th scope="col">커밋 시각</th><th scope="col">새 모델에서 달라진 것</th><th scope="col">고친 것</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">07-05 21:05</th><td>브리핑의 검색어 추출에서 JSON을 코드 펜스로 감싸 보내 파싱이 실패했다</td><td>펜스를 벗기는 코드</td></tr>
+        <tr><th scope="row">07-05 21:05</th><td>function calling을 지원하지 않았다</td><td>조건검색만 다른 모델 qwen2.5:7b로 분리</td></tr>
+        <tr><th scope="row">07-06 00:28</th><td>채점 응답에 잘못된 이스케이프 문자가 섞여 JSON 파싱이 실패했다</td><td>채점 파서에 대체 경로, 온도 0 고정</td></tr>
+      </tbody>
+      <caption>환경변수만 바꿔서 끝난 것은 첫 번째 교체다. 두 번째는 배포 스크립트 3파일을 바꾼 뒤 위 세 곳을 더 고쳤다.</caption>
+    </table>
+  </div>
+</section>
+
+<section class="ch" data-ch="결과">
+  <h2 class="ch__title">지금 LLM 클라이언트를 만드는 줄.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="1">1</b><span>곳</span></p>
+    <p class="num__say"><code>chat.py</code> 90행이다. 환경변수를 읽는 곳도 함수 하나이고, LLM을 쓰는 네 기능이 모두 그 함수를 부른다. <span class="nb">2026-11-26</span>에 관련 테스트 39건이 통과했다.</p>
+  </div>
+</section>
+
+<section class="ch" data-ch="근거와 한계">
+  <h2 class="ch__title">사람이 환경변수를 바꾼다. 자동으로 넘어가지 않는다.</h2>
+  <p class="ch__text">장애 때 다른 공급자로 넘어가는 코드는 없고, 절차를 적은 문서가 있다. 호출 방식은 OpenAI 호환 하나다. 다른 방식의 API는 붙어 있지 않다. 비용이나 응답 시간을 잰 기록은 없다. Gemini와 로컬 모델로 실제 호출이 됐다는 것은 문서 기록이고 <em>다시 불러 보지 않았다</em>.</p>
+</section>
+<section class="ch ch--next" data-ch="다음 글">
+<h2 class="vh">다음 글</h2>
+<a class="next frame fl" href="../">
+<p class="next__lab"><b>떠먹는 금융</b>목록</p>
+<p class="next__say">금융 뉴스 AI 플랫폼 떠먹는 금융에서 한 일</p>
+<p class="next__go">목록으로</p>
+</a>
+<div class="refs">
+<p>근거: de_pjt 저장소의 커밋(비공개 저장소라 권한이 있어야 열린다). 2026-06-23 13:41 <code>e169c4e</code> <code>chat.py</code> 첫 판. 그 뒤 들어온 세 곳은 <code>87988e3</code>(조건검색, 팀원), <code>8ed6d7a</code> · <code>88b2ae3</code>(브리핑, 팀원), <code>af627d3</code>(채점, 본인). 2026-07-02 13:37 <code>5f1558a</code>, 13:40 <code>c11d5c3</code>, 13:42 <code>67d5a78</code>, 13:43 <code>36580d7</code>. 2026-07-03 main에 합침 <code>a6f605f</code>.</p>
+<p>전후: <code>git grep -n -E "OpenAI\(" 5f1558a^ -- '*.py' ':!*tests*'</code>는 LLM용 5줄(<code>chat.py:57</code>, <code>run_burst_alert.py:112</code> · <code>150</code> · <code>192</code>, <code>screening/llm.py:24</code>)과 임베딩용 1줄, 같은 명령을 <code>HEAD</code>에 돌리면 LLM용 1줄(<code>chat.py:90</code>)과 임베딩용 1줄이다. 환경변수는 <code>provider_from_env</code>가 <code>&lt;쓰는 곳&gt;_&lt;이름&gt;</code>, <code>LLM_&lt;이름&gt;</code>, 기본값 순으로 찾는다. 읽는 변수는 <code>LLM_PROVIDER</code>, <code>LLM_API_KEY</code>, <code>LLM_BASE_URL</code>, <code>LLM_MODEL</code>, <code>LLM_TIMEOUT_S</code> 다섯이다.</p>
+<p>교체: 2026-07-05 20:54 <code>670f308</code> 로컬 모델로 전환(배포 스크립트 3파일 +11 −4). 그 뒤 <code>bf71ee6</code>, <code>7559556</code>, <code>ff146a4</code>. 테스트 39건은 공통 지점 11건, 조건검색과 채점 12건, 브리핑 16건이다.</p>
+<p>기록으로만 있는 것: 게이트웨이 키가 꺼진 일(문서의 한 줄씩). 확인하지 못한 것: 키가 꺼진 정확한 날짜와 경위, 정리 전에 공급자를 바꾸려다 실패한 기록이 있는지, 두 공급자로 실제 호출이 되는지, 지금 환경변수의 실제 값.</p>
+</div>
+</section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="../../js/story.js"></script>
+<script src="../../js/fin/llm-provider.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<section class="ch" data-ch="배경">
+  <h2 class="ch__title">Q&amp;A는 질문과 가까운 기사 조각 5건을 찾아 답을 쓴다.</h2>
+  <p class="ch__text" data-words>떠먹는 금융은 금융 뉴스를 모아 검색, Q&amp;A, 알림으로 보여 주는 서비스다. Q&amp;A는 질문을 벡터로 바꿔 가까운 기사 조각을 찾고, 그 조각을 LLM에 근거로 넘겨 답을 받는다. 화면에는 그 조각의 기사가 <em>출처 카드</em>로 붙는다.</p>
+</section>
+
+<section class="ch" data-ch="문제">
+  <h2 class="ch__title">답은 찾지 못했다는데, 출처는 5건이 붙어 나갔다.</h2>
+  <p class="ch__text" data-words>벡터 검색은 가까운 순으로 5건을 늘 돌려준다. <em>충분히 가까운지 거르는 코드가 없었다.</em> 뉴스와 상관없는 질문에 LLM은 「관련 근거 기사를 찾지 못했습니다」라고 답하는데, 검색이 돌려준 5건은 출처로 함께 나갔다.</p>
+</section>
+
+<section class="ch ch--fig" data-ch="수정 전">
+  <h2 class="ch__title">수정 전 코드에는 점수를 보는 줄이 없었다.</h2>
+  <figure class="ch__fig">
+    <div class="src frame">
+      <p class="src__file">apps/qa/services.py · 2026-06-23</p>
+      <p class="src__line"><i>90</i><code>hits = qdrant.search(vector, top_k)</code><span>가까운 순으로 5건</span></p>
+      <p class="src__gap" aria-hidden="true">⋮</p>
+      <p class="src__line"><i>114</i><code>citations = rag.to_citations(chunks)</code><span>그 5건이 그대로 출처</span></p>
+    </div>
+    <figcaption class="ch__cap">Q&amp;A가 처음 들어온 커밋의 두 줄이다. <code>top_k</code>의 기본값은 5다. 이 상태는 커밋 시각으로 2일 3시간 20분 동안 있었다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch ch--fig ch--wide ch--tight" data-ch="동작" data-gate-ch>
+  <h2 class="ch__title">5건은 검색 뒤에 두 번, 답변 뒤에 한 번 걸러진다.</h2>
+  <figure class="ch__fig">
+    <div class="gate frame frame--pins" data-gate data-step="3">
+      <div class="gate__main">
+        <div class="gate__plot" role="img" aria-label="검색 결과 5건의 점수. 1등 0.412, 나머지 네 건은 0.30에서 0.35 사이. 바닥 0.30은 다섯 건이 모두 넘고, 1등의 85%인 0.3502는 1등만 넘는다.">
+          <p class="gate__head"><span>검색 결과</span><span class="gate__axis"><i class="gate__t1">바닥 0.30</i><i class="gate__t2">0.412 × 0.85 = 0.3502</i></span><span>점수</span><span></span></p>
+          <p class="gate__row is-top"><span>1등</span><span class="gate__track"><i class="gate__dot" style="--x: 88%"></i></span><b>0.412</b><em>남는다</em></p>
+          <p class="gate__row is-cut"><span>2</span><span class="gate__track"><i class="gate__bar"></i></span><b>0.30~0.35</b><em>탈락</em></p>
+          <p class="gate__row is-cut"><span>3</span><span class="gate__track"><i class="gate__bar"></i></span><b>0.30~0.35</b><em>탈락</em></p>
+          <p class="gate__row is-cut"><span>4</span><span class="gate__track"><i class="gate__bar"></i></span><b>0.30~0.35</b><em>탈락</em></p>
+          <p class="gate__row is-cut"><span>5</span><span class="gate__track"><i class="gate__bar"></i></span><b>0.30~0.35</b><em>탈락</em></p>
+        </div>
+        <ol class="gate__msgs" data-msgs>
+          <li>
+            <p class="gate__tag">검색 · BRV를 묻는 질문</p>
+            <p class="gate__say">벡터 검색이 가까운 순으로 5건을 돌려준다. 1등이 0.412, 나머지 4건은 0.30~0.35였다. 수정 전에는 이 5건이 모두 출처로 나갔다.</p>
+          </li>
+          <li>
+            <p class="gate__tag">첫째 · 점수 바닥 · 검색 뒤</p>
+            <p class="gate__say">점수가 바닥 미만인 결과를 버린다. 이 예시의 5건은 모두 0.30 이상이라 통과한다. 통과한 것이 없으면 <em>LLM을 부르지 않고</em> 「관련 근거 기사를 찾지 못했습니다」를 바로 돌려준다.</p>
+          </li>
+          <li>
+            <p class="gate__tag">둘째 · 1등 대비 85% · 검색 뒤</p>
+            <p class="gate__say">남은 결과 가운데 1등 점수 × 0.85 미만을 버린다. 0.412 × 0.85 = 0.3502라 0.30~0.35인 4건이 떨어지고 <em>1건이 남는다</em>.</p>
+          </li>
+          <li>
+            <p class="gate__tag">셋째 · 답변 확인 · 답변 뒤</p>
+            <p class="gate__fork"><span>답변이 거부문이면</span><b data-who="block">출처 0건</b><span>아니면</span><b data-who="agent">남은 결과가 출처</b></p>
+            <p class="gate__say">LLM이 답을 쓴 뒤에 본다. 답변에 「관련 근거 기사를 찾지 못했」이나 「이 서비스는 금융 뉴스 Q&amp;A」가 들어 있으면, 남은 결과가 있어도 출처를 비운다.</p>
+          </li>
+        </ol>
+      </div>
+      <ol class="gate__steps" data-steps>
+        <li><b>검색</b>늘 5건이 온다</li>
+        <li><b>첫째 · 점수 바닥</b>5건 통과</li>
+        <li><b>둘째 · 1등 대비 85%</b>1건 남음</li>
+        <li><b>셋째 · 답변 확인</b>거부문이면 0건</li>
+      </ol>
+    </div>
+    <figcaption class="ch__cap">점수는 커밋 메시지에 남은 기록이고, 2026-06-25, 바닥이 0.30일 때의 것이다. 네 건의 개별 점수는 기록에 없어 범위로 그렸다. 지금 바닥은 0.44라 같은 질문이면 0.412도 점수 바닥에서 떨어진다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="순서">
+  <h2 class="ch__title">세 단계는 한 번에 들어가지 않았다.</h2>
+  <div class="tbl-wrap">
+    <table class="tbl tbl--stack">
+      <thead><tr><th scope="col">커밋 시각</th><th scope="col">들어간 것</th><th scope="col">간격</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">2026-06-25 17:14</th><td>점수 바닥(기본 0.30)과 답변 확인</td><td>첫 수정</td></tr>
+        <tr><th scope="row">2026-06-25 17:28</th><td>1등 대비 85%</td><td>14분 뒤</td></tr>
+        <tr><th scope="row">2026-07-06 00:28</th><td>점수 바닥을 0.30에서 0.44로</td><td>11일 뒤</td></tr>
+        <tr><th scope="row">2026-07-06 00:31</th><td>답변 확인에 범위 밖 질문의 거부문 추가</td><td>3분 뒤</td></tr>
+      </tbody>
+      <caption>처리 순서는 점수 바닥, 1등 대비 85%, 답변 확인이고 들어간 순서는 이 표와 같다. 마지막 줄의 커밋 메시지는 바닥을 올린 뒤에도 김치찌개 질문에 출처가 2건 붙었다고 적는다.</caption>
+    </table>
+  </div>
+</section>
+
+<section class="ch" data-ch="0건일 때">
+  <h2 class="ch__title">통과한 것이 없으면 LLM을 부르지 않는다.</h2>
+  <p class="ch__text" data-words>검색 뒤의 두 기준을 지난 결과가 0건이면 정해 둔 문구를 바로 돌려주고 출처도 비운다. 테스트는 가짜 LLM의 호출 기록이 <em>빈 목록</em>인지 확인한다. 실제 서비스에서 몇 건이 이렇게 끝났는지 센 기록은 없다.</p>
+</section>
+
+<section class="ch" data-ch="결과">
+  <h2 class="ch__title">Q&amp;A 테스트 통과.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="28">28</b><span>건</span></p>
+    <p class="num__say"><span class="nb">2026-11-26</span>에 Q&amp;A 테스트 파일 두 개를 다시 돌린 결과다. 이 가운데 5건이 세 단계를 넣은 커밋에 함께 들어온 회귀 테스트다. 첫 수정에 3건, 1등 대비 85%에 1건, 답변 확인을 넓힐 때 1건.</p>
+  </div>
+</section>
+
+<section class="ch" data-ch="근거와 한계">
+  <h2 class="ch__title">수정 전 화면은 남아 있지 않다.</h2>
+  <p class="ch__text">수정 전후 화면 그림도, 문제를 처음 본 질문과 응답 원문도 저장소에 없다. 0.85는 BRV 질문 한 건을 보고 넣은 값이다. 설계 문서는 남은 경우도 적는다. 주제는 가깝지만 묻는 사실이 기사에 없으면 점수로 가를 수 없고, LLM이 정해진 문구 없이 모른다고 답하면 <em>출처가 그대로 나간다</em>.</p>
+</section>
+
+<!--@refs-->
+<p>근거: de_pjt 저장소의 커밋(비공개 저장소라 권한이 있어야 열린다). 2026-06-23 13:53 <code>83325e3</code> Q&amp;A 첫 커밋, <code>services.py</code> 90행과 114행. 2026-06-25 17:14 <code>0daf282</code> 점수 바닥과 답변 확인, 17:28 <code>c91e064</code> 상대 기준. 2026-07-06 00:28 <code>eaadf60</code> 바닥 0.44, 00:31 <code>00e98ff</code> 범위 밖 거부문.</p>
+<p>지금 코드: 세 단계는 <code>apps/qa/services.py</code> 113~175행과 <code>rag.py</code> 21~26행에 있다. 기준은 환경변수 <code>QA_SCORE_THRESHOLD</code>(기본 0.44)와 <code>QA_SCORE_RATIO</code>(기본 0.85)다. 답변이 어떻게 끝났는지는 <code>qa_answers_total</code> 카운터가 answered, not_found, scope_refusal로 나눠 센다.</p>
+<p>기록으로만 있는 것: 발견 경위(체크포인트 문서의 「운영 E2E에서 발견·수정한 버그」 항목), BRV 예시의 점수(<code>c91e064</code> 커밋 메시지), 김치찌개 질문의 출처 2건(<code>00e98ff</code> 커밋 메시지), 0.30을 고른 이유(<code>0daf282</code> 커밋 메시지).</p>
+<p>확인하지 못한 것: 처음 문제를 본 질문, 수정 전후 화면, BRV와 김치찌개 예시의 원 응답, 0.85의 근거가 한 건 말고 더 있는지, 남은 경우가 얼마나 자주 나오는지. 서비스를 띄워 다시 확인하지 않았다.</p>

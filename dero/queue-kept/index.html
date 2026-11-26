@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>박동규 · 남긴 큐</title>
+<script>document.documentElement.classList.add("js")</script>
+<meta name="description" content="이미지 생성기를 노트북에서 외부 API로 바꾸기로 한 날, 큐를 둔 첫 이유는 사라졌지만 서버가 재시작해도 작업을 잃지 않는다는 이유로 큐는 그대로 두었다.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5.3.0/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.3.0/index.css">
+<link rel="stylesheet" href="../../css/base.css">
+<link rel="stylesheet" href="../../css/dero/queue-kept.css">
+</head>
+<body>
+<nav class="bar" aria-label="위치">
+  <p class="bar__left"><a href="../../">박동규</a><a href="../">DERO</a></p>
+  <p class="bar__at" data-at aria-live="off"></p>
+  <p class="bar__right"><a href="../gardener/" aria-label="이전: 정원사">이전</a><span aria-hidden="true">다음</span></p>
+</nav>
+<ol class="prog" data-prog aria-label="장"></ol>
+<main class="story">
+<section class="ch ch--head" data-ch="머리">
+<p class="ch__label"><b>DERO ⑧</b>남긴 큐</p>
+<h1 class="ch__say ch__say--long">이미지 생성기를 노트북에서 외부 API로 바꾸기로 한 날, 큐를 둔 첫 이유는 사라졌지만 서버가 재시작해도 작업을 잃지 않는다는 이유로 큐는 그대로 두었다.</h1>
+<p class="ch__when">2026-07-31 설계 · 08-06 생성기 교체 · 08-18 휴면 · 10-12 삭제</p>
+<p class="ch__hint" aria-hidden="true">스크롤</p>
+</section>
+<section class="ch" data-ch="배경">
+  <h2 class="ch__title">이미지 생성기는 공유기 안쪽의 노트북이 될 예정이었다.</h2>
+  <p class="ch__text" data-words>사용자가 책상 배치를 올리면 그 배치의 이미지를 생성하는 기능이었다. <span class="nb">2026-07-31</span> 설계 문서는 생성기를 로컬 노트북에서 도는 프로그램으로 잡았다. 노트북에는 공인 주소가 없어서 <em>서버가 노트북에 먼저 연결할 수 없었다</em>.</p>
+</section>
+
+<section class="ch" data-ch="큐">
+  <h2 class="ch__title">그래서 작업을 쌓아 두는 대기열, 큐를 골랐다.</h2>
+  <div class="tbl-wrap">
+    <table class="tbl tbl--stack">
+      <thead><tr><th scope="col">검토한 안</th><th scope="col">방식</th><th scope="col">판정</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">A · gRPC 워커 풀</th><td>노트북이 서버에 스트림을 열고 작업을 받아 간다.</td><td>부결</td></tr>
+        <tr><th scope="row">B · 터널로 노트북 노출</th><td>터널을 두고 서버가 노트북을 직접 부른다.</td><td>부결</td></tr>
+        <tr data-who="agent"><th scope="row">C · Redis 큐</th><td>서버가 작업을 넣고 노트북이 꺼내 간다.</td><td>채택</td></tr>
+      </tbody>
+      <caption>큐는 업로드 요청을 쌓아 두고 뒤에서 하나씩 꺼내 처리하는 대기열이다. Redis를 고른 이유로 문서가 든 순서는 이미 배포돼 있다, gRPC 서버를 얹는 비용이 든다, 큐가 버퍼가 된다였다.</caption>
+    </table>
+  </div>
+</section>
+
+<section class="ch ch--fig" data-ch="유실 방지">
+  <h2 class="ch__title">꺼낸 작업은 처리중 목록에 남겨, 도중에 죽어도 잃지 않게 했다.</h2>
+  <figure class="ch__fig">
+    <div class="qflow frame" role="img" aria-label="작업은 대기열에서 처리중 목록으로 옮겨지고, 끝나면 지워진다. 10분 넘게 처리중에 남으면 대기열로 되돌아간다.">
+      <div class="qflow__box">
+        <p class="qflow__lab">대기열</p>
+        <p class="qflow__jobs"><b></b><b></b><b></b></p>
+        <p class="qflow__sub">업로드가 작업을 넣는다</p>
+      </div>
+      <p class="qflow__move"><span>꺼내며 옮긴다</span><i></i></p>
+      <div class="qflow__box">
+        <p class="qflow__lab">처리중 목록</p>
+        <p class="qflow__jobs"><b></b></p>
+        <p class="qflow__sub">워커 스레드 1개가 이미지를 만든다</p>
+      </div>
+      <p class="qflow__move"><span>끝나면 지운다</span><i></i></p>
+      <div class="qflow__box qflow__box--end">
+        <p class="qflow__lab">완료</p>
+        <p class="qflow__jobs"><b></b></p>
+        <p class="qflow__sub">이미지가 붙는다</p>
+      </div>
+      <p class="qflow__back"><i></i><span>10분 넘게 처리중에 남으면 대기열로 되돌린다</span></p>
+    </div>
+    <figcaption class="ch__cap">꺼내는 순간 대기열에서 사라지게 두면, 생성 도중에 죽을 때 작업도 같이 사라진다. 10분은 설계 문서가 「추측」이라고 적어 둔 값이다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="구현">
+  <h2 class="ch__title">구현한 날 실제로 붙인 생성기는 외부 API였다.</h2>
+  <p class="ch__text" data-words><span class="nb">2026-08-02 00:35</span>에 큐와, 서버 안에서 큐를 비우는 스레드 1개짜리 워커를 구현했다. 1시간 7분 뒤인 <span class="nb">01:42</span>에 외부 이미지 API를 부르는 생성기를 붙였다. 노트북용 생성기 코드는 <span class="nb">08-06</span> 오전에 팀원이 저장소에 올렸다.</p>
+</section>
+
+<section class="ch" data-ch="바뀐 날">
+  <h2 class="ch__title">2026-08-06 저녁, 노트북 기획을 파기했다.</h2>
+  <p class="ch__text" data-words>새 설계 문서가 생성기를 외부 API로 확정했다. 서버가 노트북에 연결할 수 없다는 제약은 <em>노트북과 함께 없어졌다</em>. 큐를 고른 핵심 제약이 사라진 것이다. 문서는 앞선 결정 12개 가운데 5개를 고치고 나머지는 유효하다고 적었다.</p>
+</section>
+
+<section class="ch ch--fig ch--wide ch--tight" data-ch="동작" data-adr-ch>
+  <h2 class="ch__title">결정 12개 가운데 5개를 고쳤고, 큐로 보낸다는 결정은 남은 쪽에 있었다.</h2>
+  <figure class="ch__fig">
+    <div class="adr frame frame--pins" data-adr>
+      <div class="adr__head">
+        <p class="adr__date"><b data-date>2026-08-06</b><span data-what>노트북 기획을 파기하고 생성기를 외부 API로 확정했다</span></p>
+        <ol class="adr__days" data-days>
+          <li><b>07-31</b><span>설계</span></li><li><b>08-01</b></li><li><b>08-02</b><span>큐 구현</span></li><li><b>08-03</b></li><li><b>08-04</b></li><li><b>08-05</b></li><li><b>08-06</b><span>생성기 교체</span></li>
+        </ol>
+      </div>
+      <div class="adr__body">
+        <ol class="adr__list" data-list>
+          <li><span>게시 상태는 컬럼 하나가 답한다 — <code>publish_status</code> 4값</span></li>
+          <li class="is-kept" data-kept><span>전송은 Redis 큐다 — gRPC도, 터널을 통한 인바운드도 아니다</span><em>유효</em></li>
+          <li data-rev><span>노트북은 SSH 터널로 붙는다 — Redis 포트를 열지 않는다</span><em>개정</em></li>
+          <li data-rev><span>작업 유실은 <code>BLMOVE</code> + 처리중 리스트로 막는다</span><em>개정</em></li>
+          <li data-rev><span>워커는 자격증명을 갖지 않는다 — presigned URL을 메시지에 담는다</span><em>개정</em></li>
+          <li data-rev><span>상상도는 3장 고정. 각도 컬럼을 만들지 않는다</span><em>개정</em></li>
+          <li><span>이미지는 두 종류다 — 스크린샷과 상상도는 다른 것</span></li>
+          <li data-rev><span>한도는 "장" 단위, 설정 프로퍼티, 3장 전부 성공했을 때만 기록</span><em>개정</em></li>
+          <li><span>판정 게이트는 업로드를 누른 순간에 쏜다</span></li>
+          <li><span>API 표면은 단수 하위 리소스 토글 하나다</span></li>
+          <li><span>이미 <code>PUBLIC</code>인 배치를 수정해도 재생성하지 않는다</span></li>
+          <li><span>업로드와 무관한 "상상도 미리 보기"는 보류한다</span></li>
+        </ol>
+        <div class="adr__side">
+          <div class="adr__box" data-premise>
+            <p class="adr__lab">결정 2의 핵심 제약</p>
+            <p class="adr__quote">노트북은 NAT 뒤에 있고 공인 IP가 없다. WAS가 노트북으로 연결을 열 수 없다.</p>
+            <p class="adr__note" data-gone>08-06 노트북 기획 파기. 제약이 없어졌다.</p>
+          </div>
+          <div class="adr__box" data-reason>
+            <p class="adr__lab">결정 4 · 작업이 유실되는 원인</p>
+            <p class="adr__swap"><span data-old>노트북이 잠들었다</span><b data-new>WAS가 재시작했다 / GMS가 늦다</b></p>
+            <p class="adr__note" data-still>유실 방지는 그대로 유지한다.</p>
+          </div>
+          <p class="adr__diff" data-diff><b>+5 −4</b><span>그날 큐 코드 2파일의 변경. 전부 주석이다.</span></p>
+        </div>
+      </div>
+    </div>
+    <figcaption class="ch__cap">결정 제목과 따옴표 안 문장은 두 설계 문서의 원문이다. 상상도는 생성한 이미지, WAS는 서버, GMS는 외부 이미지 API, NAT 뒤는 공유기 안쪽을 뜻한다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch ch--fig" data-ch="주석">
+  <h2 class="ch__title">그날 큐 코드에서 바뀐 것은 주석 아홉 줄이다.</h2>
+  <figure class="ch__fig">
+    <div class="cmt frame">
+      <p class="cmt__file">ImagePublishQueue.java · 주석</p>
+      <p class="cmt__line cmt__line--old"><i aria-hidden="true">−</i><span>꺼내는 순간 큐에서 사라져서, 워커가 <em>3장 만들다 노트북이 잠들면</em> 작업이 증발하고</span></p>
+      <p class="cmt__line cmt__line--new"><i aria-hidden="true">+</i><span>꺼내는 순간 큐에서 사라져서, 워커가 <em>생성 도중에 죽으면</em> 작업이 증발하고</span></p>
+    </div>
+    <figcaption class="ch__cap">두 줄에 걸친 주석 문장을 이어 붙여 옮겼다. 2파일에서 더한 5줄, 지운 4줄이 모두 주석이고, 꺼내기와 처리중 목록, 되돌리기 코드는 그대로다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="남긴 이유">
+  <h2 class="ch__title">큐에 대해 그날 문서가 적은 것은 한 문단이다.</h2>
+  <p class="ch__text">「결정 4의 유실 방지는 그대로 유지한다. 원인이 '노트북이 잠들었다'에서 'WAS가 재시작했다 / GMS가 늦다'로 바뀌었을 뿐 <em>유실은 여전히 난다</em>.」 생성기를 갈아 끼우는 추상화도 같이 남겼다. 지우면 키 없이 띄우는 로컬과 CI 부팅이 깨진다는 이유였다.</p>
+</section>
+
+<section class="ch" data-ch="그 뒤">
+  <h2 class="ch__title">큐 코드가 저장소에 있던 기간.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="71">71</b><span>일</span></p>
+    <p class="num__say"><span class="nb">2026-08-02</span>에 구현했다. <span class="nb">08-18</span>에 이미지 생성 기능을 휴면으로 돌리는 결정이 났고, <span class="nb">10-12</span>에 팀원의 커밋으로 큐 141줄, 워커 100줄, 생성기 196줄이 삭제됐다.</p>
+  </div>
+</section>
+
+<section class="ch" data-ch="근거와 한계">
+  <h2 class="ch__title">이 사례에는 측정값도 사고도 없다.</h2>
+  <p class="ch__text">확인되는 것은 언제 무엇을 결정했고 그때 코드가 어땠는가다. 서버가 재시작한 뒤 큐가 작업을 실제로 되살린 적이 있는지는 운영 로그를 볼 수 없어 모른다. 기능은 <span class="nb">2026-08-18</span>에 휴면이 됐고 코드는 <span class="nb">10-12</span>에 팀원의 커밋으로 삭제됐다.</p>
+</section>
+<section class="ch ch--next" data-ch="다음 글">
+<h2 class="vh">다음 글</h2>
+<a class="next frame fl" href="../">
+<p class="next__lab"><b>DERO</b>목록</p>
+<p class="next__say">데스크테리어 3D 시뮬레이터 DERO에서 한 일</p>
+<p class="next__go">목록으로</p>
+</a>
+<div class="refs">
+<p>근거: dero 저장소의 커밋과 설계 문서(비공개 저장소라 권한이 있어야 열린다). 2026-07-31 14:00 <code>7428df70ff</code> 설계 문서 ADR-0015, 결정 12개. 결정 2가 노트북에 먼저 연결할 수 없다는 제약으로 Redis 큐를 골랐다. 2026-08-02 00:35 <code>f3f7a8710f</code> · <code>062b694528</code> 큐와 스레드 1개짜리 워커, 01:42 <code>f7674fc337</code> 외부 API 생성기. 2026-08-06 19:08 <code>0cc019f8f8</code> ADR-0025, 「결정 3·4·5·6·8을 개정한다(나머지는 유효)」.</p>
+<p>그날 큐 코드: <code>git diff 4f7e8f3a84^ 0fd1648243</code>을 큐 폴더로 좁히면 2파일 +5 −4이고 주석 아닌 줄은 0줄이다. 워커 스레드 수는 구현부터 삭제까지 1개였고, 첫 커밋의 주석에 그 이유가 적혀 있다.</p>
+<p>그 뒤: 2026-08-18 12:31 <code>c8323880c1</code> ADR-0043이 기능을 휴면으로 돌렸다. 2026-10-12 13:08 <code>b50c109e18</code>(팀원의 커밋)에서 큐, 워커, 생성기 코드가 삭제됐다.</p>
+<p>확인하지 못한 것: 스위퍼가 실제로 작업을 되돌린 건수, 운영이 언제부터 외부 API로 돌았는지(서버 환경변수라 저장소에 없다), 외부 API가 한 건을 만드는 데 걸린 실제 시간, 2026-08-06 결정이 어떤 논의를 거쳤는지. 문서의 승인자 표기와 커밋 작성자만 확인된다.</p>
+</div>
+</section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="../../js/story.js"></script>
+<script src="../../js/dero/queue-kept.js"></script>
+</body>
+</html>

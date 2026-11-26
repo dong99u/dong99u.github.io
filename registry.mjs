@@ -6,6 +6,7 @@ export const owner = { name: '박동규', line: '포트폴리오에서 더 보�
 
 export const projects = [
   { slug: 'dero', name: 'DERO', line: '데스크테리어 3D 시뮬레이터 DERO에서 한 일' },
+  { slug: 'fin', name: '떠먹는 금융', line: '금융 뉴스 AI 플랫폼 떠먹는 금융에서 한 일' },
 ];
 
 // 글의 본문은 장(<section class="ch" data-ch="…">)으로 쓴다. 규칙은 css/base.css 머리말에 있다.
@@ -35,5 +36,25 @@ export const entries = [
   {
     project: 'dero', slug: 'search-min-gram', label: 'DERO ⑥', name: '검색 설정 한 줄', when: '2026-08-07 수정 · 2026-11-26 로컬 재현',
     sentence: '없는 제품 이름을 쳐도 결과가 나오던 검색을, 색인 설정의 숫자 하나를 1에서 2로 바꿔 0건이 나오게 고쳤다. 오타 검색은 그대로 된다.',
+  },
+  {
+    project: 'dero', slug: 'gardener', label: 'DERO ⑦', name: '정원사', when: '2026-11-22 검사 도입 · 11-26까지 18곳에서 16곳',
+    sentence: '에이전트는 통과하는 가장 짧은 길로 간다. 그래서 임시방편은 늘지 못하게 숫자로 묶고, 정원사가 하루에 하나씩 맞는 길로 바꿔 그 숫자를 내린다.',
+  },
+  {
+    project: 'dero', slug: 'queue-kept', label: 'DERO ⑧', name: '남긴 큐', when: '2026-07-31 설계 · 08-06 생성기 교체 · 08-18 휴면 · 10-12 삭제',
+    sentence: '이미지 생성기를 노트북에서 외부 API로 바꾸기로 한 날, 큐를 둔 첫 이유는 사라졌지만 서버가 재시작해도 작업을 잃지 않는다는 이유로 큐는 그대로 두었다.',
+  },
+  {
+    project: 'fin', slug: 'qa-sources', label: '떠먹는 금융 ①', name: '답과 출처', when: '2026-06-25 수정 · 07-06 보완',
+    sentence: '검색은 늘 5건을 돌려준다. 그 5건을 점수 바닥, 1등 대비 85%, 답변이 거부문인지로 세 번 거른 뒤 남은 것만 출처로 보여 준다.',
+  },
+  {
+    project: 'fin', slug: 'sent-before-confirm', label: '떠먹는 금융 ②', name: '보내고, 확인하고, 기록', when: '2026-05-29 수정',
+    sentence: '크롤러가 전달을 확인하기 전에 보냈다고 기록하던 순서를, 보내고 확인한 뒤에 전달된 것만 기록하는 순서로 바꿨다.',
+  },
+  {
+    project: 'fin', slug: 'llm-provider', label: '떠먹는 금융 ③', name: 'LLM 호출 한 곳', when: '2026-07-02 정리',
+    sentence: 'LLM 클라이언트를 만드는 줄이 5곳이던 것을 1곳으로 모아, 공급자를 환경변수로 바꾸게 했다.',
   },
 ];

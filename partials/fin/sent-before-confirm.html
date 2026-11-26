@@ -1,0 +1,101 @@
+<section class="ch" data-ch="배경">
+  <h2 class="ch__title">크롤러는 보낸 기사의 주소를 장부에 적는다.</h2>
+  <p class="ch__text" data-words>떠먹는 금융은 금융 뉴스를 모아 검색, Q&amp;A, 알림으로 보여 주는 서비스다. 크롤러가 매체 6곳의 RSS에서 기사를 읽어 메시지 큐 Kafka로 보낸다. 보낸 기사의 URL은 PostgreSQL 장부에 <code>produced</code>로 적고, 다음 실행은 <em>장부에 있는 URL을 건너뛴다</em>.</p>
+</section>
+
+<section class="ch" data-ch="문제">
+  <h2 class="ch__title">전달을 확인하기 전에 보냈다고 적고 있었다.</h2>
+  <p class="ch__text" data-words><code>send</code>는 기사를 내부 버퍼에 넣을 뿐이다. 브로커가 받았는지는 <code>flush</code> 때 알 수 있다. 코드는 <code>send</code> 바로 다음 줄에서 장부에 적었고 <code>flush</code>는 모든 기사 뒤에 한 번 불렀다. 전달이 실패해도 장부에는 <code>produced</code>가 남는데, 그것은 <em>다시 시도하지 않는 상태</em>다.</p>
+</section>
+
+<section class="ch" data-ch="경위">
+  <h2 class="ch__title">사라진 기사를 본 것이 아니다. 계획 검토에서 순서를 읽고 찾았다.</h2>
+  <p class="ch__text" data-words>기사가 실제로 사라진 기록은 없다. <span class="nb">2026-05-27</span>, 크롤러를 스케줄러에 올리는 계획의 검토 기록에 이 순서가 지적 사항으로 적혔다. 기록상 짚은 것은 검토 도구이고, 나는 그것을 그 작업 범위에 넣어 고쳤다. 이 순서는 코드에 11일 10시간 있었고, 그동안 크롤러는 손으로 실행하는 단계였다.</p>
+</section>
+
+<section class="ch ch--fig ch--wide ch--tight" data-ch="동작" data-send-ch>
+  <h2 class="ch__title">같은 기사 세 건을 두 순서로 보낸다. B의 전달이 실패한다.</h2>
+  <figure class="ch__fig">
+    <div class="send frame frame--pins" data-send data-step="3">
+      <div class="send__lanes">
+        <div class="send__lane" data-lane="old">
+          <p class="send__head"><b>수정 전</b><span>send → 기록 → flush</span></p>
+          <div class="send__col">
+            <p class="send__lab">Kafka로 보낸 기사</p>
+            <ul class="send__arts" data-arts>
+              <li data-r="ok" data-s="ok"><b>A</b><em>전달됨</em></li><li data-r="fail" data-s="fail"><b>B</b><em>전달 실패</em></li><li data-r="ok" data-s="ok"><b>C</b><em>전달됨</em></li>
+            </ul>
+          </div>
+          <div class="send__col">
+            <p class="send__lab">장부</p>
+            <ul class="send__book" data-book>
+              <li><b>A</b><em>produced</em></li><li data-wrong><b>B</b><em>produced</em></li><li><b>C</b><em>produced</em></li>
+            </ul>
+          </div>
+          <p class="send__next" data-next data-who="block"><span>다음 실행의 B</span><b>장부에 있다. 건너뛴다.</b></p>
+        </div>
+        <div class="send__lane" data-lane="new">
+          <p class="send__head"><b>수정 후</b><span>send → flush로 확인 → 전달된 것만 기록</span></p>
+          <div class="send__col">
+            <p class="send__lab">Kafka로 보낸 기사</p>
+            <ul class="send__arts" data-arts>
+              <li data-r="ok" data-s="ok"><b>A</b><em>전달됨</em></li><li data-r="fail" data-s="fail"><b>B</b><em>전달 실패</em></li><li data-r="ok" data-s="ok"><b>C</b><em>전달됨</em></li>
+            </ul>
+          </div>
+          <div class="send__col">
+            <p class="send__lab">장부</p>
+            <ul class="send__book" data-book>
+              <li><b>A</b><em>produced</em></li><li data-empty><b>B</b><em>적지 않음</em></li><li><b>C</b><em>produced</em></li>
+            </ul>
+          </div>
+          <p class="send__next" data-next data-who="agent"><span>다음 실행의 B</span><b>장부에 없다. 다시 보낸다.</b></p>
+        </div>
+      </div>
+      <ol class="send__steps" data-steps>
+        <li><b>기사 3건</b>크롤러가 한 번 실행에서 기사 A, B, C를 읽었다.</li>
+        <li><b>send</b>기사를 내부 버퍼에 넣는다. 수정 전 코드는 바로 다음 줄에서 장부에 적는다.</li>
+        <li><b>flush</b>브로커의 답이 온다. B가 실패했다. 수정 후 코드는 이때 A와 C만 적는다.</li>
+        <li><b>다음 실행</b>장부에 있는 URL은 건너뛴다. 수정 전에는 B가 다시 가지 않는다.</li>
+      </ol>
+    </div>
+    <figcaption class="ch__cap">기사 A, B, C와 B의 전달 실패는 꾸민 예시다. 두 순서는 수정 전후 코드 그대로다. 실제 유실 사례의 기록은 없다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="코드">
+  <h2 class="ch__title">기록하는 위치를 전달 확인 뒤로 옮겼다.</h2>
+  <div class="tbl-wrap">
+    <table class="tbl tbl--stack">
+      <thead><tr><th scope="col"></th><th scope="col">첫째</th><th scope="col">둘째</th><th scope="col">셋째</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">수정 전</th><td><code>send</code><small>55행</small></td><td>장부에 기록<small>65행</small></td><td><code>flush</code><small>67행, 반복문 밖</small></td></tr>
+        <tr data-who="agent"><th scope="row">수정 후</th><td><code>send</code>에 콜백<small>121행</small></td><td><code>flush</code><small>137행, 매체 하나가 끝날 때</small></td><td>전달된 것만 기록<small>139~140행</small></td></tr>
+      </tbody>
+      <caption>콜백은 오류가 없을 때만 그 URL을 전달 목록에 넣는다. <code>flush</code>가 실패하면 예외가 스케줄러 태스크로 올라가고 그 매체의 URL은 하나도 기록되지 않는다. <span class="nb">2026-05-29 09:50</span> 커밋이다.</caption>
+    </table>
+  </div>
+</section>
+
+<section class="ch" data-ch="딸린 일">
+  <h2 class="ch__title">기록을 미루자 같은 기사를 두 번 보낼 수 있게 됐다.</h2>
+  <p class="ch__text" data-words>한 번의 실행 안에서 같은 URL이 두 번 나오면 장부에 아직 없어 두 번 보낸다. 같은 커밋에서 보내는 중인 URL 집합을 두어 막았다. 실패한 기사는 다음 실행에서 다시 보내므로 같은 기사가 두 번 갈 수 있다. 메시지 key와 기사 id가 URL 해시라 <em>받는 쪽이 같은 행에 덮어쓴다</em>.</p>
+</section>
+
+<section class="ch" data-ch="결과">
+  <h2 class="ch__title">이 순서를 직접 확인하는 테스트.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="4">4</b><span>건</span></p>
+    <p class="num__say">전달 확인 뒤에만 기록하는지, 그리고 <code>send</code> 예외, 콜백 오류, <code>flush</code> 예외일 때 기록하지 않는지를 본다. <span class="nb">2026-11-26</span>에 이 파일의 테스트 11건이 통과했다. 테스트는 가짜 Kafka 객체로 돈다.</p>
+  </div>
+</section>
+
+<section class="ch" data-ch="근거와 한계">
+  <h2 class="ch__title">유실을 잰 적은 없고, 고친 곳은 한 구간이다.</h2>
+  <p class="ch__text">수정 전에 전달 실패로 건너뛰어진 기사가 실제로 있었는지는 알 수 없다. 브로커가 죽은 상태의 동작은 가짜 객체 테스트로만 확인했다. 고친 곳은 크롤러에서 Kafka까지다. Kafka에서 PostgreSQL로 옮기는 소비자는 지금도 <em>읽은 위치를 자동으로 커밋하고 쓰기 실패를 건너뛴다</em>.</p>
+</section>
+
+<!--@refs-->
+<p>근거: de_pjt 저장소의 커밋(비공개 저장소라 권한이 있어야 열린다). 2026-05-17 23:48 <code>459b6cd</code> 장부가 붙은 커밋, 수정 전 순서는 <code>crawler/pipeline.py</code> 55, 65, 67행. 2026-05-29 09:44 <code>598494f</code> 전송 래퍼에 <code>acks="all"</code> 기본값과 전달 결과 콜백 인자. 09:50 <code>9d30a6a</code> 순서 수정, 3파일 +186 −35. 지금 코드는 <code>pipeline.py</code> 121~140행, 콜백은 157~168행, 장부는 <code>dedup.py</code>의 표 <code>crawl_seen_url</code>.</p>
+<p>테스트: <code>test_run_marks_produced_only_after_delivery_ack</code>, <code>test_run_does_not_mark_when_produce_raises</code>, <code>test_run_does_not_mark_when_delivery_callback_errors</code>, <code>test_run_does_not_mark_when_flush_raises</code>.</p>
+<p>기록으로만 있는 것: 누가 찾았는지(2026-05-27 계획 문서의 검토 기록 「acks=1 default + mark-before-flush 손실 버그」, 검토 도구의 지적 22건 가운데 하나), 수정 뒤 수집 확인(문서의 「586 기사」).</p>
+<p>확인하지 못한 것: 수정 전 11일 동안 실제로 건너뛰어진 기사가 있었는지, 수정 전 라이브러리의 기본 <code>acks</code> 값, 검토 도구의 지적 원문, 브로커가 실제로 죽었을 때의 동작.</p>
