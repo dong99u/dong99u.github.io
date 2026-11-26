@@ -1,0 +1,130 @@
+<section class="sec" id="intent" data-sec aria-labelledby="h-intent">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="sec__no"><b>①</b><span>2026.07 ~ 11</span></p>
+      <h2 class="sec__title" id="h-intent">의도 문서부터 쓰는 절차를 넉 달 운영했다. <br class="s1-br">문서 211개 중 <em>182개</em>가 방치돼 접었다.</h2>
+      <p class="sec__lead">의도 문서부터 쓰는 개발 절차를 직접 설계해 넉 달 운영했고, 문서 211개 중 182개가 방치된 것을 숫자로 확인하고 접었다.</p>
+    </header>
+
+    <!-- 문제 둘, 한 일 -->
+    <div class="s1-why">
+      <div>
+        <p class="s1-lab">문제 1</p>
+        <p class="s1-say">마케팅팀과 사용자의 요구를 개발팀에 다시 설명하는 일이 병목이었다.</p>
+      </div>
+      <div>
+        <p class="s1-lab">문제 2</p>
+        <p class="s1-say">기능을 왜 만들었는지 기록이 남지 않았다.</p>
+      </div>
+      <div>
+        <p class="s1-lab">한 일</p>
+        <p class="s1-say">Anthropic의 <a class="link" href="https://claude.com/ko/resources/articles/the-ai-native-sdlc-playbook" target="_blank" rel="noopener">AI Native SDLC Playbook</a>을 참고해 절차를 설계했다. 팀의 기본 개발 절차로 채택해 넉 달 운영했다.</p>
+      </div>
+    </div>
+
+    <!-- 대표 인터랙션: 절차 줄과 문서 211개 -->
+    <div class="s1-run" id="intent-field" data-field>
+      <div class="s1-run__head">
+        <div class="sub">
+          <h3 class="sub__title">넉 달 동안 쌓인 의도 문서 211개</h3>
+          <p class="sub__say">점 하나가 문서 하나다. 문서는 의도 단계에서 쓰이고, 일곱 단계를 지나야 끝난다.</p>
+        </div>
+        <p class="s1-cap">문서마다 쓴 날짜와 멈춘 단계는 기록에 없다. 쌓이는 과정은 연출이고, 끝 상태(2026-11-22)만 기록이다.</p>
+      </div>
+
+      <div class="s1-machine frame frame--pins fl">
+        <div class="s1-body">
+          <div class="s1-stage">
+            <svg class="s1-svg" data-stage role="img" aria-labelledby="s1-stage-alt" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="s1-text" id="s1-stage-alt">
+              <p>절차의 순서는 이렇다.</p>
+              <ol>
+                <li>의도(intent)</li>
+                <li>명세(spec)</li>
+                <li class="c-human">계획 · 사람 승인</li>
+                <li>구현·검증</li>
+                <li>리뷰</li>
+                <li>배포 확인</li>
+                <li>회고</li>
+              </ol>
+              <p>2026-07부터 넉 달 동안 의도 문서 211개가 쌓였다. 2026-11-22 기준 182개가 open으로 방치됐고, 25개가 shipped, 2개가 closed였다. 나머지 2개는 상태가 기록에 없다.</p>
+            </div>
+          </div>
+
+          <div class="s1-tally">
+            <div>
+              <p class="s1-lab">2026-11-22 기준</p>
+              <p class="s1-big"><b>182</b><span>/ 211</span></p>
+              <p class="s1-big__say">의도 문서 211개 중 182개가 <code>Status: open</code>으로 방치됐다.</p>
+            </div>
+            <div>
+              <ul class="s1-legend" aria-label="상태별로 보기">
+                <li><button type="button" data-iso="open" aria-pressed="false"><i></i><b>open</b><span>방치</span><em>182</em></button></li>
+                <li><button type="button" data-iso="shipped" aria-pressed="false"><i></i><b>shipped</b><span>배포됨</span><em>25</em></button></li>
+                <li><button type="button" data-iso="closed" aria-pressed="false"><i></i><b>closed</b><span>닫힘</span><em>2</em></button></li>
+                <li><button type="button" data-iso="etc" aria-pressed="false"><i></i><b>기타</b><span>상태가 기록에 없다</span><em>2</em></button></li>
+              </ul>
+              <p class="s1-src">출처: dero <code>intent/README.md</code></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="s1-deck">
+          <button type="button" class="btn btn--main" data-play><span data-play-label>돌리기</span></button>
+          <div class="s1-time">
+            <p class="s1-now"><b data-month>2026-07</b><span data-now aria-live="polite">절차를 팀 기본으로 채택했다. 의도 문서를 먼저 쓰고 일곱 단계를 밟는다.</span></p>
+            <input class="s1-range" type="range" min="0" max="1000" value="0" step="1" data-range aria-label="시간. 2026-07부터 2026-11-22까지">
+            <ol class="s1-ticks" aria-hidden="true">
+              <li style="--x:0">07</li>
+              <li style="--x:17.2">08</li>
+              <li style="--x:34.4">09</li>
+              <li style="--x:51.1">10</li>
+              <li style="--x:68.3">11</li>
+              <li style="--x:80" class="is-end">11-22</li>
+              <li style="--x:100" class="is-last">상태별</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 결과 -->
+    <div class="s1-results">
+      <div class="sub">
+        <p class="sub__lab">결과</p>
+        <h3 class="sub__title">2026-11-22에 숫자로 확인하고 폐지했다</h3>
+      </div>
+      <div class="s1-results__body">
+        <dl class="s1-figs">
+          <div class="rv" style="--i:0">
+            <dt>방치된 의도 문서</dt>
+            <dd class="s1-fig"><b>182</b><span>/ 211개</span></dd>
+            <dd class="s1-bar" aria-hidden="true"><i style="flex:182"></i><i style="flex:25"></i><i style="flex:2"></i><i style="flex:2"></i></dd>
+            <dd class="s1-src">2026-11-22 기준. <code>open</code> 182, <code>shipped</code> 25, <code>closed</code> 2. 나머지 2개는 상태가 기록에 없다.<br>출처: dero <code>intent/README.md</code></dd>
+          </div>
+          <div class="rv" style="--i:1">
+            <dt>CI 어디서도 돌지 않은 백엔드 테스트 클래스</dt>
+            <dd class="s1-fig"><b>433</b><span>개</span></dd>
+            <dd class="s1-src">출처: dero <code>intent/ops-trusted-agent-loops/research.md</code> 5절</dd>
+          </div>
+        </dl>
+        <div class="s1-end">
+          <ol class="log">
+            <li class="log__row rv" style="--i:2"><time datetime="2026-11-22">2026-11-22</time><b>PR #33</b><p>절차를 폐지했다. 폴더는 지우지 않고 쓰기만 막은 기록으로 남겼다.</p></li>
+          </ol>
+          <figure class="s1-quote rv" style="--i:3">
+            <figcaption class="s1-lab">당시 남긴 판단</figcaption>
+            <blockquote>「문서는 쓰는 비용만 들고 상태 관리가 안 됐다.」</blockquote>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <p class="s1-next"><a href="#loop"><span>같은 날 지금의 루프를 처음 돌렸다.</span><b>② 에이전트 루프</b><i aria-hidden="true"></i></a></p>
+
+    <aside class="insight" aria-label="인사이트 자리">
+      <p class="insight__lab">인사이트</p>
+      <p class="insight__empty">박동규가 직접 채울 자리다. 아직 비어 있다.<i class="insight__caret" aria-hidden="true"></i></p>
+    </aside>
+  </div>
+</section>

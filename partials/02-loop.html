@@ -1,0 +1,151 @@
+<section class="sec" id="loop" data-sec aria-labelledby="h-loop">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="sec__no"><b>②</b><span>2026.11.22 ~</span></p>
+      <h2 class="sec__title" id="h-loop">접수부터 머지까지 <em class="c-agent">에이전트</em>가 맡는다. <br class="s2-br"><em class="c-human">사람</em>은 위험한 변경만 본다.</h2>
+      <p class="sec__lead">문서가 방치되고 사람이 매번 직접 확인해야 하던 개발 절차를 접고, 오류 접수부터 재현·수정·검증·머지까지 에이전트가 맡고 사람은 위험한 변경만 보는 루프를 만들었다.</p>
+    </header>
+
+    <!-- 문제 둘 -->
+    <div class="s2-why">
+      <article class="s2-prob">
+        <div class="s2-prob__say">
+          <p class="s2-lab">문제 1</p>
+          <h3>의도 문서 절차가 관리되지 않았다.</h3>
+          <p>문서는 쓰는 비용만 들고 상태 관리가 안 됐다. <a class="link" href="#intent">① 의도 문서 절차 보기</a></p>
+        </div>
+        <div class="s2-figs">
+          <dl>
+            <div>
+              <dt>방치된 의도 문서</dt>
+              <dd><b>182</b><span>/ 211개</span></dd>
+              <dd class="s2-bar" aria-hidden="true"><i style="flex:182"></i><i style="flex:29"></i></dd>
+            </div>
+            <div>
+              <dt>CI에서 돌지 않은 백엔드 테스트 클래스</dt>
+              <dd><b>433</b><span>개</span></dd>
+            </div>
+          </dl>
+          <p class="s2-src">2026-11-22 기준</p>
+        </div>
+      </article>
+
+      <article class="s2-prob" data-who="human">
+        <div class="s2-prob__say">
+          <p class="s2-lab">문제 2</p>
+          <h3>개발 일이 전부 사람 손을 거쳤다.</h3>
+          <p>개발 일을 매번 개발자가 책상에 앉아 직접 해야 했다. 시간이 많이 들었다. 에이전트가 쓴 코드를 사람이 일일이 확인하면 사람이 병목이 된다.</p>
+        </div>
+        <div class="s2-hands">
+          <ol aria-label="사람이 직접 하던 단계">
+            <li>접수</li><li>재현</li><li>수정</li><li>검증</li><li>머지</li>
+          </ol>
+          <p class="s2-src">단계마다 사람이 했다. 걸린 시간을 잰 숫자는 없다.</p>
+        </div>
+      </article>
+    </div>
+
+    <!-- 그래서 정한 원칙 -->
+    <div class="s2-rules">
+      <p class="s2-lab">그래서 정한 원칙 <span>2026-11-22에 지금의 루프를 적용했다.</span></p>
+      <ol>
+        <li><b>저장소 하나</b><span>2026-11-21에 저장소를 GitHub 하나로 옮겼다.</span></li>
+        <li><b>절차는 저장소 안의 스킬에</b><span>스킬은 에이전트가 읽고 따르는 절차 문서다. 예약 실행의 본문은 한 줄이고, 절차는 스킬에 있다.</span></li>
+        <li><b>단계 신호는 하나</b><span>단계와 단계 사이를 잇는 신호는 하나만 둔다.</span></li>
+        <li data-who="human"><b>사람은 위험한 변경만</b><span>마이그레이션, 인증, 인프라, 결제 변경은 사람이 검토한다.</span></li>
+      </ol>
+    </div>
+
+    <!-- 지금의 루프: 직접 돌리는 기계 -->
+    <div class="s2-run" id="loop-machine" data-machine>
+      <div class="s2-run__head">
+        <div class="sub">
+          <h3 class="sub__title">지금의 루프</h3>
+          <p class="sub__say">신호를 하나 골라 넣는다. 보고 하나가 접수부터 머지까지 간다.</p>
+        </div>
+        <div class="s2-pick" role="group" aria-label="넣을 신호">
+          <span class="s2-lab">넣을 신호</span>
+          <div class="seg seg--fill">
+            <button type="button" data-sc="sentry" aria-pressed="true"><i></i>Sentry 오류</button>
+            <button type="button" data-sc="slack" aria-pressed="false"><i></i>Slack 피드백</button>
+            <button type="button" data-sc="risk" data-who="human" aria-pressed="false"><i></i>위험한 변경</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="machine frame frame--pins fl">
+        <div class="machine__rail">
+          <span class="key"><span class="key__i" data-who="agent">에이전트</span><span class="key__i" data-who="human">사람</span><span class="key__i" data-who="block">막힘</span></span>
+          <span class="machine__demo">시연이다. 커밋은 A, B로 적었다. 실제 기록은 아래 「결과」에 있다.</span>
+        </div>
+
+        <div class="stage">
+          <div class="stage__in">
+            <svg class="stage__svg" data-stage role="img" aria-labelledby="s2-stage-alt" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="fx" data-fx aria-hidden="true"></div>
+          </div>
+          <div class="stage__text" id="s2-stage-alt">
+            <p>루프의 순서를 글로 적으면 이렇다.</p>
+            <ol>
+              <li><b>접수</b> Sentry 오류와 Slack #dero-feedback 피드백을 Grok Bot이 Linear 이슈로 등록한다.</li>
+              <li><b>판정·재현·수정(Cursor Automations)</b> 보고를 분류하고 실제 화면에서 재현한 뒤 고친다. 수정 전 재현 영상과 수정 뒤 정상 영상이 있어야 이슈가 닫힌다.</li>
+              <li><b>머지 관문</b> 코드를 쓰지 않은 검증자 3명(게이트, 화면, diff)이 따로 확인한다. PASS한 커밋이 PR 최신 커밋과 같을 때만 자동 머지한다. 검증자가 문제를 짚으면 머지하지 않고 다시 고친다.</li>
+              <li><b>사람 몫</b> 마이그레이션, 인증, 인프라, 결제 변경은 사람이 검토한다. 운영 반영도 사람이 지시한다.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="deck">
+          <div class="deck__ctl">
+            <button type="button" class="btn btn--main" data-play><span data-play-label>돌리기</span></button>
+            <button type="button" class="btn" data-step>한 단계</button>
+            <button type="button" class="btn" data-reset>처음부터</button>
+          </div>
+          <div class="deck__now" aria-live="polite">
+            <p class="deck__meta"><span class="who" data-who="agent" data-who-out>에이전트</span><span class="deck__phase" data-phase>대기</span><span class="deck__note" data-note hidden></span></p>
+            <p class="deck__text" data-now>스크립트가 켜지면 보고 하나가 칸을 차례로 지난다.</p>
+          </div>
+          <ol class="deck__ticks" data-ticks aria-label="단계"></ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 정해진 시간에 도는 일 -->
+    <div class="s2-sched">
+      <p class="s2-lab">정해진 시간에 도는 일 <span>신호가 없어도 돈다.</span></p>
+      <ol>
+        <li class="rv" style="--i:0"><span class="s2-sched__when">하루 2회</span><b>머지 뒤 전체 테스트</b></li>
+        <li class="rv" style="--i:1"><span class="s2-sched__when">매일</span><b>정원사</b><span>나쁜 패턴 후보를 정리한다.</span></li>
+        <li class="rv" style="--i:2"><span class="s2-sched__when">배포 직후</span><b>릴리스 퍼징</b></li>
+      </ol>
+    </div>
+
+    <!-- 결과: 날짜 기록 -->
+    <div class="s2-results" data-results>
+      <div class="sub">
+        <p class="sub__lab">결과</p>
+        <h3 class="sub__title">돌아간 기록</h3>
+      </div>
+      <div class="s2-results__body">
+        <div class="stat rv">
+          <p class="stat__n"><span data-roll="12666">12,666</span></p>
+          <p class="s2-stat__unit">개 테스트, 실패 0</p>
+          <div class="s2-split" aria-hidden="true"><i style="flex:8997"></i><i style="flex:3669"></i></div>
+          <p class="s2-split__lab"><span>프런트 8,997개</span><span>백엔드 3,669개</span></p>
+          <p class="stat__lab">머지 뒤 전체 검증이 처음으로 완전히 통과했다. 2026-11-23, develop <code>bea72284</code>.</p>
+        </div>
+        <ol class="log">
+          <li class="log__row rv" style="--i:0"><time datetime="2026-11-22">2026-11-22</time><b>보고 #22</b><p>이벤트 접수 임시저장 버그. 수정 전 2회 재현, 수정 뒤 2회 정상을 영상으로 남기고 닫혔다.</p></li>
+          <li class="log__row rv" style="--i:1"><time datetime="2026-11-23">2026-11-23</time><b><code>bea72284</code></b><p>머지 뒤 전체 검증 첫 완전 통과. 프런트 8,997개와 백엔드 3,669개, 합쳐 12,666개가 실패 0.</p></li>
+          <li class="log__row rv" style="--i:2"><time datetime="2026-11-24">2026-11-24</time><b>PR #85</b><p>diff 검증자가 문제를 짚었고, 고친 뒤 재검증에서 PASS해 머지됐다. <button type="button" class="link s2-js" data-run="slack">이 장면을 위에서 돌려 보기</button></p></li>
+          <li class="log__row rv" style="--i:3"><time datetime="2026-11-24">2026-11-24</time><b>PR #88</b><p>화면 검증자가 폭 390, 768, 1280, 1600 네 가지에서 홈 여정을 2회 돌려 PASS했다.</p></li>
+        </ol>
+      </div>
+    </div>
+
+    <aside class="insight" aria-label="인사이트 자리">
+      <p class="insight__lab">인사이트</p>
+      <p class="insight__empty">박동규가 직접 채울 자리다. 아직 비어 있다.<i class="insight__caret" aria-hidden="true"></i></p>
+    </aside>
+  </div>
+</section>

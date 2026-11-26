@@ -1,0 +1,277 @@
+<section class="sec" id="cases" data-sec aria-labelledby="h-cases">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="sec__no"><b>④</b><span>사례 둘</span></p>
+      <h2 class="sec__title" id="h-cases"><em class="c-agent">에이전트</em>가 자주 틀리던 두 곳을 <br class="s4-br"><em class="c-human">사람의 주의</em>가 아니라 장치로 막았다.</h2>
+      <p class="sec__lead">에이전트가 반복해서 틀리던 지점 두 곳(불어나는 규칙, 테스트로 못 잡는 화면)을 사람의 주의가 아니라 장치로 막았다.</p>
+    </header>
+
+    <!-- 두 사례 한눈에 -->
+    <nav class="s4-idx" aria-label="사례 둘">
+      <a class="s4-idx__a" href="#case-a">
+        <p class="s4-lab">사례 A</p>
+        <h3>계속 불어나는 규칙</h3>
+        <dl>
+          <div><dt>틀리던 곳</dt><dd>함정을 만날 때마다 항상 읽는 규칙을 한 줄씩 더했다.</dd></div>
+          <div><dt>막은 장치</dt><dd>후보 목록과 승인, 토큰 수로 재는 상한.</dd></div>
+        </dl>
+      </a>
+      <a class="s4-idx__a" href="#case-b">
+        <p class="s4-lab">사례 B</p>
+        <h3>테스트로 못 잡는 결과</h3>
+        <dl>
+          <div><dt>틀리던 곳</dt><dd>의도대로 보이는지는 단위 테스트가 판단하지 못한다.</dd></div>
+          <div><dt>막은 장치</dt><dd>자동 E2E에 붙인 AI 시각 평가.</dd></div>
+        </dl>
+      </a>
+    </nav>
+
+    <!-- ================= 사례 A ================= -->
+    <article class="s4-case" id="case-a" aria-labelledby="h-case-a">
+      <div class="s4-split">
+        <div class="s4-say">
+          <p class="s4-lab">사례 A · 문제</p>
+          <h3 class="s4-h" id="h-case-a">계속 불어나는 규칙</h3>
+          <p>함정을 만날 때마다 항상 읽는 규칙을 더했다. 에이전트가 매번 읽는 지침이 비대해졌다.</p>
+          <p>문서 길이를 줄 수로 쟀더니 지표가 거꾸로 일했다. 상한은 「50~60줄」이었다. 2026-08-10에 지침 파일 25개를 재 보니, 한 파일은 70줄인데 17,597토큰(줄당 251토큰, 가장 긴 줄 4,725자)으로 통과했다. 줄 수 기준을 어긴 유일한 파일은 100줄짜리였는데, 줄당 40토큰으로 가장 건강한 축이었다.</p>
+          <p class="s4-say__dim">상한을 2,000토큰으로 바꾼 뒤에도 재는 명령이 없었다. 2026-08-13에 27개 중 9개가 상한을 넘어 있었다(최대 5,081토큰).</p>
+        </div>
+
+        <div class="s4-scales frame frame--pins fl" data-scales data-doc="heavy">
+          <div class="s4-rail">
+            <span class="s4-rail__t">같은 문서 두 개를 두 저울에 올린다</span>
+            <span class="s4-rail__d">2026-08-10 측정. 지침 파일 25개 중 두 개.</span>
+          </div>
+
+          <div class="s4-pair">
+            <figure class="s4-bal s4-bal--line">
+              <figcaption><b>줄 수 저울</b><span>줄이 몇 개인지 잰다</span></figcaption>
+              <svg viewBox="0 0 300 196" aria-hidden="true">
+                <path class="s4-bal__base" d="M150 44V176M108 176H192"/>
+                <g class="s4-bal__beam"><path d="M46 44H254"/><circle cx="46" cy="44" r="3"/><circle cx="254" cy="44" r="3"/></g>
+                <circle class="s4-bal__pivot" cx="150" cy="44" r="5"/>
+                <g class="s4-pan s4-pan--l">
+                  <path class="s4-pan__str" d="M46 44L18 150M46 44L74 150"/><path class="s4-pan__plate" d="M10 150H82"/>
+                  <g class="s4-g s4-g--heavy"><rect x="24" y="118" width="44" height="28"/><path d="M29 125H63M29 132H63M29 139H63"/></g>
+                  <g class="s4-g s4-g--light"><rect x="24" y="78" width="44" height="68"/><path d="M29 85H47M29 91H54M29 97H43M29 103H51M29 109H45M29 115H56M29 121H42M29 127H50M29 133H46M29 139H53"/></g>
+                </g>
+                <g class="s4-pan s4-pan--r">
+                  <path class="s4-pan__str" d="M254 44L226 150M254 44L282 150"/><path class="s4-pan__plate" d="M218 150H290"/>
+                  <g class="s4-g s4-g--heavy"><rect x="232" y="118" width="44" height="28"/><path d="M237 125H271M237 132H271M237 139H271"/></g>
+                  <g class="s4-g s4-g--light"><rect x="232" y="78" width="44" height="68"/><path d="M237 85H255M237 91H262M237 97H251M237 103H259M237 109H253M237 115H264M237 121H250M237 127H258M237 133H254M237 139H261"/></g>
+                </g>
+              </svg>
+              <p class="s4-bal__pans"><span><b data-for="heavy">70줄</b><b data-for="light">100줄</b><i>고른 문서</i></span><span><b data-for="heavy">100줄</b><b data-for="light">70줄</b><i>다른 문서</i></span></p>
+              <p class="s4-bal__out">
+                <span data-for="heavy">70줄 문서가 더 가볍다. <b class="s4-chip">줄 수 기준 통과</b></span>
+                <span data-for="light">100줄 문서가 더 무겁다. <b class="s4-chip" data-who="block">줄 수 기준을 어긴 유일한 파일</b></span>
+              </p>
+            </figure>
+
+            <figure class="s4-bal s4-bal--tok">
+              <figcaption><b>토큰 저울</b><span>에이전트가 읽는 양을 잰다</span></figcaption>
+              <svg viewBox="0 0 300 196" aria-hidden="true">
+                <path class="s4-bal__base" d="M150 44V176M108 176H192"/>
+                <g class="s4-bal__beam"><path d="M46 44H254"/><circle cx="46" cy="44" r="3"/><circle cx="254" cy="44" r="3"/></g>
+                <circle class="s4-bal__pivot" cx="150" cy="44" r="5"/>
+                <g class="s4-pan s4-pan--l">
+                  <path class="s4-pan__str" d="M46 44L18 150M46 44L74 150"/><path class="s4-pan__plate" d="M10 150H82"/>
+                  <g class="s4-g s4-g--heavy"><rect x="24" y="118" width="44" height="28"/><path d="M29 125H63M29 132H63M29 139H63"/></g>
+                  <g class="s4-g s4-g--light"><rect x="24" y="78" width="44" height="68"/><path d="M29 85H47M29 91H54M29 97H43M29 103H51M29 109H45M29 115H56M29 121H42M29 127H50M29 133H46M29 139H53"/></g>
+                </g>
+                <g class="s4-pan s4-pan--r">
+                  <path class="s4-pan__str" d="M254 44L226 150M254 44L282 150"/><path class="s4-pan__plate" d="M218 150H290"/>
+                  <g class="s4-g s4-g--heavy"><rect x="232" y="118" width="44" height="28"/><path d="M237 125H271M237 132H271M237 139H271"/></g>
+                  <g class="s4-g s4-g--light"><rect x="232" y="78" width="44" height="68"/><path d="M237 85H255M237 91H262M237 97H251M237 103H259M237 109H253M237 115H264M237 121H250M237 127H258M237 133H254M237 139H261"/></g>
+                </g>
+              </svg>
+              <p class="s4-bal__pans"><span><b data-for="heavy">17,597토큰<small>2026-08-10 측정</small></b><b data-for="light">약 4,000토큰<small>계산값</small></b><i>고른 문서</i></span><span><b data-for="heavy">약 4,000토큰<small>계산값</small></b><b data-for="light">17,597토큰<small>2026-08-10 측정</small></b><i>다른 문서</i></span></p>
+              <p class="s4-bal__out">
+                <span data-for="heavy">70줄 문서가 더 무겁다. 17,597토큰이다.</span>
+                <span data-for="light">100줄 문서가 더 가볍다. <em class="s4-calc">100줄 × 줄당 40토큰으로 계산한 값이다. 그래도 나중에 정한 2,000토큰 상한보다는 많다.</em></span>
+              </p>
+            </figure>
+          </div>
+
+          <div class="s4-deck">
+            <div class="s4-pick" role="group" aria-label="저울에 올려 볼 문서">
+              <span class="s4-lab">고를 문서</span>
+              <div class="seg seg--fill">
+                <button type="button" data-doc="heavy" aria-pressed="true"><i></i>70줄 문서<span class="s4-pick__sub">짧지만 무겁다</span></button>
+                <button type="button" data-doc="light" aria-pressed="false"><i></i>100줄 문서<span class="s4-pick__sub">길지만 가볍다</span></button>
+              </div>
+            </div>
+            <p class="s4-deck__end">줄 수 기준은 70줄(17,597토큰) 문서를 통과시켰고, 어긴 것은 100줄(약 4,000토큰, 계산값) 문서뿐이었다. 토큰으로 재면 무게가 반대다.</p>
+            <p class="vh" aria-live="polite" data-scales-live></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 한 일: 후보 목록과 승인 -->
+      <div class="s4-split s4-split--flip">
+        <div class="s4-say">
+          <p class="s4-lab">사례 A · 한 일</p>
+          <h3 class="s4-h">새 규칙은 후보 목록에 먼저 둔다</h3>
+          <ol class="s4-did">
+            <li><b>후보 목록과 승인</b><span>새 규칙은 에이전트가 자동으로 읽지 않는 후보 목록에 먼저 둔다. <em class="c-human">검토해 승인한 것만</em> 항상 읽는 규칙으로 올린다.</span></li>
+            <li><b>토큰 수로 잰다</b><span>문서 비용을 줄 수가 아니라 토큰 수로 잰다. 상한을 「50~60줄」에서 2,000토큰으로 바꿨다(GitLab MR !470, 2026-08).</span></li>
+            <li><b>있던 지침은 시험하고 감사한다</b><span>이미 있던 지침은 바꾸기 전에 시험했고, 낡은 곳을 찾아 고치거나 지웠다. 기록은 아래에 있다.</span></li>
+          </ol>
+        </div>
+
+        <div class="s4-gate frame fl" data-gate>
+          <div class="s4-rail">
+            <span class="key"><span class="key__i" data-who="agent">에이전트</span><span class="key__i" data-who="human">사람</span></span>
+            <span class="s4-rail__d">시연이다. 규칙 이름은 A, B, C로 적었다.</span>
+          </div>
+          <div class="s4-gate__body">
+            <section class="s4-col s4-col--cand" aria-labelledby="s4-cand-h">
+              <h4 id="s4-cand-h">후보 목록</h4>
+              <p class="s4-col__who">에이전트가 자동으로 읽지 않는다</p>
+              <ul data-cand>
+                <li data-rule="B"><span>규칙 B</span></li>
+                <li data-rule="C"><span>규칙 C</span></li>
+              </ul>
+            </section>
+            <p class="s4-gate__door" data-who="human"><span>사람이 검토해 <br>승인한 것만</span></p>
+            <section class="s4-col s4-col--live" aria-labelledby="s4-live-h">
+              <h4 id="s4-live-h">항상 읽는 규칙</h4>
+              <p class="s4-col__who"><span class="who" data-who="agent">에이전트가 매번 읽는다</span></p>
+              <ul data-live>
+                <li class="is-old"><span>있던 규칙</span></li>
+                <li class="is-old"><span>있던 규칙</span></li>
+                <li data-rule="A" data-who="human"><span>규칙 A</span><em>승인됨</em></li>
+              </ul>
+            </section>
+          </div>
+          <div class="s4-deck s4-deck--gate">
+            <div class="s4-deck__ctl">
+              <button type="button" class="btn btn--main" data-add>새 규칙 넣기</button>
+              <button type="button" class="btn" data-gate-reset>처음부터</button>
+            </div>
+            <p class="s4-deck__now" aria-live="polite" data-gate-now>새 규칙을 넣으면 후보 목록에 쌓인다. 승인해야 오른쪽으로 올라간다.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 근거 -->
+      <div class="s4-proof">
+        <div class="sub">
+          <p class="sub__lab">사례 A · 근거</p>
+          <h3 class="sub__title">있던 지침을 시험하고 감사한 기록</h3>
+        </div>
+        <div class="s4-proof__body">
+          <div class="s4-eval rv">
+            <p class="s4-eval__head"><time datetime="2026-11-23">2026-11-23</time><b>PR #48</b><span>스킬 eval</span></p>
+            <p class="s4-eval__say">스킬은 에이전트가 읽고 따르는 절차 문서다. 루프 스킬 5개를 다시 쓸 때, 가짜 GitHub 상태로 만든 시나리오 4개를 옛 판과 새 판으로 각각 돌렸다. 채점 기준 23개를 양쪽 모두 통과한 것을 확인하고 바꿨다.</p>
+            <dl class="s4-eval__n">
+              <div><dd>4</dd><dt>시나리오</dt></div>
+              <div><dd>23</dd><dt>채점 기준</dt></div>
+              <div><dd class="s4-eval__both"><i>옛 판</i><i>새 판</i></dd><dt>양쪽 모두 통과</dt></div>
+            </dl>
+          </div>
+          <div class="s4-proof__side">
+            <ol class="s4-scn" aria-label="시나리오 4개">
+              <li class="rv" style="--i:0">중복 보고에 이슈 속 지시문이 섞인 경우</li>
+              <li class="rv" style="--i:1">흔들리는 테스트</li>
+              <li class="rv" style="--i:2">승인 표시 두 개 중 하나가 위험한 변경인 경우</li>
+              <li class="rv" style="--i:3">이미 고친 버그</li>
+            </ol>
+            <ol class="log">
+              <li class="log__row rv"><time datetime="2026-11-22">2026-11-22</time><b>PR #35·#36</b><p>지침 감사. 스킬이 저장소에 없는 스킬·주소·파일을 가리키는 곳, 서로 부딪히는 규칙, 매 세션 읽히는 긴 설명을 찾아 고치거나 지웠다.</p></li>
+            </ol>
+          </div>
+        </div>
+        <p class="note">운영 구조는 2026-09 기록에 남아 있다. 비용이 얼마나 줄었는지, 검토를 몇 번 했는지는 수치가 없다. 이 흐름은 ③의 「강제 장치가 생기면 규칙을 지운다」로 이어진다. <a class="link" href="#rules">③ 규칙을 검사로 보기</a></p>
+      </div>
+    </article>
+
+    <!-- ================= 사례 B ================= -->
+    <article class="s4-case" id="case-b" aria-labelledby="h-case-b">
+      <div class="s4-split s4-split--even">
+        <div class="s4-say">
+          <p class="s4-lab">사례 B · 문제</p>
+          <h3 class="s4-h" id="h-case-b">테스트로 못 잡는 결과</h3>
+          <p>조명 분위기처럼 「의도대로 보이는지」는 단위 테스트로 판단할 수 없다.</p>
+        </div>
+        <div class="s4-say">
+          <p class="s4-lab">사례 B · 한 일</p>
+          <p>화면을 실제로 눌러 보는 자동 테스트(E2E)에 AI 시각 평가를 붙였다. 기준에 못 미치면 다시 구현한다.</p>
+          <div class="s4-flow">
+            <ol>
+              <li>구현</li><li>자동 E2E</li><li>AI 시각 평가</li><li class="is-end">통과</li>
+            </ol>
+            <p class="s4-flow__back" data-who="block"><span>기준에 못 미치면 다시 구현</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="s4-check" data-check>
+        <div class="s4-check__head">
+          <div class="sub">
+            <h3 class="sub__title">화면 검증자가 일하는 모습</h3>
+            <p class="sub__say">같은 화면을 네 가지 폭으로 차례로 연다. 폭마다 훑어보고 PASS를 붙인다. 이 여정을 두 번 돈다.</p>
+          </div>
+          <p class="s4-tag"><b>예: PR #88</b><time datetime="2026-11-24">2026-11-24</time><span>화면 검증자가 일한 사례다. 이 방식을 만든 PR이 아니다.</span></p>
+        </div>
+
+        <div class="s4-vp frame frame--pins fl">
+          <div class="s4-rail">
+            <span class="key"><span class="key__i" data-who="agent">에이전트(화면 검증자)</span></span>
+            <span class="s4-rail__d">도식이다. 실제 dero 화면이 아니다.</span>
+          </div>
+          <div class="s4-vp__body">
+            <div class="s4-vp__stage">
+              <svg class="s4-vp__svg" data-vp role="img" aria-labelledby="s4-vp-alt"></svg>
+              <span class="s4-stamp" data-stamp aria-hidden="true">PASS</span>
+              <p class="s4-vp__alt" id="s4-vp-alt">화면 검증자는 같은 화면을 폭 390, 768, 1280, 1600으로 차례로 연다. 폭이 바뀌면 배치가 한 줄, 두 줄, 세 줄, 옆 메뉴가 붙은 배치로 달라진다. 폭마다 화면을 훑어 확인하고 PASS를 붙인다. 이 여정을 두 번 돈다.</p>
+            </div>
+            <div class="s4-vp__side">
+              <table class="s4-board" data-board>
+                <caption>폭 네 가지, 여정 2회</caption>
+                <thead>
+                  <tr><th scope="col"><span class="vh">회차</span></th>
+                    <th scope="col"><button type="button" data-w="0">390</button></th>
+                    <th scope="col"><button type="button" data-w="1">768</button></th>
+                    <th scope="col"><button type="button" data-w="2">1280</button></th>
+                    <th scope="col"><button type="button" data-w="3">1600</button></th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">1회차</th><td data-on="1">PASS</td><td data-on="1">PASS</td><td data-on="1">PASS</td><td data-on="1">PASS</td></tr>
+                  <tr><th scope="row">2회차</th><td data-on="1">PASS</td><td data-on="1">PASS</td><td data-on="1">PASS</td><td data-on="1">PASS</td></tr>
+                </tbody>
+              </table>
+              <p class="s4-vp__hint">폭 숫자를 누르면 그 폭의 배치를 본다.</p>
+            </div>
+          </div>
+          <div class="s4-deck s4-deck--vp">
+            <div class="s4-deck__ctl">
+              <button type="button" class="btn btn--main" data-play><span data-play-label>돌리기</span></button>
+            </div>
+            <div class="s4-deck__now">
+              <p class="s4-deck__meta"><span class="who" data-who="agent">에이전트</span><span data-phase>화면 검증자</span></p>
+              <p class="s4-deck__text" aria-live="polite" data-now>네 가지 폭에서 홈 여정을 2회 돌려 모두 PASS했다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="s4-after">
+          <div class="s4-after__say">
+            <p class="s4-lab">사례 B · 결과</p>
+            <p>이 방식이 ②의 화면 검증자가 됐다. <a class="link" href="#loop-machine">② 루프에서 화면 검증자 보기</a></p>
+            <p class="note">PR #88(2026-11-24)의 실제 내용은 쿠키 안내의 프레임 대기 타이머를 걷어 내는 변경이다. 화면 검증자가 그 변경을 폭 390·768·1280·1600에서 홈 여정을 2회 돌려 확인했고 PASS했다. 위 그림은 그 확인 순서를 도식으로 옮긴 것이다.</p>
+          </div>
+          <div class="s4-slot" role="img" aria-label="실제 dero 화면 캡처가 들어갈 빈자리">
+            <p class="s4-slot__lab">빈자리</p>
+            <p class="s4-slot__say">실제 dero 화면 캡처가 들어갈 자리다. 아직 비어 있다.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <aside class="insight" aria-label="인사이트 자리">
+      <p class="insight__lab">인사이트</p>
+      <p class="insight__empty">박동규가 직접 채울 자리다. 아직 비어 있다.<i class="insight__caret" aria-hidden="true"></i></p>
+    </aside>
+  </div>
+</section>

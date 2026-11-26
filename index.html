@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DERO 기여 ①②③④ · 박동규</title>
+<meta name="description" content="박동규가 DERO에서 한 일 네 가지. 의도 문서 절차, 에이전트 루프, 규칙을 검사로 옮긴 일, 자주 틀리던 곳을 장치로 막은 사례를 직접 움직여 본다.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5.3.0/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.3.0/index.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/s1.css">
+<link rel="stylesheet" href="css/s2.css">
+<link rel="stylesheet" href="css/s3.css">
+<link rel="stylesheet" href="css/s4.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip" href="#intent">본문으로</a>
+
+<header class="top">
+  <nav class="top__nav" aria-label="DERO 기여 네 가지">
+    <h1 class="top__brand">DERO 기여</h1>
+    <ol class="top__list">
+      <li><a class="top__item" href="#intent"><b>①</b><i>의도 문서 절차</i></a></li>
+      <li><a class="top__item" href="#loop"><b>②</b><i>에이전트 루프</i></a></li>
+      <li><a class="top__item" href="#rules"><b>③</b><i>규칙을 검사로</i></a></li>
+      <li><a class="top__item" href="#cases"><b>④</b><i>장치로 막기</i></a></li>
+    </ol>
+    <a class="top__refs" href="#refs">참고 자료</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="sec" id="intent" data-sec aria-labelledby="h-intent">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="sec__no"><b>①</b><span>2026.07 ~ 11</span></p>
+      <h2 class="sec__title" id="h-intent">의도 문서부터 쓰는 절차를 넉 달 운영했다. <br class="s1-br">문서 211개 중 <em>182개</em>가 방치돼 접었다.</h2>
+      <p class="sec__lead">의도 문서부터 쓰는 개발 절차를 직접 설계해 넉 달 운영했고, 문서 211개 중 182개가 방치된 것을 숫자로 확인하고 접었다.</p>
+    </header>
+
+    <!-- 문제 둘, 한 일 -->
+    <div class="s1-why">
+      <div>
+        <p class="s1-lab">문제 1</p>
+        <p class="s1-say">마케팅팀과 사용자의 요구를 개발팀에 다시 설명하는 일이 병목이었다.</p>
+      </div>
+      <div>
+        <p class="s1-lab">문제 2</p>
+        <p class="s1-say">기능을 왜 만들었는지 기록이 남지 않았다.</p>
+      </div>
+      <div>
+        <p class="s1-lab">한 일</p>
+        <p class="s1-say">Anthropic의 <a class="link" href="https://claude.com/ko/resources/articles/the-ai-native-sdlc-playbook" target="_blank" rel="noopener">AI Native SDLC Playbook</a>을 참고해 절차를 설계했다. 팀의 기본 개발 절차로 채택해 넉 달 운영했다.</p>
+      </div>
+    </div>
+
+    <!-- 대표 인터랙션: 절차 줄과 문서 211개 -->
+    <div class="s1-run" id="intent-field" data-field>
+      <div class="s1-run__head">
+        <div class="sub">
+          <h3 class="sub__title">넉 달 동안 쌓인 의도 문서 211개</h3>
+          <p class="sub__say">점 하나가 문서 하나다. 문서는 의도 단계에서 쓰이고, 일곱 단계를 지나야 끝난다.</p>
+        </div>
+        <p class="s1-cap">문서마다 쓴 날짜와 멈춘 단계는 기록에 없다. 쌓이는 과정은 연출이고, 끝 상태(2026-11-22)만 기록이다.</p>
+      </div>
+
+      <div class="s1-machine frame frame--pins fl">
+        <div class="s1-body">
+          <div class="s1-stage">
+            <svg class="s1-svg" data-stage role="img" aria-labelledby="s1-stage-alt" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="s1-text" id="s1-stage-alt">
+              <p>절차의 순서는 이렇다.</p>
+              <ol>
+                <li>의도(intent)</li>
+                <li>명세(spec)</li>
+                <li class="c-human">계획 · 사람 승인</li>
+                <li>구현·검증</li>
+                <li>리뷰</li>
+                <li>배포 확인</li>
+                <li>회고</li>
+              </ol>
+              <p>2026-07부터 넉 달 동안 의도 문서 211개가 쌓였다. 2026-11-22 기준 182개가 open으로 방치됐고, 25개가 shipped, 2개가 closed였다. 나머지 2개는 상태가 기록에 없다.</p>
+            </div>
+          </div>
+
+          <div class="s1-tally">
+            <div>
+              <p class="s1-lab">2026-11-22 기준</p>
+              <p class="s1-big"><b>182</b><span>/ 211</span></p>
+              <p class="s1-big__say">의도 문서 211개 중 182개가 <code>Status: open</code>으로 방치됐다.</p>
+            </div>
+            <div>
+              <ul class="s1-legend" aria-label="상태별로 보기">
+                <li><button type="button" data-iso="open" aria-pressed="false"><i></i><b>open</b><span>방치</span><em>182</em></button></li>
+                <li><button type="button" data-iso="shipped" aria-pressed="false"><i></i><b>shipped</b><span>배포됨</span><em>25</em></button></li>
+                <li><button type="button" data-iso="closed" aria-pressed="false"><i></i><b>closed</b><span>닫힘</span><em>2</em></button></li>
+                <li><button type="button" data-iso="etc" aria-pressed="false"><i></i><b>기타</b><span>상태가 기록에 없다</span><em>2</em></button></li>
+              </ul>
+              <p class="s1-src">출처: dero <code>intent/README.md</code></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="s1-deck">
+          <button type="button" class="btn btn--main" data-play><span data-play-label>돌리기</span></button>
+          <div class="s1-time">
+            <p class="s1-now"><b data-month>2026-07</b><span data-now aria-live="polite">절차를 팀 기본으로 채택했다. 의도 문서를 먼저 쓰고 일곱 단계를 밟는다.</span></p>
+            <input class="s1-range" type="range" min="0" max="1000" value="0" step="1" data-range aria-label="시간. 2026-07부터 2026-11-22까지">
+            <ol class="s1-ticks" aria-hidden="true">
+              <li style="--x:0">07</li>
+              <li style="--x:17.2">08</li>
+              <li style="--x:34.4">09</li>
+              <li style="--x:51.1">10</li>
+              <li style="--x:68.3">11</li>
+              <li style="--x:80" class="is-end">11-22</li>
+              <li style="--x:100" class="is-last">상태별</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 결과 -->
+    <div class="s1-results">
+      <div class="sub">
+        <p class="sub__lab">결과</p>
+        <h3 class="sub__title">2026-11-22에 숫자로 확인하고 폐지했다</h3>
+      </div>
+      <div class="s1-results__body">
+        <dl class="s1-figs">
+          <div class="rv" style="--i:0">
+            <dt>방치된 의도 문서</dt>
+            <dd class="s1-fig"><b>182</b><span>/ 211개</span></dd>
+            <dd class="s1-bar" aria-hidden="true"><i style="flex:182"></i><i style="flex:25"></i><i style="flex:2"></i><i style="flex:2"></i></dd>
+            <dd class="s1-src">2026-11-22 기준. <code>open</code> 182, <code>shipped</code> 25, <code>closed</code> 2. 나머지 2개는 상태가 기록에 없다.<br>출처: dero <code>intent/README.md</code></dd>
+          </div>
+          <div class="rv" style="--i:1">
+            <dt>CI 어디서도 돌지 않은 백엔드 테스트 클래스</dt>
+            <dd class="s1-fig"><b>433</b><span>개</span></dd>
+            <dd class="s1-src">출처: dero <code>intent/ops-trusted-agent-loops/research.md</code> 5절</dd>
+          </div>
+        </dl>
+        <div class="s1-end">
+          <ol class="log">
+            <li class="log__row rv" style="--i:2"><time datetime="2026-11-22">2026-11-22</time><b>PR #33</b><p>절차를 폐지했다. 폴더는 지우지 않고 쓰기만 막은 기록으로 남겼다.</p></li>
+          </ol>
+          <figure class="s1-quote rv" style="--i:3">
+            <figcaption class="s1-lab">당시 남긴 판단</figcaption>
+            <blockquote>「문서는 쓰는 비용만 들고 상태 관리가 안 됐다.」</blockquote>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <p class="s1-next"><a href="#loop"><span>같은 날 지금의 루프를 처음 돌렸다.</span><b>② 에이전트 루프</b><i aria-hidden="true"></i></a></p>
+
+    <aside class="insight" aria-label="인사이트 자리">
+      <p class="insight__lab">인사이트</p>
+      <p class="insight__empty">박동규가 직접 채울 자리다. 아직 비어 있다.<i class="insight__caret" aria-hidden="true"></i></p>
+    </aside>
+  </div>
+</section>
+
+<section class="sec" id="loop" data-sec aria-labelledby="h-loop">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="sec__no"><b>②</b><span>2026.11.22 ~</span></p>
+      <h2 class="sec__title" id="h-loop">접수부터 머지까지 <em class="c-agent">에이전트</em>가 맡는다. <br class="s2-br"><em class="c-human">사람</em>은 위험한 변경만 본다.</h2>
+      <p class="sec__lead">문서가 방치되고 사람이 매번 직접 확인해야 하던 개발 절차를 접고, 오류 접수부터 재현·수정·검증·머지까지 에이전트가 맡고 사람은 위험한 변경만 보는 루프를 만들었다.</p>
+    </header>
+
+    <!-- 문제 둘 -->
+    <div class="s2-why">
+      <article class="s2-prob">
+        <div class="s2-prob__say">
+          <p class="s2-lab">문제 1</p>
+          <h3>의도 문서 절차가 관리되지 않았다.</h3>
+          <p>문서는 쓰는 비용만 들고 상태 관리가 안 됐다. <a class="link" href="#intent">① 의도 문서 절차 보기</a></p>
+        </div>
+        <div class="s2-figs">
+          <dl>
+            <div>
+              <dt>방치된 의도 문서</dt>
+              <dd><b>182</b><span>/ 211개</span></dd>
+              <dd class="s2-bar" aria-hidden="true"><i style="flex:182"></i><i style="flex:29"></i></dd>
+            </div>
+            <div>
+              <dt>CI에서 돌지 않은 백엔드 테스트 클래스</dt>
+              <dd><b>433</b><span>개</span></dd>
+            </div>
+          </dl>
+          <p class="s2-src">2026-11-22 기준</p>
+        </div>
+      </article>
+
+      <article class="s2-prob" data-who="human">
+        <div class="s2-prob__say">
+          <p class="s2-lab">문제 2</p>
+          <h3>개발 일이 전부 사람 손을 거쳤다.</h3>
+          <p>개발 일을 매번 개발자가 책상에 앉아 직접 해야 했다. 시간이 많이 들었다. 에이전트가 쓴 코드를 사람이 일일이 확인하면 사람이 병목이 된다.</p>
+        </div>
+        <div class="s2-hands">
+          <ol aria-label="사람이 직접 하던 단계">
+            <li>접수</li><li>재현</li><li>수정</li><li>검증</li><li>머지</li>
+          </ol>
+          <p class="s2-src">단계마다 사람이 했다. 걸린 시간을 잰 숫자는 없다.</p>
+        </div>
+      </article>
+    </div>
+
+    <!-- 그래서 정한 원칙 -->
+    <div class="s2-rules">
+      <p class="s2-lab">그래서 정한 원칙 <span>2026-11-22에 지금의 루프를 적용했다.</span></p>
+      <ol>
+        <li><b>저장소 하나</b><span>2026-11-21에 저장소를 GitHub 하나로 옮겼다.</span></li>
+        <li><b>절차는 저장소 안의 스킬에</b><span>스킬은 에이전트가 읽고 따르는 절차 문서다. 예약 실행의 본문은 한 줄이고, 절차는 스킬에 있다.</span></li>
+        <li><b>단계 신호는 하나</b><span>단계와 단계 사이를 잇는 신호는 하나만 둔다.</span></li>
+        <li data-who="human"><b>사람은 위험한 변경만</b><span>마이그레이션, 인증, 인프라, 결제 변경은 사람이 검토한다.</span></li>
+      </ol>
+    </div>
+
+    <!-- 지금의 루프: 직접 돌리는 기계 -->
+    <div class="s2-run" id="loop-machine" data-machine>
+      <div class="s2-run__head">
+        <div class="sub">
+          <h3 class="sub__title">지금의 루프</h3>
+          <p class="sub__say">신호를 하나 골라 넣는다. 보고 하나가 접수부터 머지까지 간다.</p>
+        </div>
+        <div class="s2-pick" role="group" aria-label="넣을 신호">
+          <span class="s2-lab">넣을 신호</span>
+          <div class="seg seg--fill">
+            <button type="button" data-sc="sentry" aria-pressed="true"><i></i>Sentry 오류</button>
+            <button type="button" data-sc="slack" aria-pressed="false"><i></i>Slack 피드백</button>
+            <button type="button" data-sc="risk" data-who="human" aria-pressed="false"><i></i>위험한 변경</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="machine frame frame--pins fl">
+        <div class="machine__rail">
+          <span class="key"><span class="key__i" data-who="agent">에이전트</span><span class="key__i" data-who="human">사람</span><span class="key__i" data-who="block">막힘</span></span>
+          <span class="machine__demo">시연이다. 커밋은 A, B로 적었다. 실제 기록은 아래 「결과」에 있다.</span>
+        </div>
+
+        <div class="stage">
+          <div class="stage__in">
+            <svg class="stage__svg" data-stage role="img" aria-labelledby="s2-stage-alt" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="fx" data-fx aria-hidden="true"></div>
+          </div>
+          <div class="stage__text" id="s2-stage-alt">
+            <p>루프의 순서를 글로 적으면 이렇다.</p>
+            <ol>
+              <li><b>접수</b> Sentry 오류와 Slack #dero-feedback 피드백을 Grok Bot이 Linear 이슈로 등록한다.</li>
+              <li><b>판정·재현·수정(Cursor Automations)</b> 보고를 분류하고 실제 화면에서 재현한 뒤 고친다. 수정 전 재현 영상과 수정 뒤 정상 영상이 있어야 이슈가 닫힌다.</li>
+              <li><b>머지 관문</b> 코드를 쓰지 않은 검증자 3명(게이트, 화면, diff)이 따로 확인한다. PASS한 커밋이 PR 최신 커밋과 같을 때만 자동 머지한다. 검증자가 문제를 짚으면 머지하지 않고 다시 고친다.</li>
+              <li><b>사람 몫</b> 마이그레이션, 인증, 인프라, 결제 변경은 사람이 검토한다. 운영 반영도 사람이 지시한다.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="deck">
+          <div class="deck__ctl">
+            <button type="button" class="btn btn--main" data-play><span data-play-label>돌리기</span></button>
+            <button type="button" class="btn" data-step>한 단계</button>
+            <button type="button" class="btn" data-reset>처음부터</button>
+          </div>
+          <div class="deck__now" aria-live="polite">
+            <p class="deck__meta"><span class="who" data-who="agent" data-who-out>에이전트</span><span class="deck__phase" data-phase>대기</span><span class="deck__note" data-note hidden></span></p>
+            <p class="deck__text" data-now>스크립트가 켜지면 보고 하나가 칸을 차례로 지난다.</p>
+          </div>
+          <ol class="deck__ticks" data-ticks aria-label="단계"></ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 정해진 시간에 도는 일 -->
+    <div class="s2-sched">
+      <p class="s2-lab">정해진 시간에 도는 일 <span>신호가 없어도 돈다.</span></p>
+      <ol>
+        <li class="rv" style="--i:0"><span class="s2-sched__when">하루 2회</span><b>머지 뒤 전체 테스트</b></li>
+        <li class="rv" style="--i:1"><span class="s2-sched__when">매일</span><b>정원사</b><span>나쁜 패턴 후보를 정리한다.</span></li>
+        <li class="rv" style="--i:2"><span class="s2-sched__when">배포 직후</span><b>릴리스 퍼징</b></li>
+      </ol>
+    </div>
+
+    <!-- 결과: 날짜 기록 -->
+    <div class="s2-results" data-results>
+      <div class="sub">
+        <p class="sub__lab">결과</p>
+        <h3 class="sub__title">돌아간 기록</h3>
+      </div>
+      <div class="s2-results__body">
+        <div class="stat rv">
+          <p class="stat__n"><span data-roll="12666">12,666</span></p>
+          <p class="s2-stat__unit">개 테스트, 실패 0</p>
+          <div class="s2-split" aria-hidden="true"><i style="flex:8997"></i><i style="flex:3669"></i></div>
+          <p class="s2-split__lab"><span>프런트 8,997개</span><span>백엔드 3,669개</span></p>
+          <p class="stat__lab">머지 뒤 전체 검증이 처음으로 완전히 통과했다. 2026-11-23, develop <code>bea72284</code>.</p>
+        </div>
+        <ol class="log">
+          <li class="log__row rv" style="--i:0"><time datetime="2026-11-22">2026-11-22</time><b>보고 #22</b><p>이벤트 접수 임시저장 버그. 수정 전 2회 재현, 수정 뒤 2회 정상을 영상으로 남기고 닫혔다.</p></li>
+          <li class="log__row rv" style="--i:1"><time datetime="2026-11-23">2026-11-23</time><b><code>bea72284</code></b><p>머지 뒤 전체 검증 첫 완전 통과. 프런트 8,997개와 백엔드 3,669개, 합쳐 12,666개가 실패 0.</p></li>
+          <li class="log__row rv" style="--i:2"><time datetime="2026-11-24">2026-11-24</time><b>PR #85</b><p>diff 검증자가 문제를 짚었고, 고친 뒤 재검증에서 PASS해 머지됐다. <button type="button" class="link s2-js" data-run="slack">이 장면을 위에서 돌려 보기</button></p></li>
+          <li class="log__row rv" style="--i:3"><time datetime="2026-11-24">2026-11-24</time><b>PR #88</b><p>화면 검증자가 폭 390, 768, 1280, 1600 네 가지에서 홈 여정을 2회 돌려 PASS했다.</p></li>
+        </ol>
+      </div>
+    </div>
+
+    <aside class="insight" aria-label="인사이트 자리">
+      <p class="insight__lab">인사이트</p>
+      <p class="insight__empty">박동규가 직접 채울 자리다. 아직 비어 있다.<i class="insight__caret" aria-hidden="true"></i></p>
+    </aside>
+  </div>
+</section>
+
+<section class="sec" id="rules" data-sec aria-labelledby="h-rules">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="sec__no"><b>③</b><span>2026.10 ~ 11</span></p>
+      <h2 class="sec__title" id="h-rules">글로 <em class="c-human">부탁</em>하던 규칙을 <br class="s3-br"><em class="c-agent">검사와 구조</em>로 옮겼다.</h2>
+      <p class="sec__lead">글로 부탁하던 규칙을 CI 검사와 코드 구조로 옮겨 어기면 막히게 했고, 그만큼 규칙 문서를 지웠다(69줄 → 22줄).</p>
+    </header>
+
+    <!-- 문제와 원칙 -->
+    <div class="s3-why">
+      <article class="s3-card">
+        <div class="s3-card__say">
+          <p class="s3-lab">문제</p>
+          <h3>규칙 문서는 아무것도 막지 못한다.</h3>
+          <p>규칙을 글로 적어 두어도 같은 지적이 반복됐다. 낡은 문서를 코드에 맞춰 고치는 커밋도 쌓였다.</p>
+        </div>
+        <dl class="s3-fig">
+          <dt>낡은 문서를 코드에 맞춰 고친 커밋</dt>
+          <dd><b>87</b><span>건</span></dd>
+          <dd class="s3-src">2026-10-30 전까지</dd>
+        </dl>
+      </article>
+
+      <article class="s3-card">
+        <div class="s3-card__say">
+          <p class="s3-lab">그래서 정한 원칙</p>
+          <h3>같은 지적을 두 번 하게 되면, 문서에 한 줄을 더 쓰지 않는다. <em class="c-agent">코드 구조나 검사</em>로 옮긴다.</h3>
+          <p>두 번 이상 일어난 실수가 무엇인지는 커밋 기록에서 셌다.</p>
+        </div>
+        <dl class="s3-fig">
+          <dt>센 커밋</dt>
+          <dd><b>4,888</b><span>개</span></dd>
+          <dd class="s3-bar" aria-hidden="true"><i style="flex:1253"></i><i style="flex:3635"></i></dd>
+          <dd class="s3-src">그중 fix·revert 1,253개</dd>
+        </dl>
+      </article>
+    </div>
+
+    <!-- 대표 인터랙션: 규칙 한 줄을 옮긴다 -->
+    <div class="s3-run" id="rules-machine" data-machine>
+      <div class="s3-run__head">
+        <div class="sub">
+          <h3 class="sub__title">규칙 한 줄을 옮겨 본다</h3>
+          <p class="sub__say">반복된 실수를 하나 고른다. 그 규칙이 문서에서 나와, 어기면 막히는 곳에 가서 잠긴다.</p>
+        </div>
+        <p class="s3-lab s3-run__hint">반복된 실수 <span>오른쪽 숫자는 일어난 횟수다.</span></p>
+      </div>
+
+      <div class="s3-pick" role="group" aria-label="반복된 실수 유형">
+        <button type="button" data-pick="comment" aria-pressed="false"><i></i><span>새 주석이 CI에서야 걸림</span><b>11</b></button>
+        <button type="button" data-pick="gate" aria-pressed="false"><i></i><span>앱 테스트가 PR 게이트 밖</span><b>5</b></button>
+        <button type="button" data-pick="timer" aria-pressed="false"><i></i><span>「한 프레임 기다리기」 타이머 땜질</span><b>8</b></button>
+        <button type="button" data-pick="effect" aria-pressed="false"><i></i><span>useEffect가 만든 버그</span><b>2</b></button>
+        <button type="button" data-pick="po" data-who="human" aria-pressed="false"><i></i><span>PO가 싫어한 디자인 되돌리기</span><b>8+</b></button>
+      </div>
+
+      <div class="s3-m frame frame--pins fl">
+        <div class="s3-rail">
+          <span class="key"><span class="key__i" data-who="agent">기계가 막는다</span><span class="key__i" data-who="human">사람</span><span class="key__i" data-who="block">막힘</span></span>
+          <span class="s3-demo">시연이다. 줄의 문구와 자리, 한 번에 지워지는 줄 수는 실제 파일과 다르다. 기록된 값은 69줄과 22줄이다.</span>
+        </div>
+
+        <div class="s3-stage" data-stage>
+          <div class="s3-doc">
+            <div class="s3-doc__head">
+              <p class="s3-doc__name"><b>AGENTS.md</b><span>에이전트가 일할 때마다 읽는 규칙 문서</span></p>
+              <div class="s3-count" data-count data-at="start">
+                <p class="s3-count__n"><b data-count-n>69</b><span>줄</span></p>
+                <p class="s3-count__scale" aria-hidden="true"><span>69</span><i><u data-count-thumb></u></i><span>22</span></p>
+                <p class="s3-count__cap" data-count-cap>옮기기 전</p>
+              </div>
+            </div>
+            <ol class="s3-lines" data-lines aria-label="규칙 문서의 줄"></ol>
+          </div>
+
+          <div class="s3-slots">
+            <p class="s3-slots__lab">어기면 막히는 곳</p>
+            <div class="s3-slot" data-slot="comment">
+              <p class="s3-slot__name"><span>에이전트 편집 훅</span><em>어기면 막힘</em></p>
+              <p class="s3-slot__socket"><span data-pill>새 주석이 CI에서야 걸림</span></p>
+              <p class="s3-slot__how">같은 검사를 에이전트 편집 훅에서도 실행한다.</p>
+              <i class="s3-slot__ring"></i>
+            </div>
+            <div class="s3-slot" data-slot="gate">
+              <p class="s3-slot__name"><span>PR 게이트 · 테스트</span><em>어기면 막힘</em></p>
+              <p class="s3-slot__socket"><span data-pill>앱 테스트가 PR 게이트 밖</span></p>
+              <p class="s3-slot__how">바뀐 파일 관련 테스트와 경계 테스트를 PR 게이트에 넣는다.</p>
+              <i class="s3-slot__ring"></i>
+            </div>
+            <div class="s3-slot" data-slot="timer">
+              <p class="s3-slot__name"><span>lint</span><em>어기면 막힘</em></p>
+              <p class="s3-slot__socket"><span data-pill>「한 프레임 기다리기」 타이머 땜질</span></p>
+              <p class="s3-slot__how">새로 늘면 실패하는 lint를 둔다.</p>
+              <i class="s3-slot__ring"></i>
+            </div>
+            <div class="s3-slot" data-slot="effect">
+              <p class="s3-slot__name"><span>lint 규칙 · <code>exhaustive-deps</code></span><em>어기면 막힘</em></p>
+              <p class="s3-slot__socket"><span data-pill>useEffect가 만든 버그</span></p>
+              <p class="s3-slot__how"><code>exhaustive-deps</code>를 error로 둔다.</p>
+              <i class="s3-slot__ring"></i>
+            </div>
+          </div>
+
+          <svg class="s3-wires" data-wires aria-hidden="true"></svg>
+          <div class="s3-fx" data-fx aria-hidden="true"></div>
+        </div>
+
+        <div class="s3-deck">
+          <div class="s3-deck__ctl">
+            <button type="button" class="btn btn--main" data-all>전부 옮기기</button>
+            <button type="button" class="btn" data-reset>처음부터</button>
+          </div>
+          <div class="s3-deck__now" aria-live="polite">
+            <p class="s3-deck__meta"><span class="who" data-who="agent" data-who-out>기계가 막는다</span><span class="s3-deck__phase" data-phase>옮긴 규칙 0 / 4</span></p>
+            <p class="s3-deck__text" data-now>실수 유형을 하나 고르면 그 규칙이 문서에서 나와 막는 곳으로 간다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 반복 실수 유형 표. 스크립트가 꺼져 있으면 위 시연 대신 이 표가 남는다. -->
+    <div class="s3-types">
+      <div class="sub">
+        <p class="sub__lab">한 일</p>
+        <h3 class="sub__title">반복된 실수와 옮긴 곳</h3>
+        <p class="sub__say">「규칙과 강제 장치」 대응표를 만들었다. 강제 장치가 생긴 규칙은 문서에서 지운다.</p>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl s3-tbl">
+          <thead>
+            <tr><th scope="col">두 번 이상 일어난 실수</th><th scope="col" class="num">횟수</th><th scope="col">옮긴 곳</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>새 주석이 CI에서야 걸림</td><td class="num">11</td><td><span class="who" data-who="agent">기계</span>같은 검사를 에이전트 편집 훅에서도 실행</td></tr>
+            <tr><td>앱 테스트가 PR 게이트 밖이라 develop이 깨짐</td><td class="num">5</td><td><span class="who" data-who="agent">기계</span>PR 게이트에 바뀐 파일 관련 테스트와 경계 테스트</td></tr>
+            <tr><td>「한 프레임 기다리기」 타이머 땜질</td><td class="num">8</td><td><span class="who" data-who="agent">기계</span>새로 늘면 실패하는 lint</td></tr>
+            <tr><td>useEffect가 만든 버그</td><td class="num">2</td><td><span class="who" data-who="agent">기계</span><code>exhaustive-deps</code>를 error로</td></tr>
+            <tr class="s3-tbl__stay"><td>PO가 싫어한 디자인 되돌리기</td><td class="num">8+</td><td><span class="who" data-who="human">사람</span>옮기지 않음. 판단이라 기계로 못 막는다</td></tr>
+          </tbody>
+          <caption>커밋 4,888개(그중 fix·revert 1,253개)에서 셌다. 편집 훅은 에이전트가 파일을 고칠 때 도는 검사, PR 게이트는 머지 전에 통과해야 하는 검사 묶음, PO는 제품 책임자다.</caption>
+        </table>
+      </div>
+    </div>
+
+    <!-- 결과 -->
+    <div class="s3-results" data-results>
+      <div class="sub">
+        <p class="sub__lab">결과</p>
+        <h3 class="sub__title">지워진 것</h3>
+      </div>
+      <div class="s3-results__body">
+        <div class="stat s3-main rv">
+          <p class="stat__n"><span>69</span><i aria-hidden="true"></i><span class="vh">에서</span><span>22</span></p>
+          <p class="s3-main__unit">줄. 규칙 문서 <code>AGENTS.md</code></p>
+          <p class="stat__lab">PR #37, 2026-11-22에 머지된 때의 줄 수다. 그 뒤 커밋이 더해져 2026-11-26에 다시 세면 23줄이다.</p>
+        </div>
+
+        <div class="s3-side">
+          <div class="s3-block rv" style="--i:1">
+            <p class="s3-block__lab">주석 줄 수</p>
+            <ol class="s3-bars">
+              <li style="--v:1"><time datetime="2026-09">2026.09</time><span class="s3-bars__bar"><i></i></span><b>22,856</b></li>
+              <li style="--v:.1019"><time datetime="2026-10">2026.10</time><span class="s3-bars__bar"><i></i></span><b>2,330</b></li>
+              <li style="--v:.0493"><time datetime="2026-11-22">2026-11-22</time><span class="s3-bars__bar"><i></i></span><b>1,126</b></li>
+            </ol>
+            <p class="s3-block__say">2026-10-30에 새 주석을 막는 게이트를 넣었다.</p>
+          </div>
+
+          <div class="s3-block rv" style="--i:2">
+            <p class="s3-block__lab">낡은 문서를 코드에 맞춰 고치는 커밋</p>
+            <ol class="s3-bars">
+              <li style="--v:1"><time datetime="2026-10-30">2026-10-30 전</time><span class="s3-bars__bar"><i></i></span><b>87건</b></li>
+              <li style="--v:0"><time datetime="2026-11-11">2026-11-11 뒤</time><span class="s3-bars__bar"><i></i></span><b>0건</b></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 월별 수치와 주의 -->
+    <div class="s3-month">
+      <div class="sub">
+        <p class="sub__lab">월별 수치 · 팀 전체</p>
+        <h3 class="sub__title">PR이 늘어도 되돌림 비율이 낮게 유지됐다.</h3>
+      </div>
+      <div class="s3-month__body">
+        <div class="tbl-wrap rv">
+          <table class="tbl s3-mtbl">
+            <thead>
+              <tr><th scope="col">월</th><th scope="col" class="num">머지 PR</th><th scope="col" class="num">되돌림</th><th scope="col" class="num">운영 릴리스</th><th scope="col" class="num">검사 수</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>2026.07</td><td class="num"><span class="s3-pr" style="--v:.2">178</span></td><td class="num">0.22%</td><td class="num">–</td><td class="num">30</td></tr>
+              <tr><td>2026.10</td><td class="num"><span class="s3-pr" style="--v:1">892</span></td><td class="num">0.61%</td><td class="num">38회</td><td class="num">70</td></tr>
+              <tr><td>2026.11</td><td class="num"><span class="s3-pr" style="--v:.879">784</span></td><td class="num">0.2%</td><td class="num">62회<small>간격 중앙값 3.1시간</small></td><td class="num">88</td></tr>
+            </tbody>
+            <caption>세 줄 모두 2026-11-25에 쟀다. <code>scripts/ops/eng-metrics.py</code>.</caption>
+          </table>
+        </div>
+        <div class="s3-warn rv" style="--i:1" role="note">
+          <p class="s3-warn__lab">이 표를 읽을 때 주의</p>
+          <ul>
+            <li>루프는 2026-11-21에 시작했다. 이 표는 <b>루프의 효과가 아니다.</b></li>
+            <li>팀 전체 값이다. 11월 기여자에 봇이 섞였는지는 확인하지 않았다.</li>
+            <li>말할 수 있는 것은 제목 한 줄까지다.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <aside class="insight" aria-label="인사이트 자리">
+      <p class="insight__lab">인사이트</p>
+      <p class="insight__empty">박동규가 직접 채울 자리다. 아직 비어 있다.<i class="insight__caret" aria-hidden="true"></i></p>
+    </aside>
+  </div>
+</section>
+
+<section class="sec" id="cases" data-sec aria-labelledby="h-cases">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="sec__no"><b>④</b><span>사례 둘</span></p>
+      <h2 class="sec__title" id="h-cases"><em class="c-agent">에이전트</em>가 자주 틀리던 두 곳을 <br class="s4-br"><em class="c-human">사람의 주의</em>가 아니라 장치로 막았다.</h2>
+      <p class="sec__lead">에이전트가 반복해서 틀리던 지점 두 곳(불어나는 규칙, 테스트로 못 잡는 화면)을 사람의 주의가 아니라 장치로 막았다.</p>
+    </header>
+
+    <!-- 두 사례 한눈에 -->
+    <nav class="s4-idx" aria-label="사례 둘">
+      <a class="s4-idx__a" href="#case-a">
+        <p class="s4-lab">사례 A</p>
+        <h3>계속 불어나는 규칙</h3>
+        <dl>
+          <div><dt>틀리던 곳</dt><dd>함정을 만날 때마다 항상 읽는 규칙을 한 줄씩 더했다.</dd></div>
+          <div><dt>막은 장치</dt><dd>후보 목록과 승인, 토큰 수로 재는 상한.</dd></div>
+        </dl>
+      </a>
+      <a class="s4-idx__a" href="#case-b">
+        <p class="s4-lab">사례 B</p>
+        <h3>테스트로 못 잡는 결과</h3>
+        <dl>
+          <div><dt>틀리던 곳</dt><dd>의도대로 보이는지는 단위 테스트가 판단하지 못한다.</dd></div>
+          <div><dt>막은 장치</dt><dd>자동 E2E에 붙인 AI 시각 평가.</dd></div>
+        </dl>
+      </a>
+    </nav>
+
+    <!-- ================= 사례 A ================= -->
+    <article class="s4-case" id="case-a" aria-labelledby="h-case-a">
+      <div class="s4-split">
+        <div class="s4-say">
+          <p class="s4-lab">사례 A · 문제</p>
+          <h3 class="s4-h" id="h-case-a">계속 불어나는 규칙</h3>
+          <p>함정을 만날 때마다 항상 읽는 규칙을 더했다. 에이전트가 매번 읽는 지침이 비대해졌다.</p>
+          <p>문서 길이를 줄 수로 쟀더니 지표가 거꾸로 일했다. 상한은 「50~60줄」이었다. 2026-08-10에 지침 파일 25개를 재 보니, 한 파일은 70줄인데 17,597토큰(줄당 251토큰, 가장 긴 줄 4,725자)으로 통과했다. 줄 수 기준을 어긴 유일한 파일은 100줄짜리였는데, 줄당 40토큰으로 가장 건강한 축이었다.</p>
+          <p class="s4-say__dim">상한을 2,000토큰으로 바꾼 뒤에도 재는 명령이 없었다. 2026-08-13에 27개 중 9개가 상한을 넘어 있었다(최대 5,081토큰).</p>
+        </div>
+
+        <div class="s4-scales frame frame--pins fl" data-scales data-doc="heavy">
+          <div class="s4-rail">
+            <span class="s4-rail__t">같은 문서 두 개를 두 저울에 올린다</span>
+            <span class="s4-rail__d">2026-08-10 측정. 지침 파일 25개 중 두 개.</span>
+          </div>
+
+          <div class="s4-pair">
+            <figure class="s4-bal s4-bal--line">
+              <figcaption><b>줄 수 저울</b><span>줄이 몇 개인지 잰다</span></figcaption>
+              <svg viewBox="0 0 300 196" aria-hidden="true">
+                <path class="s4-bal__base" d="M150 44V176M108 176H192"/>
+                <g class="s4-bal__beam"><path d="M46 44H254"/><circle cx="46" cy="44" r="3"/><circle cx="254" cy="44" r="3"/></g>
+                <circle class="s4-bal__pivot" cx="150" cy="44" r="5"/>
+                <g class="s4-pan s4-pan--l">
+                  <path class="s4-pan__str" d="M46 44L18 150M46 44L74 150"/><path class="s4-pan__plate" d="M10 150H82"/>
+                  <g class="s4-g s4-g--heavy"><rect x="24" y="118" width="44" height="28"/><path d="M29 125H63M29 132H63M29 139H63"/></g>
+                  <g class="s4-g s4-g--light"><rect x="24" y="78" width="44" height="68"/><path d="M29 85H47M29 91H54M29 97H43M29 103H51M29 109H45M29 115H56M29 121H42M29 127H50M29 133H46M29 139H53"/></g>
+                </g>
+                <g class="s4-pan s4-pan--r">
+                  <path class="s4-pan__str" d="M254 44L226 150M254 44L282 150"/><path class="s4-pan__plate" d="M218 150H290"/>
+                  <g class="s4-g s4-g--heavy"><rect x="232" y="118" width="44" height="28"/><path d="M237 125H271M237 132H271M237 139H271"/></g>
+                  <g class="s4-g s4-g--light"><rect x="232" y="78" width="44" height="68"/><path d="M237 85H255M237 91H262M237 97H251M237 103H259M237 109H253M237 115H264M237 121H250M237 127H258M237 133H254M237 139H261"/></g>
+                </g>
+              </svg>
+              <p class="s4-bal__pans"><span><b data-for="heavy">70줄</b><b data-for="light">100줄</b><i>고른 문서</i></span><span><b data-for="heavy">100줄</b><b data-for="light">70줄</b><i>다른 문서</i></span></p>
+              <p class="s4-bal__out">
+                <span data-for="heavy">70줄 문서가 더 가볍다. <b class="s4-chip">줄 수 기준 통과</b></span>
+                <span data-for="light">100줄 문서가 더 무겁다. <b class="s4-chip" data-who="block">줄 수 기준을 어긴 유일한 파일</b></span>
+              </p>
+            </figure>
+
+            <figure class="s4-bal s4-bal--tok">
+              <figcaption><b>토큰 저울</b><span>에이전트가 읽는 양을 잰다</span></figcaption>
+              <svg viewBox="0 0 300 196" aria-hidden="true">
+                <path class="s4-bal__base" d="M150 44V176M108 176H192"/>
+                <g class="s4-bal__beam"><path d="M46 44H254"/><circle cx="46" cy="44" r="3"/><circle cx="254" cy="44" r="3"/></g>
+                <circle class="s4-bal__pivot" cx="150" cy="44" r="5"/>
+                <g class="s4-pan s4-pan--l">
+                  <path class="s4-pan__str" d="M46 44L18 150M46 44L74 150"/><path class="s4-pan__plate" d="M10 150H82"/>
+                  <g class="s4-g s4-g--heavy"><rect x="24" y="118" width="44" height="28"/><path d="M29 125H63M29 132H63M29 139H63"/></g>
+                  <g class="s4-g s4-g--light"><rect x="24" y="78" width="44" height="68"/><path d="M29 85H47M29 91H54M29 97H43M29 103H51M29 109H45M29 115H56M29 121H42M29 127H50M29 133H46M29 139H53"/></g>
+                </g>
+                <g class="s4-pan s4-pan--r">
+                  <path class="s4-pan__str" d="M254 44L226 150M254 44L282 150"/><path class="s4-pan__plate" d="M218 150H290"/>
+                  <g class="s4-g s4-g--heavy"><rect x="232" y="118" width="44" height="28"/><path d="M237 125H271M237 132H271M237 139H271"/></g>
+                  <g class="s4-g s4-g--light"><rect x="232" y="78" width="44" height="68"/><path d="M237 85H255M237 91H262M237 97H251M237 103H259M237 109H253M237 115H264M237 121H250M237 127H258M237 133H254M237 139H261"/></g>
+                </g>
+              </svg>
+              <p class="s4-bal__pans"><span><b data-for="heavy">17,597토큰<small>2026-08-10 측정</small></b><b data-for="light">약 4,000토큰<small>계산값</small></b><i>고른 문서</i></span><span><b data-for="heavy">약 4,000토큰<small>계산값</small></b><b data-for="light">17,597토큰<small>2026-08-10 측정</small></b><i>다른 문서</i></span></p>
+              <p class="s4-bal__out">
+                <span data-for="heavy">70줄 문서가 더 무겁다. 17,597토큰이다.</span>
+                <span data-for="light">100줄 문서가 더 가볍다. <em class="s4-calc">100줄 × 줄당 40토큰으로 계산한 값이다. 그래도 나중에 정한 2,000토큰 상한보다는 많다.</em></span>
+              </p>
+            </figure>
+          </div>
+
+          <div class="s4-deck">
+            <div class="s4-pick" role="group" aria-label="저울에 올려 볼 문서">
+              <span class="s4-lab">고를 문서</span>
+              <div class="seg seg--fill">
+                <button type="button" data-doc="heavy" aria-pressed="true"><i></i>70줄 문서<span class="s4-pick__sub">짧지만 무겁다</span></button>
+                <button type="button" data-doc="light" aria-pressed="false"><i></i>100줄 문서<span class="s4-pick__sub">길지만 가볍다</span></button>
+              </div>
+            </div>
+            <p class="s4-deck__end">줄 수 기준은 70줄(17,597토큰) 문서를 통과시켰고, 어긴 것은 100줄(약 4,000토큰, 계산값) 문서뿐이었다. 토큰으로 재면 무게가 반대다.</p>
+            <p class="vh" aria-live="polite" data-scales-live></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 한 일: 후보 목록과 승인 -->
+      <div class="s4-split s4-split--flip">
+        <div class="s4-say">
+          <p class="s4-lab">사례 A · 한 일</p>
+          <h3 class="s4-h">새 규칙은 후보 목록에 먼저 둔다</h3>
+          <ol class="s4-did">
+            <li><b>후보 목록과 승인</b><span>새 규칙은 에이전트가 자동으로 읽지 않는 후보 목록에 먼저 둔다. <em class="c-human">검토해 승인한 것만</em> 항상 읽는 규칙으로 올린다.</span></li>
+            <li><b>토큰 수로 잰다</b><span>문서 비용을 줄 수가 아니라 토큰 수로 잰다. 상한을 「50~60줄」에서 2,000토큰으로 바꿨다(GitLab MR !470, 2026-08).</span></li>
+            <li><b>있던 지침은 시험하고 감사한다</b><span>이미 있던 지침은 바꾸기 전에 시험했고, 낡은 곳을 찾아 고치거나 지웠다. 기록은 아래에 있다.</span></li>
+          </ol>
+        </div>
+
+        <div class="s4-gate frame fl" data-gate>
+          <div class="s4-rail">
+            <span class="key"><span class="key__i" data-who="agent">에이전트</span><span class="key__i" data-who="human">사람</span></span>
+            <span class="s4-rail__d">시연이다. 규칙 이름은 A, B, C로 적었다.</span>
+          </div>
+          <div class="s4-gate__body">
+            <section class="s4-col s4-col--cand" aria-labelledby="s4-cand-h">
+              <h4 id="s4-cand-h">후보 목록</h4>
+              <p class="s4-col__who">에이전트가 자동으로 읽지 않는다</p>
+              <ul data-cand>
+                <li data-rule="B"><span>규칙 B</span></li>
+                <li data-rule="C"><span>규칙 C</span></li>
+              </ul>
+            </section>
+            <p class="s4-gate__door" data-who="human"><span>사람이 검토해 <br>승인한 것만</span></p>
+            <section class="s4-col s4-col--live" aria-labelledby="s4-live-h">
+              <h4 id="s4-live-h">항상 읽는 규칙</h4>
+              <p class="s4-col__who"><span class="who" data-who="agent">에이전트가 매번 읽는다</span></p>
+              <ul data-live>
+                <li class="is-old"><span>있던 규칙</span></li>
+                <li class="is-old"><span>있던 규칙</span></li>
+                <li data-rule="A" data-who="human"><span>규칙 A</span><em>승인됨</em></li>
+              </ul>
+            </section>
+          </div>
+          <div class="s4-deck s4-deck--gate">
+            <div class="s4-deck__ctl">
+              <button type="button" class="btn btn--main" data-add>새 규칙 넣기</button>
+              <button type="button" class="btn" data-gate-reset>처음부터</button>
+            </div>
+            <p class="s4-deck__now" aria-live="polite" data-gate-now>새 규칙을 넣으면 후보 목록에 쌓인다. 승인해야 오른쪽으로 올라간다.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 근거 -->
+      <div class="s4-proof">
+        <div class="sub">
+          <p class="sub__lab">사례 A · 근거</p>
+          <h3 class="sub__title">있던 지침을 시험하고 감사한 기록</h3>
+        </div>
+        <div class="s4-proof__body">
+          <div class="s4-eval rv">
+            <p class="s4-eval__head"><time datetime="2026-11-23">2026-11-23</time><b>PR #48</b><span>스킬 eval</span></p>
+            <p class="s4-eval__say">스킬은 에이전트가 읽고 따르는 절차 문서다. 루프 스킬 5개를 다시 쓸 때, 가짜 GitHub 상태로 만든 시나리오 4개를 옛 판과 새 판으로 각각 돌렸다. 채점 기준 23개를 양쪽 모두 통과한 것을 확인하고 바꿨다.</p>
+            <dl class="s4-eval__n">
+              <div><dd>4</dd><dt>시나리오</dt></div>
+              <div><dd>23</dd><dt>채점 기준</dt></div>
+              <div><dd class="s4-eval__both"><i>옛 판</i><i>새 판</i></dd><dt>양쪽 모두 통과</dt></div>
+            </dl>
+          </div>
+          <div class="s4-proof__side">
+            <ol class="s4-scn" aria-label="시나리오 4개">
+              <li class="rv" style="--i:0">중복 보고에 이슈 속 지시문이 섞인 경우</li>
+              <li class="rv" style="--i:1">흔들리는 테스트</li>
+              <li class="rv" style="--i:2">승인 표시 두 개 중 하나가 위험한 변경인 경우</li>
+              <li class="rv" style="--i:3">이미 고친 버그</li>
+            </ol>
+            <ol class="log">
+              <li class="log__row rv"><time datetime="2026-11-22">2026-11-22</time><b>PR #35·#36</b><p>지침 감사. 스킬이 저장소에 없는 스킬·주소·파일을 가리키는 곳, 서로 부딪히는 규칙, 매 세션 읽히는 긴 설명을 찾아 고치거나 지웠다.</p></li>
+            </ol>
+          </div>
+        </div>
+        <p class="note">운영 구조는 2026-09 기록에 남아 있다. 비용이 얼마나 줄었는지, 검토를 몇 번 했는지는 수치가 없다. 이 흐름은 ③의 「강제 장치가 생기면 규칙을 지운다」로 이어진다. <a class="link" href="#rules">③ 규칙을 검사로 보기</a></p>
+      </div>
+    </article>
+
+    <!-- ================= 사례 B ================= -->
+    <article class="s4-case" id="case-b" aria-labelledby="h-case-b">
+      <div class="s4-split s4-split--even">
+        <div class="s4-say">
+          <p class="s4-lab">사례 B · 문제</p>
+          <h3 class="s4-h" id="h-case-b">테스트로 못 잡는 결과</h3>
+          <p>조명 분위기처럼 「의도대로 보이는지」는 단위 테스트로 판단할 수 없다.</p>
+        </div>
+        <div class="s4-say">
+          <p class="s4-lab">사례 B · 한 일</p>
+          <p>화면을 실제로 눌러 보는 자동 테스트(E2E)에 AI 시각 평가를 붙였다. 기준에 못 미치면 다시 구현한다.</p>
+          <div class="s4-flow">
+            <ol>
+              <li>구현</li><li>자동 E2E</li><li>AI 시각 평가</li><li class="is-end">통과</li>
+            </ol>
+            <p class="s4-flow__back" data-who="block"><span>기준에 못 미치면 다시 구현</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="s4-check" data-check>
+        <div class="s4-check__head">
+          <div class="sub">
+            <h3 class="sub__title">화면 검증자가 일하는 모습</h3>
+            <p class="sub__say">같은 화면을 네 가지 폭으로 차례로 연다. 폭마다 훑어보고 PASS를 붙인다. 이 여정을 두 번 돈다.</p>
+          </div>
+          <p class="s4-tag"><b>예: PR #88</b><time datetime="2026-11-24">2026-11-24</time><span>화면 검증자가 일한 사례다. 이 방식을 만든 PR이 아니다.</span></p>
+        </div>
+
+        <div class="s4-vp frame frame--pins fl">
+          <div class="s4-rail">
+            <span class="key"><span class="key__i" data-who="agent">에이전트(화면 검증자)</span></span>
+            <span class="s4-rail__d">도식이다. 실제 dero 화면이 아니다.</span>
+          </div>
+          <div class="s4-vp__body">
+            <div class="s4-vp__stage">
+              <svg class="s4-vp__svg" data-vp role="img" aria-labelledby="s4-vp-alt"></svg>
+              <span class="s4-stamp" data-stamp aria-hidden="true">PASS</span>
+              <p class="s4-vp__alt" id="s4-vp-alt">화면 검증자는 같은 화면을 폭 390, 768, 1280, 1600으로 차례로 연다. 폭이 바뀌면 배치가 한 줄, 두 줄, 세 줄, 옆 메뉴가 붙은 배치로 달라진다. 폭마다 화면을 훑어 확인하고 PASS를 붙인다. 이 여정을 두 번 돈다.</p>
+            </div>
+            <div class="s4-vp__side">
+              <table class="s4-board" data-board>
+                <caption>폭 네 가지, 여정 2회</caption>
+                <thead>
+                  <tr><th scope="col"><span class="vh">회차</span></th>
+                    <th scope="col"><button type="button" data-w="0">390</button></th>
+                    <th scope="col"><button type="button" data-w="1">768</button></th>
+                    <th scope="col"><button type="button" data-w="2">1280</button></th>
+                    <th scope="col"><button type="button" data-w="3">1600</button></th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">1회차</th><td data-on="1">PASS</td><td data-on="1">PASS</td><td data-on="1">PASS</td><td data-on="1">PASS</td></tr>
+                  <tr><th scope="row">2회차</th><td data-on="1">PASS</td><td data-on="1">PASS</td><td data-on="1">PASS</td><td data-on="1">PASS</td></tr>
+                </tbody>
+              </table>
+              <p class="s4-vp__hint">폭 숫자를 누르면 그 폭의 배치를 본다.</p>
+            </div>
+          </div>
+          <div class="s4-deck s4-deck--vp">
+            <div class="s4-deck__ctl">
+              <button type="button" class="btn btn--main" data-play><span data-play-label>돌리기</span></button>
+            </div>
+            <div class="s4-deck__now">
+              <p class="s4-deck__meta"><span class="who" data-who="agent">에이전트</span><span data-phase>화면 검증자</span></p>
+              <p class="s4-deck__text" aria-live="polite" data-now>네 가지 폭에서 홈 여정을 2회 돌려 모두 PASS했다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="s4-after">
+          <div class="s4-after__say">
+            <p class="s4-lab">사례 B · 결과</p>
+            <p>이 방식이 ②의 화면 검증자가 됐다. <a class="link" href="#loop-machine">② 루프에서 화면 검증자 보기</a></p>
+            <p class="note">PR #88(2026-11-24)의 실제 내용은 쿠키 안내의 프레임 대기 타이머를 걷어 내는 변경이다. 화면 검증자가 그 변경을 폭 390·768·1280·1600에서 홈 여정을 2회 돌려 확인했고 PASS했다. 위 그림은 그 확인 순서를 도식으로 옮긴 것이다.</p>
+          </div>
+          <div class="s4-slot" role="img" aria-label="실제 dero 화면 캡처가 들어갈 빈자리">
+            <p class="s4-slot__lab">빈자리</p>
+            <p class="s4-slot__say">실제 dero 화면 캡처가 들어갈 자리다. 아직 비어 있다.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <aside class="insight" aria-label="인사이트 자리">
+      <p class="insight__lab">인사이트</p>
+      <p class="insight__empty">박동규가 직접 채울 자리다. 아직 비어 있다.<i class="insight__caret" aria-hidden="true"></i></p>
+    </aside>
+  </div>
+</section>
+
+</main>
+
+<footer class="refs" id="refs" aria-labelledby="h-refs">
+  <div class="wrap refs__grid">
+    <div>
+      <h2 class="refs__title" id="h-refs">참고 자료</h2>
+      <p class="refs__say">이 페이지의 그림은 모두 코드로 새로 그렸다. 숫자는 dero 저장소 기록에서 가져왔고 날짜와 PR 번호를 함께 적었다.</p>
+    </div>
+    <ul class="refs__list">
+      <li><a href="https://claude.com/ko/resources/articles/the-ai-native-sdlc-playbook" target="_blank" rel="noopener">The AI Native SDLC Playbook</a><span>Anthropic. ①의 절차를 설계할 때 참고했다.</span></li>
+      <li><span class="refs__multi">Lauren Tan의 공개 자료: <a href="https://www.youtube.com/watch?v=O_zcc6Xl12g" target="_blank" rel="noopener"><i lang="en">All Code Is Slop (Except Mine)</i></a>, <a href="https://x.com/poteto/status/2069824386283319343" target="_blank" rel="noopener"><i lang="en">Loops You Can Trust</i></a>, <a href="https://github.com/cursor/plugins/tree/main/pstack/automations/benny" target="_blank" rel="noopener"><i lang="en">pstack</i></a></span><span>②의 루프를 만들 때 참고했다.</span></li>
+      <li><b>dero 저장소 기록</b><span>보고 #22, PR #33, #35, #36, #37, #48, #85, #88.</span></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="js/base.js"></script>
+<script src="js/s1.js"></script>
+<script src="js/s2.js"></script>
+<script src="js/s3.js"></script>
+<script src="js/s4.js"></script>
+</body>
+</html>

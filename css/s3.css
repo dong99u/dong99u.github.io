@@ -1,0 +1,227 @@
+/* s3.css · ③ 규칙을 검사로. 선택자는 모두 #rules 아래에 둔다. */
+
+#rules .s3-lab { font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .08em; color: var(--mute); }
+#rules .s3-lab span { margin-left: 10px; letter-spacing: 0; color: var(--dim); font-family: var(--font-sans); font-size: 12.5px; }
+#rules .s3-src { font: 400 var(--fs-xs)/1.4 var(--font-mono); color: var(--dim); }
+html:not(.js) #rules .s3-run { display: none; }
+
+/* ---------- 문제와 원칙 ---------- */
+#rules .s3-why { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+#rules .s3-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: start; padding: 15px 18px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(255, 255, 255, .012); }
+#rules .s3-card h3 { margin: 9px 0 5px; font-size: 17px; line-height: 1.38; font-weight: 600; letter-spacing: -.02em; text-wrap: pretty; }
+#rules .s3-card__say > p:last-child { font-size: 13.5px; line-height: 1.55; color: var(--mute); }
+#rules .s3-fig { display: grid; gap: 7px; justify-items: end; text-align: right; min-width: 132px; }
+#rules .s3-fig dt { font-size: 11.5px; line-height: 1.3; color: var(--mute); max-width: 15ch; }
+#rules .s3-fig dd b { font: 600 34px/1 var(--font-sans); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+#rules .s3-fig dd span { margin-left: 5px; font: 500 12px/1 var(--font-mono); color: var(--mute); }
+#rules .s3-bar { display: flex; gap: 2px; height: 4px; width: 132px; }
+#rules .s3-bar i:first-child { background: var(--text); }
+#rules .s3-bar i:last-child { background: var(--dim); }
+
+/* ---------- 시연 머리, 고르기 ---------- */
+#rules .s3-run { margin-top: 26px; scroll-margin-top: calc(var(--nav-h) + 10px); }
+#rules .s3-run__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 12px; }
+#rules .s3-run__head .sub { margin: 0; }
+#rules .s3-run__head .sub__title { font-size: 20px; }
+#rules .s3-run__head .sub__say { margin-top: 2px; font-size: 14px; }
+#rules .s3-run__hint { flex: none; padding-bottom: 4px; }
+
+#rules .s3-pick { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; margin-bottom: 12px; border: 1px solid var(--line-2); border-radius: var(--radius-sm); background: var(--line); overflow: hidden; }
+#rules .s3-pick button { --c: var(--agent); display: flex; align-items: center; gap: 9px; min-height: 50px; padding: 7px 12px; background: var(--panel); text-align: left; font-size: 13px; line-height: 1.3; font-weight: 500; color: var(--mute); transition: color var(--t-ui) var(--ease-out), background var(--t-ui) var(--ease-out), box-shadow var(--t-ui) var(--ease-out); }
+#rules .s3-pick button[data-who="human"] { --c: var(--human); }
+#rules .s3-pick button > i { flex: none; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--c); transition: background var(--t-ui), box-shadow var(--t-ui); }
+#rules .s3-pick button > span { flex: 1; min-width: 0; }
+#rules .s3-pick button > b { flex: none; font: 500 12px/1 var(--font-mono); color: var(--dim); transition: color var(--t-ui); }
+#rules .s3-pick button:hover { color: var(--text); }
+#rules .s3-pick button:active { background: var(--panel-2); }
+#rules .s3-pick button:focus-visible { outline-offset: -3px; }
+#rules .s3-pick button.is-done > i { background: var(--c); }
+#rules .s3-pick button.is-done > b { color: var(--c); }
+#rules .s3-pick button[aria-pressed="true"] { color: var(--text); background: var(--panel-2); box-shadow: inset 0 -2px 0 var(--c); }
+#rules .s3-pick button[aria-pressed="true"] > i { background: var(--c); box-shadow: 0 0 10px var(--c); }
+
+/* ---------- 기계 ---------- */
+#rules .s3-rail { display: flex; align-items: center; gap: 18px; min-height: 34px; padding: 0 16px; border-bottom: 1px solid var(--line); }
+#rules .s3-demo { margin-left: auto; font: 500 var(--fs-xs)/1.35 var(--font-mono); color: var(--mute); text-align: right; padding: 6px 0; }
+
+#rules .s3-stage { position: relative; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); column-gap: clamp(72px, 10vw, 148px); align-items: stretch; padding: 16px; }
+
+/* 문서 */
+#rules .s3-doc { position: relative; display: flex; flex-direction: column; border: 1px solid var(--line-2); border-radius: var(--radius-sm); background: var(--panel-2); }
+#rules .s3-doc__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 12px 14px 10px; border-bottom: 1px solid var(--line); }
+#rules .s3-doc__name { display: grid; gap: 5px; }
+#rules .s3-doc__name b { font: 600 13.5px/1 var(--font-mono); }
+#rules .s3-doc__name span { font-size: 12px; line-height: 1.35; color: var(--mute); }
+
+#rules .s3-count { flex: none; display: grid; justify-items: end; gap: 6px; }
+#rules .s3-count__n { display: flex; align-items: baseline; gap: 4px; }
+#rules .s3-count__n b { font: 600 44px/.9 var(--font-sans); letter-spacing: -.05em; font-variant-numeric: tabular-nums; transition: color var(--t-ui); }
+#rules .s3-count__n span { font-size: 14px; font-weight: 600; transition: opacity var(--t-ui); }
+#rules .s3-count__scale { display: flex; align-items: center; gap: 7px; width: 148px; font: 500 var(--fs-xs)/1 var(--font-mono); color: var(--mute); }
+#rules .s3-count__scale i { position: relative; flex: 1; height: 1px; background: var(--line-2); }
+#rules .s3-count__scale u { position: absolute; inset: 0; text-decoration: none; will-change: transform; }
+#rules .s3-count__scale u::before { content: ""; position: absolute; right: -4px; top: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--text); }
+#rules .s3-count__cap { font: 500 var(--fs-xs)/1 var(--font-mono); color: var(--mute); white-space: nowrap; transition: opacity var(--t-ui); }
+#rules .s3-count[data-at="mid"] .s3-count__n b { color: var(--mute); }
+#rules .s3-count[data-at="mid"] .s3-count__n span, #rules .s3-count[data-at="mid"] .s3-count__cap { opacity: 0; }
+#rules .s3-count[data-at="end"] .s3-count__cap { color: var(--text); }
+
+#rules .s3-lines { flex: 1; padding: 12px 14px 12px; }
+#rules .s3-ln { height: 2px; margin-bottom: 2px; width: calc(var(--w) * 100%); background: rgba(255, 255, 255, .4); border-radius: 1px; }
+#rules .s3-ln[data-gone="1"] { opacity: .12; }
+#rules .s3-rule { margin: 5px 0 7px; }
+#rules .s3-rule > button { --c: var(--agent); position: relative; display: flex; align-items: center; gap: 10px; width: 100%; height: 28px; padding: 0 9px; border: 1px solid var(--line-2); border-radius: 3px; background: rgba(255, 255, 255, .045); text-align: left; font-size: 13px; font-weight: 600; letter-spacing: -.01em; transition: border-color var(--t-ui), background var(--t-ui), color var(--t-ui); }
+#rules .s3-rule > button:hover { border-color: rgba(255, 255, 255, .42); }
+#rules .s3-rule > button:focus-visible { outline-offset: 1px; }
+#rules .s3-rule__txt { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#rules .s3-rule__tag { flex: none; font: 500 var(--fs-xs)/1 var(--font-mono); color: var(--c); opacity: 0; transition: opacity var(--t-ui); }
+#rules .s3-rule[data-state="lift"] > button { border-color: var(--c); }
+#rules .s3-rule[data-state="lift"] .s3-rule__txt { opacity: 0; }
+#rules .s3-rule[data-state="gone"] > button { border-style: dashed; border-color: var(--line-2); background: none; color: var(--dim); }
+#rules .s3-rule[data-state="gone"] .s3-rule__txt { text-decoration: line-through; text-decoration-color: rgba(255, 255, 255, .28); }
+#rules .s3-rule[data-state="gone"] .s3-rule__tag { opacity: 1; }
+#rules .s3-rule.is-sel[data-state="gone"] > button { border-color: color-mix(in srgb, var(--agent) 50%, transparent); }
+
+/* 옮기지 않는 줄: 사람 몫 */
+#rules .s3-rule--stay { padding: 5px; margin: 8px -6px 9px; border: 1px dashed color-mix(in srgb, var(--human) 42%, transparent); border-radius: 5px; background: color-mix(in srgb, var(--human) 4%, transparent); transition: border-color var(--t-move), background var(--t-move); }
+#rules .s3-rule--stay > button { --c: var(--human); }
+#rules .s3-rule--stay .s3-rule__tag { opacity: 1; }
+#rules .s3-rule__why { margin: 6px 4px 1px; font-size: 12.5px; line-height: 1.4; font-weight: 500; color: var(--human); opacity: .0; transition: opacity var(--t-move); }
+#rules .s3-rule--stay[data-state="stay"] { border-color: var(--human); border-style: solid; background: color-mix(in srgb, var(--human) 10%, transparent); }
+#rules .s3-rule--stay[data-state="stay"] > button { border-color: color-mix(in srgb, var(--human) 70%, transparent); background: color-mix(in srgb, var(--human) 12%, var(--panel-2)); }
+#rules .s3-rule--stay[data-state="stay"] .s3-rule__why { opacity: 1; }
+
+/* 막는 곳 */
+#rules .s3-slots { display: flex; flex-direction: column; gap: 9px; transition: opacity var(--t-move); }
+#rules .s3-slots.is-shut { opacity: .38; }
+#rules .s3-slots__lab { font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .06em; color: var(--mute); padding: 3px 0 2px; transition: color var(--t-move); }
+#rules .s3-slots.has-on .s3-slots__lab { color: var(--agent); }
+#rules .s3-slot { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 7px; padding: 11px 13px 11px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: rgba(255, 255, 255, .012); transition: border-color var(--t-move), background var(--t-move); }
+#rules .s3-slot__name { display: flex; align-items: center; justify-content: space-between; gap: 10px; font: 500 12px/1.2 var(--font-mono); letter-spacing: .02em; color: var(--mute); transition: color var(--t-move); }
+#rules .s3-slot__name code { font-size: 1em; }
+#rules .s3-slot__name em { flex: none; padding: 4px 6px; border: 1px solid color-mix(in srgb, var(--block) 55%, transparent); border-radius: 3px; font-size: 10.5px; line-height: 1; letter-spacing: 0; color: var(--block); opacity: 0; transform: translateY(3px); transition: opacity var(--t-move) var(--ease-out), transform var(--t-move) var(--ease-out); }
+#rules .s3-slot__socket { display: flex; align-items: center; height: 28px; padding: 0 9px; border: 1px dashed var(--line-2); border-radius: 3px; font-size: 13px; font-weight: 600; letter-spacing: -.01em; transition: border-color var(--t-ui), background var(--t-ui); }
+#rules .s3-slot__socket span { opacity: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#rules .s3-slot__how { font-size: 12.5px; line-height: 1.45; color: var(--dim); transition: color var(--t-move); }
+#rules .s3-slot__ring { position: absolute; inset: -1px; border: 1px solid var(--agent); border-radius: inherit; box-shadow: 0 0 26px -2px var(--agent), inset 0 0 18px -6px var(--agent); opacity: 0; pointer-events: none; }
+#rules .s3-slot[data-on="1"] { border-color: color-mix(in srgb, var(--agent) 46%, transparent); background: color-mix(in srgb, var(--agent) 4%, transparent); }
+#rules .s3-slot[data-on="1"] .s3-slot__name { color: var(--agent); }
+#rules .s3-slot[data-on="1"] .s3-slot__name em { opacity: 1; transform: none; }
+#rules .s3-slot[data-on="1"] .s3-slot__socket { border: 1px solid var(--agent); background: color-mix(in srgb, var(--agent) 13%, var(--panel-2)); }
+#rules .s3-slot[data-on="1"] .s3-slot__socket span { opacity: 1; }
+#rules .s3-slot[data-on="1"] .s3-slot__how { color: #cfd5da; }
+#rules .s3-slot.is-sel[data-on="1"] { border-color: var(--agent); }
+
+/* 위에 얹는 것: 선, 옮겨 가는 줄 */
+#rules .s3-wires { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 2; }
+#rules .s3-wire { fill: none; stroke: var(--agent); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: .42; transition: opacity var(--t-move); }
+#rules .s3-wire.is-live, #rules .s3-wire.is-sel { opacity: 1; }
+#rules .s3-wire__end { fill: var(--agent); }
+#rules .s3-fx { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+#rules .s3-chip { --c: var(--agent); position: absolute; left: 0; top: 0; display: flex; align-items: center; height: 28px; padding: 0 9px; border: 1px solid var(--c); border-radius: 3px; background: color-mix(in srgb, var(--c) 16%, var(--panel-2)); box-shadow: 0 0 24px -2px color-mix(in srgb, var(--c) 70%, transparent), 0 8px 22px -8px #000; font-size: 13px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; transform-origin: 0 50%; will-change: transform, opacity; }
+#rules .s3-chip[data-who="human"] { --c: var(--human); }
+
+/* 조작판 */
+#rules .s3-deck { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 24px; padding: 14px 16px; border-top: 1px solid var(--line); background: linear-gradient(180deg, rgba(255, 255, 255, .025), transparent); border-radius: 0 0 var(--radius) var(--radius); min-height: 88px; }
+#rules .s3-deck__ctl { display: flex; gap: 8px; }
+#rules .s3-deck .btn--main { min-width: 128px; }
+#rules .s3-deck__meta { display: flex; align-items: center; gap: 10px; font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .04em; margin-bottom: 7px; }
+#rules .s3-deck__phase { color: var(--mute); }
+#rules .s3-deck__text { font-size: 15.5px; line-height: 1.45; font-weight: 500; letter-spacing: -.015em; min-height: 2.9em; display: flex; align-items: center; text-wrap: pretty; }
+
+/* ---------- 유형 표 ---------- */
+#rules .s3-types { margin-top: var(--sp-8); }
+#rules .s3-tbl td:first-child { font-weight: 600; }
+#rules .s3-tbl .num { width: 1%; padding-left: 16px; padding-right: 32px; }
+#rules .s3-tbl .who { margin-right: 12px; min-width: 44px; }
+#rules .s3-tbl__stay td { background: color-mix(in srgb, var(--human) 5%, transparent); }
+#rules .s3-tbl__stay td:first-child { padding-left: 10px; box-shadow: inset 2px 0 0 var(--human); }
+#rules .s3-tbl__stay td:last-child { color: var(--human); }
+#rules .s3-tbl caption { max-width: 86ch; line-height: 1.6; }
+
+/* ---------- 결과 ---------- */
+#rules .s3-results { margin-top: var(--sp-8); }
+#rules .s3-results__body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 64px; margin-top: 28px; align-items: start; }
+#rules .s3-main .stat__n { display: flex; align-items: baseline; gap: .16em; }
+#rules .s3-main .stat__n span:first-child { color: var(--dim); }
+#rules .s3-main .stat__n i { position: relative; flex: none; align-self: center; width: .5em; height: .05em; margin: 0 .04em; background: var(--mute); }
+#rules .s3-main .stat__n i::after { content: ""; position: absolute; right: .01em; top: 50%; width: .16em; height: .16em; margin-top: -.08em; box-sizing: border-box; border-top: .05em solid var(--mute); border-right: .05em solid var(--mute); transform: rotate(45deg); }
+#rules .s3-main__unit { margin-top: 14px; font-size: var(--fs-lg); font-weight: 600; letter-spacing: -.01em; }
+#rules .s3-main .stat__lab { max-width: 42ch; font-size: 14px; }
+
+#rules .s3-side { display: grid; gap: 30px; }
+#rules .s3-block { border-top: 1px solid var(--line-2); padding-top: 14px; }
+#rules .s3-block__lab { font-size: 15px; font-weight: 600; letter-spacing: -.015em; margin-bottom: 12px; }
+#rules .s3-block__say { margin-top: 10px; font-size: 13.5px; color: var(--mute); }
+#rules .s3-bars { display: grid; gap: 9px; }
+#rules .s3-bars li { display: grid; grid-template-columns: 104px minmax(0, 1fr) 62px; align-items: center; gap: 14px; }
+#rules .s3-bars time { font: 500 12.5px/1 var(--font-mono); color: var(--mute); white-space: nowrap; }
+#rules .s3-bars b { font: 600 14px/1 var(--font-mono); text-align: right; font-variant-numeric: tabular-nums; }
+#rules .s3-bars__bar { position: relative; height: 12px; box-shadow: inset 1px 0 0 var(--line-2); }
+#rules .s3-bars__bar i { position: absolute; inset: 0; background: var(--text); transform-origin: left; transform: scaleX(var(--v)); }
+.js #rules .s3-block .s3-bars__bar i { transform: scaleX(0); transition: transform .9s var(--ease-out) .2s; }
+.js #rules .s3-block.in .s3-bars__bar i { transform: scaleX(var(--v)); }
+
+/* ---------- 월별 수치 ---------- */
+#rules .s3-month { margin-top: var(--sp-8); }
+#rules .s3-month__body { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 40px; margin-top: 24px; align-items: start; }
+#rules .s3-mtbl small { display: block; margin-top: 3px; font-size: 11.5px; color: var(--mute); }
+#rules .s3-pr { display: inline-flex; align-items: center; gap: 10px; }
+#rules .s3-pr::before { content: ""; width: calc(var(--v) * 84px); height: 6px; background: var(--mute); }
+#rules .s3-warn { padding: 16px 18px 17px; border: 1px solid var(--line-2); border-left: 2px solid var(--text); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; background: var(--panel-2); }
+#rules .s3-warn__lab { font: 600 var(--fs-xs)/1 var(--font-mono); letter-spacing: .08em; margin-bottom: 11px; }
+#rules .s3-warn ul { display: grid; gap: 8px; }
+#rules .s3-warn li { position: relative; padding-left: 14px; font-size: 14px; line-height: 1.55; color: #cfd5da; }
+#rules .s3-warn li::before { content: ""; position: absolute; left: 0; top: .72em; width: 6px; height: 1px; background: var(--mute); }
+#rules .s3-warn b { font-weight: 700; color: var(--text); }
+
+/* ---------- 좁은 화면 ---------- */
+@media (max-width: 1100px) {
+  #rules .s3-card { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  #rules .s3-fig { justify-items: start; text-align: left; }
+  #rules .s3-fig dt { max-width: none; }
+  #rules .s3-pick { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  #rules .s3-pick button { grid-column: span 2; }
+  #rules .s3-pick button:nth-child(n+4) { grid-column: span 3; }
+  #rules .s3-stage { column-gap: 56px; }
+}
+@media (max-width: 900px) {
+  #rules .s3-br { display: none; }
+  #rules .s3-why { grid-template-columns: minmax(0, 1fr); }
+  #rules .s3-run__head { flex-direction: column; align-items: stretch; gap: 12px; }
+  #rules .s3-results__body { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  #rules .s3-month__body { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+}
+@media (max-width: 760px) {
+  #rules .s3-lab span { display: block; margin: 7px 0 0; line-height: 1.4; }
+  #rules .s3-pick { grid-template-columns: minmax(0, 1fr); }
+  #rules .s3-pick button, #rules .s3-pick button:nth-child(n+4) { grid-column: auto; min-height: 42px; }
+  #rules .s3-rail { flex-wrap: wrap; gap: 4px 12px; padding: 10px 12px 4px; }
+  #rules .s3-demo { margin-left: 0; text-align: left; }
+  #rules .s3-stage { grid-template-columns: minmax(0, 1fr); row-gap: 14px; padding: 12px 12px 12px 22px; }
+  #rules .s3-doc__head { padding: 10px 12px 9px; }
+  #rules .s3-count__n b { font-size: 38px; }
+  #rules .s3-count__scale { width: 120px; }
+  #rules .s3-lines { padding: 10px 12px 8px; }
+  #rules .s3-ln { margin-bottom: 1px; }
+  #rules .s3-rule { margin: 4px 0 5px; }
+  #rules .s3-rule--stay { margin: 6px -6px 7px; }
+  #rules .s3-slots { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; }
+  #rules .s3-slot { padding: 9px 11px; gap: 6px; }
+  #rules .s3-deck { grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 12px; min-height: 0; }
+  #rules .s3-deck__now { order: -1; }
+  #rules .s3-deck__text { font-size: 14.5px; min-height: 4.35em; align-items: flex-start; }
+  #rules .s3-deck__ctl { display: grid; grid-template-columns: 1.3fr 1fr; }
+  #rules .s3-deck .btn--main { min-width: 0; }
+  #rules .s3-tbl { font-size: 13.5px; }
+  #rules .s3-tbl td { padding-right: 10px; }
+  #rules .s3-tbl .num { padding-left: 4px; padding-right: 14px; }
+  #rules .s3-tbl .who { display: flex; margin: 0 0 5px; }
+  #rules .s3-bars li { grid-template-columns: 92px minmax(0, 1fr) 54px; gap: 10px; }
+  #rules .s3-mtbl { font-size: 13px; }
+  #rules .s3-mtbl th, #rules .s3-mtbl td { padding-right: 10px; }
+  #rules .s3-pr::before { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js #rules .s3-block .s3-bars__bar i { transform: scaleX(var(--v)); }
+}
