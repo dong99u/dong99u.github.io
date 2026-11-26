@@ -1,46 +1,96 @@
-/* 문장이 길어 한 단계 작게 둔다. --s 연결 칸 한 변, --d 요청 점 지름. */
-.say { max-width: 27em; font-size: clamp(21px, 2.9vw, 40px); }
+/* ⑤ 연결 풀. 부품: .poolfig(연결 풀이 무엇인지), .pool(재현 장면).
+   기본 모습이 끝 상태다(.pool 은 동시 16개). 스크롤 단계는 js 가 data-step 과 인라인 opacity 로 바꾼다. */
 
-.pool { --s: clamp(26px, 2.5vw, 32px); --d: calc(var(--s) * .42); --gap: calc(var(--s) * .2); }
-.slot {
-  display: inline-grid; place-items: center; flex: none;
-  width: var(--s); height: var(--s); border-radius: 3px; background: rgba(255, 255, 255, .09);
+/* 날짜가 줄 끝에서 갈라지지 않게 */
+.nb { white-space: nowrap; }
+
+/* ---------- 연결 풀이 무엇인지 ---------- */
+.poolfig {
+  --s: clamp(26px, 3.2vw, 42px);
+  display: grid; grid-template-columns: auto minmax(40px, 1fr) auto minmax(40px, 1fr) auto; align-items: end;
+  column-gap: clamp(12px, 2vw, 28px); padding: clamp(36px, 8vh, 76px) clamp(18px, 4vw, 56px);
 }
-.req { display: block; flex: none; width: var(--d); height: var(--d); border-radius: 50%; background: var(--agent); }
-
-.pool__n { display: flex; align-items: baseline; gap: .6em; color: var(--mute); }
-.pool__n b {
-  font: 500 clamp(44px, 5.4vw, 72px)/1 var(--font-mono); letter-spacing: -.04em; color: var(--text);
-  min-width: 1.25em; text-align: right;
+.poolfig__col { display: grid; gap: 16px; justify-items: start; }
+.poolfig__lab { font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .06em; color: var(--mute); white-space: nowrap; }
+.poolfig__reqs, .poolfig__slots { display: flex; align-items: center; gap: calc(var(--s) * .2); height: var(--s); }
+.poolfig__reqs b, .poolfig__slots b { display: block; width: calc(var(--s) * .42); height: calc(var(--s) * .42); border-radius: 50%; background: var(--agent); }
+.poolfig__reqs { gap: calc(var(--s) * .32); }
+.poolfig__slots i { display: grid; place-items: center; width: var(--s); height: var(--s); border-radius: 3px; background: rgba(255, 255, 255, .09); }
+.poolfig__db {
+  display: grid; place-items: center; width: calc(var(--s) * 2.4); height: var(--s);
+  border: 1px solid var(--line-2); border-radius: var(--radius-sm); font: 600 var(--fs-md)/1 var(--font-mono); letter-spacing: .04em;
 }
-.pool__gloss { margin-top: 10px; font-size: 14px; color: var(--mute); }
-.pool__gloss .slot, .pool__gloss .req { display: inline-grid; vertical-align: middle; margin-right: 8px; }
-.pool__gloss .slot { width: 14px; height: 14px; border-radius: 2px; }
-.pool__gloss .req { display: inline-block; width: 9px; height: 9px; margin-left: 6px; }
+.poolfig__move { position: relative; display: grid; align-items: center; height: var(--s); }
+.poolfig__move i { display: block; height: 1px; background: var(--line-2); }
+.poolfig__move span { position: absolute; left: 0; right: 0; text-align: center; font: 500 var(--fs-xs)/1 var(--font-mono); color: var(--soft); white-space: nowrap; }
+.poolfig__move span:first-child { bottom: calc(50% + 9px); }
+.poolfig__move span:first-child::after { content: " →"; }
+.poolfig__move span:last-child { top: calc(50% + 9px); }
+.poolfig__move span:last-child::before { content: "← "; }
 
-.lane {
-  display: grid; grid-template-columns: 13.5em minmax(0, 1fr) 9.5em; column-gap: 24px; align-items: center;
-  margin-top: clamp(20px, 4.2vh, 40px);
+/* ---------- 재현 장면 ---------- */
+.pool { --s: clamp(24px, 2.3vw, 30px); --d: calc(var(--s) * .42); --gap: calc(var(--s) * .2); --pad: clamp(18px, 2.8vw, 36px); padding: clamp(18px, 3vh, 28px) var(--pad) 0; }
+.pool__slot { display: inline-grid; place-items: center; flex: none; width: var(--s); height: var(--s); border-radius: 3px; background: rgba(255, 255, 255, .09); }
+.pool__req { display: block; flex: none; width: var(--d); height: var(--d); border-radius: 50%; background: var(--agent); }
+
+.pool__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; }
+.pool__n { display: flex; align-items: baseline; gap: .6em; font-size: var(--fs-md); color: var(--mute); }
+.pool__n b { font: 500 clamp(44px, 5vw, 64px)/1 var(--font-mono); letter-spacing: -.04em; color: var(--text); min-width: 1.25em; text-align: right; }
+.pool__key { display: flex; gap: 20px; font-size: var(--fs-sm); color: var(--mute); white-space: nowrap; }
+.pool__key span { display: inline-flex; align-items: center; gap: 8px; }
+.pool__key .pool__slot { width: 14px; height: 14px; border-radius: 2px; }
+.pool__key .pool__req { width: 9px; height: 9px; }
+
+.pool__lane {
+  display: grid; grid-template-columns: 12.5em minmax(0, 1fr) 8.5em; column-gap: 24px; align-items: center;
+  margin-top: clamp(16px, 3.4vh, 30px);
 }
-.lane__name { font-weight: 600; }
-.lane__track { display: flex; align-items: center; gap: calc(var(--gap) * 3); min-width: 0; }
-.slots { flex: none; }
-.slots, .outside { display: flex; align-items: center; gap: var(--gap); }
-.outside { flex: 1; flex-wrap: wrap; min-width: 0; gap: calc(var(--gap) * 1.1); }
-.outside em { margin-left: 8px; font-style: normal; font-size: 14px; white-space: nowrap; color: var(--block); }
-.lane--hold .outside .req { background: var(--block); }
+.pool__name { font-size: var(--fs-md); font-weight: 600; }
+.pool__name em { color: var(--text); text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 5px; }
+.pool__track { display: flex; align-items: center; gap: calc(var(--gap) * 3); min-width: 0; }
+.pool__slots { flex: none; }
+.pool__slots, .pool__out { display: flex; align-items: center; gap: var(--gap); }
+.pool__out { flex: 1; flex-wrap: wrap; min-width: 0; min-height: var(--s); gap: calc(var(--gap) * 1.1); }
+.pool__out em { flex-basis: 100%; font-size: var(--fs-sm); line-height: 1.2; white-space: nowrap; color: var(--block); }
+.pool__lane--hold .pool__out .pool__req { background: var(--block); }
+.pool__res { display: grid; gap: 4px; font-size: var(--fs-sm); color: var(--mute); }
+.pool__res b { font: 600 clamp(24px, 2.8vw, 36px)/1.1 var(--font-sans); letter-spacing: -.02em; color: var(--text); white-space: nowrap; }
+.pool[data-step="2"] .pool__lane--hold .pool__res b { color: var(--block); }
 
-.lane__res { display: grid; gap: 4px; font-size: 14px; color: var(--mute); }
-.lane__res b { font: 600 clamp(26px, 3.1vw, 40px)/1.1 var(--font-sans); letter-spacing: -.02em; color: var(--text); white-space: nowrap; }
-.pool[data-step="2"] .lane--hold .lane__res b { color: var(--block); }
-
-.pool__fix { margin-top: clamp(20px, 4.2vh, 40px); font-size: 13px; color: var(--mute); }
+.pool__steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: clamp(18px, 3.4vh, 30px) calc(var(--pad) * -1) 0; border-top: 1px solid var(--line); }
+.pool__steps li { position: relative; padding: 14px 18px 16px; font-size: 15px; line-height: 1.45; color: var(--soft); transition: color var(--t-ui), background var(--t-ui); }
+.pool__steps li + li { border-left: 1px solid var(--line); }
+.pool__steps li::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--text); transform: scaleX(0); transform-origin: left; transition: transform var(--t-move) var(--ease-out); }
+.pool__steps b { display: block; margin-bottom: 4px; font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .06em; color: var(--text); }
+.pool__steps li.is-on { color: var(--text); background: rgba(255, 255, 255, .03); }
+.pool__steps li.is-on::before { transform: none; }
+.pool__steps li.is-off, .pool__steps li.is-off b { color: var(--dim); }
 
 @media (max-width: 1000px) {
-  .pool { --s: min(30px, (100vw - 2 * var(--gut)) / 12.2); }
-  .lane { grid-template-columns: minmax(0, 1fr); row-gap: 10px; }
-  .lane__track { flex-direction: column; align-items: start; gap: 10px; }
-  .outside { min-height: 20px; }
-  .lane__res { display: flex; align-items: baseline; gap: 10px; }
-  .lane__res b { font-size: 26px; }
+  .pool { --s: min(28px, (100vw - 2 * var(--gut) - 2 * var(--pad)) / 12); }
+  .pool__lane { grid-template-columns: minmax(0, 1fr) auto; row-gap: 8px; column-gap: 12px; align-items: baseline; }
+  .pool__track { grid-column: 1 / -1; grid-row: 2; flex-direction: column; align-items: start; gap: 8px; }
+  .pool__res { display: flex; align-items: baseline; gap: 8px; }
+  .pool__res b { font-size: 22px; }
+}
+@media (max-width: 760px) {
+  .poolfig { grid-template-columns: minmax(0, 1fr); row-gap: 14px; padding: 26px 18px; --s: min(26px, (100vw - 2 * var(--gut) - 36px) / 12); }
+  .poolfig__col { gap: 10px; }
+  .poolfig__move { height: auto; display: flex; gap: 14px; }
+  .poolfig__move i { width: 1px; height: 22px; margin-left: calc(var(--s) / 2); flex: none; }
+  .poolfig__move span { position: static; text-align: left; }
+  .poolfig__move span:first-child::after { content: " ↓"; }
+  .poolfig__move span:last-child::before { content: "↑ "; }
+
+  .pool { --pad: 14px; padding-top: 14px; }
+  .pool__key { display: none; }
+  .pool__n b { font-size: 40px; }
+  .pool__lane { margin-top: 14px; }
+  .pool__name, .pool__res { font-size: var(--fs-sm); }
+  .pool__out em { flex-basis: auto; margin-left: 6px; }
+  .pool__steps { grid-template-columns: minmax(0, 1fr); margin-top: 14px; }
+  .pool__steps li { display: flex; gap: 12px; align-items: baseline; padding: 8px 14px 9px; font-size: 14px; }
+  .pool__steps li + li { border-left: 0; border-top: 1px solid var(--line); }
+  .pool__steps b { margin: 0; flex: none; }
+  [data-pool-ch] .ch__cap { margin-top: 10px; font-size: 13.5px; line-height: 1.45; }
 }

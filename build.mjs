@@ -1,6 +1,8 @@
 // node build.mjs
 // registry.mjs 의 목록에서 메인(index.html), 프로젝트 페이지(<project>/index.html),
 // 글 페이지(<project>/<slug>/index.html)를 만든다. 이 세 가지 index.html 은 모두 생성물이다.
+// 글 페이지는 partial 이 장(<section class="ch …">)으로 쓰여 있으면 3판(css/base.css 머리말의 규칙),
+// 아니면 2판 틀로 나온다.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { owner, projects, entries } from './registry.mjs';
@@ -28,7 +30,7 @@ function page(file, { root, title, description, styles = [], scripts = [], body 
 }
 
 const entryList = (list, hrefOf) => `<ul class="list">\n${list.map((e) =>
-  `  <li><a href="${hrefOf(e)}"><span class="list__lab">${e.label}</span><span class="list__say">${e.sentence}</span></a></li>`).join('\n')}\n</ul>`;
+  `  <li><a href="${hrefOf(e)}"><span class="list__lab">${e.label}</span><span class="list__name">${e.name}</span><span class="list__say">${e.sentence}</span></a></li>`).join('\n')}\n</ul>`;
 
 // ①의 점은 intent-docs.json 에서 센다. ④의 문서 두 장은 줄 수만큼 줄을 그린다.
 function dataSlots() {
@@ -98,7 +100,7 @@ for (const p of projects) {
     title: `${owner.name} · ${p.name}`,
     description: p.line,
     body: [
-      fill(bar, { '{{left}}': `<a href="../">${owner.name}</a>`, '{{right}}': '' }),
+      fill(bar, { '{{left}}': `<a href="../">${owner.name}</a>`, '{{mid}}': '', '{{right}}': '' }),
       `<main class="home">`,
       `<h1 class="home__name">${p.name}</h1>`,
       `<p class="home__line">${p.line}</p>`,
@@ -109,21 +111,59 @@ for (const p of projects) {
 
   mine.forEach((e, i) => {
     const key = `${e.project}/${e.slug}`;
-    const [proof, after = ''] = fill(read(`partials/${key}.html`), slots).split('<!--@after-->');
+    const partial = fill(read(`partials/${key}.html`), slots);
     const prev = mine[i - 1];
     const next = mine[i + 1];
     const step = (to, text) => (to ? `<a href="../${to.slug}/" aria-label="${text}: ${to.name}">${text}</a>` : `<span aria-hidden="true">${text}</span>`);
+    const left = `<a href="../../">${owner.name}</a><a href="../">${p.name}</a>`;
+    const right = `${step(prev, '이전')}${step(next, '다음')}`;
+    const own = (dir, ext) => (existsSync(at(`${dir}/${key}.${ext}`)) ? [`${dir}/${key}.${ext}`] : []);
+    const lib = [`${GSAP}/gsap.min.js`, `${GSAP}/ScrollTrigger.min.js`];
+
+    // 3판: partial 이 장(<section class="ch …">)으로 쓰여 있으면 머리 장과 「다음 글」 장을 붙여 만든다.
+    if (/<section[^>]*class="ch[\s"]/.test(partial)) {
+      const [chapters, refs = ''] = partial.split('<!--@refs-->');
+      const last = next
+        ? `<a class="next frame fl" href="../${next.slug}/">\n<p class="next__lab"><b>${next.label}</b>${next.name}</p>\n<p class="next__say">${next.sentence}</p>\n<p class="next__go">다음 글 읽기</p>\n</a>`
+        : `<a class="next frame fl" href="../">\n<p class="next__lab"><b>${p.name}</b>목록</p>\n<p class="next__say">${p.line}</p>\n<p class="next__go">목록으로</p>\n</a>`;
+      made.push(page(`${key}/index.html`, {
+        root: '../../',
+        title: `${owner.name} · ${e.name}`,
+        description: e.sentence,
+        styles: own('css', 'css'),
+        scripts: [...lib, 'js/story.js', ...own('js', 'js')],
+        body: [
+          fill(bar, { '{{left}}': left, '{{mid}}': '<p class="bar__at" data-at aria-live="off"></p>', '{{right}}': right }),
+          `<ol class="prog" data-prog aria-label="장"></ol>`,
+          `<main class="story">`,
+          `<section class="ch ch--head" data-ch="머리">`,
+          `<p class="ch__label"><b>${e.label}</b>${e.name}</p>`,
+          `<h1 class="ch__say${e.sentence.length > 70 ? ' ch__say--long' : ''}">${e.sentence}</h1>`,
+          e.when ? `<p class="ch__when">${e.when}</p>` : '',
+          `<p class="ch__hint" aria-hidden="true">스크롤</p>`,
+          `</section>`,
+          chapters.trim(),
+          `<section class="ch ch--next" data-ch="다음 글">`,
+          `<h2 class="vh">다음 글</h2>`,
+          last,
+          refs.trim() ? `<div class="refs">\n${refs.trim()}\n</div>` : '',
+          `</section>`,
+          `</main>`,
+        ].filter(Boolean).join('\n'),
+      }));
+      return;
+    }
+
+    // 2판 틀. 아직 장으로 옮기지 않은 글. css/legacy.css 와 js/scene.js 로 예전 모습 그대로 나온다.
+    const [proof, after = ''] = partial.split('<!--@after-->');
     made.push(page(`${key}/index.html`, {
       root: '../../',
       title: `${owner.name} · ${e.name}`,
       description: e.sentence,
-      styles: existsSync(at(`css/${key}.css`)) ? [`css/${key}.css`] : [],
-      scripts: [`${GSAP}/gsap.min.js`, `${GSAP}/ScrollTrigger.min.js`, 'js/scene.js', ...(existsSync(at(`js/${key}.js`)) ? [`js/${key}.js`] : [])],
+      styles: ['css/legacy.css', ...own('css', 'css')],
+      scripts: [...lib, 'js/scene.js', ...own('js', 'js')],
       body: [
-        fill(bar, {
-          '{{left}}': `<a href="../../">${owner.name}</a><a href="../">${p.name}</a>`,
-          '{{right}}': `${step(prev, '이전')}${step(next, '다음')}`,
-        }),
+        fill(bar, { '{{left}}': left, '{{mid}}': '', '{{right}}': right }),
         `<main>`,
         `<section class="scene" data-scene style="--len:${e.scroll}">`,
         `<div class="scene__stage">`,

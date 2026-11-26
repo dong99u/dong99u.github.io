@@ -1,18 +1,34 @@
-/* --w 저울 폭, --p 문서 한 줄의 높이. 69줄 문서는 69 × --p, 99줄 문서는 99 × --p 만큼 높다. */
+/* ④ 줄 수와 토큰. 부품: .scale(저울), .queue(후보 목록), .widths(화면 폭 네 가지).
+   기본 모습이 끝 상태다: 저울은 토큰 단위, 후보 목록은 규칙 A 가 승인된 모습, 화면은 네 폭 모두 밟고 PASS. */
+
+/* ---------- 저울 ----------
+   --w 저울 폭, --p 문서 한 줄의 높이. 69줄 문서는 69 × --p, 99줄 문서는 99 × --p 만큼 높다. */
 .scale {
-  --w: min(860px, 100vw - 2 * var(--gut));
-  --p: calc(var(--w) * .0023);
+  --w: min(820px, 100vw - 2 * var(--gut) - 36px);
+  --p: min(calc(var(--w) * .0023), .29svh);
   --rise: calc(var(--w) * .075);
-  --foot: calc(var(--w) * .078);
-  width: var(--w);
+  --foot: calc(var(--p) * 30);
+  padding: 0 18px clamp(16px, 2.6vh, 26px);
 }
-.scale__rig { position: relative; height: calc(107 * var(--p) + var(--rise) + var(--foot)); }
+.scale__rail {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin: 0 -18px; padding: 10px 18px; border-bottom: 1px solid var(--line);
+}
+.scale__lab { font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .08em; color: var(--mute); }
+.scale .seg > button { height: 38px; }
+.scale .seg > button[data-u="lines"] { --c: var(--text); }
+html:not(.js) .scale .seg > button { pointer-events: none; }
+
+.scale__rig { position: relative; width: var(--w); max-width: 100%; margin: clamp(14px, 3vh, 30px) auto 0; height: calc(107 * var(--p) + var(--rise) + var(--foot)); }
 .beam {
   position: absolute; left: 7%; right: 7%; bottom: var(--foot); height: 3px;
-  background: var(--text); transform: rotate(-9deg); will-change: transform;
+  background: var(--text); transform: rotate(-9deg);
+  transition: transform var(--t-slow) var(--ease-in-out);
 }
-.sheet { position: absolute; bottom: 3px; background: var(--paper); color: var(--text); }
-.sheet svg { display: block; width: 100%; height: 100%; fill: currentColor; opacity: .7; }
+.scale[data-unit="lines"] .beam { transform: rotate(3deg); }
+.is-pin .beam { transition: none; will-change: transform; }
+.sheet { position: absolute; bottom: 3px; background: var(--panel-2); box-shadow: inset 0 0 0 1px var(--line-2); color: var(--text); }
+.sheet svg { display: block; width: 100%; height: 100%; max-width: none; fill: currentColor; opacity: .62; }
 .sheet--a { left: 0; width: calc(160 * var(--p)); height: calc(77 * var(--p)); }
 .sheet--b { right: 0; width: calc(40 * var(--p)); height: calc(107 * var(--p)); }
 .fulcrum {
@@ -20,13 +36,106 @@
   border: solid transparent; border-width: 0 calc(var(--foot) * .6) var(--foot); border-bottom-color: var(--dim);
 }
 
-.scale__row { display: flex; justify-content: space-between; align-items: start; margin-top: 18px; }
-.val { display: grid; font: 600 clamp(24px, 3.2vw, 42px)/1.15 var(--font-sans); letter-spacing: -.02em; }
-.val > span { grid-area: 1 / 1; }
-.val > [data-lines] { opacity: 0; }
-.val small { display: block; margin-top: 6px; font: 400 14px/1.3 var(--font-sans); letter-spacing: 0; color: var(--mute); }
+.scale__row { display: flex; justify-content: space-between; align-items: start; width: var(--w); max-width: 100%; margin: 14px auto 0; }
+.val { display: grid; font: 600 clamp(24px, 3.2vw, 42px)/1.15 var(--font-sans); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.val small { display: block; margin-top: 6px; font: 400 var(--fs-sm)/1.3 var(--font-sans); letter-spacing: 0; color: var(--mute); }
 .val--b { text-align: right; }
+.scale__say { display: grid; margin-top: clamp(12px, 2.2vh, 22px); padding-top: clamp(12px, 2vh, 18px); border-top: 1px solid var(--line); font-size: clamp(16px, 1.5vw, 20px); line-height: 1.5; color: var(--soft); text-align: center; }
+.scale [data-v] { grid-area: 1 / 1; transition: opacity var(--t-move) var(--ease-out); }
+.scale [data-v="lines"], .scale[data-unit="lines"] [data-v="tok"] { opacity: 0; }
+.scale[data-unit="lines"] [data-v="lines"] { opacity: 1; }
+.scale__say [data-v="tok"] { color: var(--text); }
 
-@media (max-width: 640px) {
-  .scale { --p: calc(var(--w) * .0029); }
+/* ---------- 후보 목록 ---------- */
+.queue__rail {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px 16px; flex-wrap: wrap;
+  padding: 10px 18px; border-bottom: 1px solid var(--line);
+}
+.queue__demo, .widths__demo { font: 500 var(--fs-xs)/1.4 var(--font-mono); color: var(--mute); }
+.queue__body { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; }
+.queue__col { padding: clamp(16px, 2.6vh, 26px) clamp(16px, 2.4vw, 28px); }
+.queue__col h3 { font: 600 clamp(18px, 1.8vw, 24px)/1.25 var(--font-sans); letter-spacing: -.02em; }
+.queue__who { margin-top: 6px; font: 500 var(--fs-xs)/1.4 var(--font-mono); color: var(--mute); }
+.queue__who[data-who] { color: var(--c); }
+.queue__col ul { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; margin-top: 16px; min-height: 96px; }
+.queue__col li {
+  display: inline-flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px;
+  border: 1px solid var(--line-2); border-radius: var(--radius-sm); background: var(--panel-2);
+  font-size: var(--fs-sm); font-weight: 500; white-space: nowrap;
+}
+.queue__col li.is-old { color: var(--mute); border-color: var(--line); background: none; }
+.queue__col li[data-who] { border-color: color-mix(in srgb, var(--c) 55%, transparent); }
+.queue__col li em { font: 500 var(--fs-xs)/1 var(--font-mono); color: var(--c); }
+.queue__col li button {
+  height: 28px; margin-right: -6px; padding: 0 9px; border-radius: 3px;
+  font: 600 var(--fs-xs)/1 var(--font-sans); color: var(--ink); background: var(--human);
+  transition: transform var(--t-fast);
+}
+.queue__col li button:active { transform: translateY(1px); }
+.queue__col li.is-new { animation: queue-in var(--t-move) var(--ease-out); }
+@keyframes queue-in { from { opacity: 0; transform: translateY(8px); } }
+.queue__door {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  width: clamp(104px, 12vw, 150px); padding: 12px; border: solid var(--line); border-width: 0 1px;
+  font: 500 var(--fs-sm)/1.45 var(--font-sans); color: var(--c);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--c) 9%, transparent), transparent);
+}
+.queue__ctl { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 14px 18px; border-top: 1px solid var(--line); }
+.queue__now { flex: 1 1 16em; min-width: 0; margin-left: 6px; font-size: 15px; line-height: 1.45; color: var(--soft); }
+html:not(.js) .queue__ctl { display: none; }
+
+/* ---------- 화면 폭 네 가지 ---------- */
+.widths { --gap: clamp(8px, 1.6vw, 22px); }
+.widths__rail {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px 16px; flex-wrap: wrap;
+  padding: 10px 18px; border-bottom: 1px solid var(--line);
+}
+.widths__row {
+  display: flex; align-items: flex-end; justify-content: center; gap: var(--gap);
+  width: min(100%, 88svh); margin: 0 auto; padding: clamp(16px, 3vh, 30px) 18px 0;
+}
+.widths__row li { flex: 0 1 auto; width: calc((100% - 3 * var(--gap)) * var(--w) / 4038); display: grid; gap: 8px; justify-items: center; transition: opacity var(--t-ui); }
+.widths__row b { font: 500 var(--fs-xs)/1 var(--font-mono); letter-spacing: .04em; color: var(--mute); }
+.widths__scr {
+  position: relative; overflow: hidden; width: 100%; aspect-ratio: var(--ar);
+  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); grid-template-rows: 5% 34%; grid-auto-rows: 1fr;
+  gap: 4%; padding: 5%;
+  border: 1px solid color-mix(in srgb, var(--agent) 60%, transparent); border-radius: 3px; background: var(--panel-2);
+}
+.widths__scr i { background: rgba(255, 255, 255, .16); border-radius: 1px; }
+.widths__scr i:nth-child(1), .widths__scr i:nth-child(2) { grid-column: 1 / -1; }
+.widths__scr i:nth-child(2) { background: rgba(255, 255, 255, .28); }
+.widths__scr::after {
+  content: ""; position: absolute; inset: 0; opacity: 0; transform: translateY(-100%);
+  background: linear-gradient(transparent 60%, color-mix(in srgb, var(--agent) 22%, transparent) calc(100% - 2px), var(--agent) calc(100% - 2px));
+}
+.widths__foot { display: flex; align-items: center; gap: 12px 22px; flex-wrap: wrap; margin-top: clamp(14px, 2.6vh, 24px); padding: 12px 18px; border-top: 1px solid var(--line); }
+.widths__runs { display: flex; gap: 8px; }
+.widths__runs li { height: 32px; padding: 0 12px; display: flex; align-items: center; border: 1px solid var(--line-2); border-radius: 16px; font: 500 var(--fs-xs)/1 var(--font-mono); color: var(--soft); transition: opacity var(--t-ui), border-color var(--t-ui); }
+.widths__pass { display: flex; align-items: baseline; gap: 12px; margin-left: auto; transition: opacity var(--t-ui); }
+.widths__pass b { font: 600 clamp(20px, 2.2vw, 30px)/1 var(--font-mono); letter-spacing: -.01em; color: var(--agent); }
+.widths__pass span { font: 500 var(--fs-xs)/1.3 var(--font-mono); color: var(--mute); }
+html:not(.motion) .widths [data-replay] { display: none; }
+
+/* 도는 동안: 지금 밟는 폭만 밝다. 끝나면 class 가 빠지고 기본 모습으로 돌아온다. */
+.widths.is-run .widths__row li:not(.is-at) { opacity: .32; }
+.widths.is-run .widths__row li.is-at .widths__scr::after { animation: widths-scan .62s linear both; }
+.widths.is-run .widths__runs li:not(.is-on) { opacity: .35; }
+.widths.is-run .widths__runs li.is-on { border-color: var(--agent); }
+.widths.is-run .widths__pass { opacity: .18; }
+@keyframes widths-scan { 0% { opacity: 1; transform: translateY(-100%); } 90% { opacity: 1; transform: none; } 100% { opacity: 0; transform: none; } }
+
+@media (max-width: 760px) {
+  .scale { --w: calc(100vw - 2 * var(--gut) - 28px); --p: min(calc(var(--w) * .0029), .26svh); padding: 0 14px 14px; }
+  .scale__rail { margin: 0 -14px; padding: 8px 14px; }
+  .queue__rail, .widths__rail { padding: 10px 14px; }
+  .queue__body { grid-template-columns: minmax(0, 1fr); }
+  .queue__col { padding: 14px; }
+  .queue__col ul { margin-top: 10px; min-height: 40px; }
+  .queue__door { width: auto; padding: 9px 14px; border-width: 1px 0; background: linear-gradient(transparent, color-mix(in srgb, var(--c) 9%, transparent), transparent); }
+  .queue__ctl { padding: 12px 14px; }
+  .queue__now { margin-left: 0; flex-basis: 100%; }
+  .widths__row { padding-left: 14px; padding-right: 14px; }
+  .widths__foot { padding: 12px 14px; }
+  .widths__pass { margin-left: 0; }
 }

@@ -1,0 +1,26 @@
+/* 2판 틀(문장 하나 + 붙잡힌 장면 하나). 아직 3판으로 옮기지 않은 글에만 build.mjs 가 싣는다.
+   partial 에 <section class="ch 가 생기면 그 글에는 실리지 않는다. 여섯 글이 모두 옮겨 가면 이 파일과 js/scene.js 를 지운다. */
+
+:root { --paper: #10141a; --line: rgba(255, 255, 255, .14); --wrap: 1320px; }
+
+.say {
+  max-width: 22em;
+  font: 650 clamp(25px, 3.5vw, 50px)/1.27 var(--font-sans);
+  letter-spacing: -.028em; text-wrap: balance;
+}
+.scene__stage {
+  position: relative; min-height: 100svh; max-width: var(--wrap); margin: 0 auto;
+  display: grid; grid-template-rows: auto minmax(0, 1fr); gap: clamp(14px, 3.5vh, 36px);
+  padding: calc(var(--bar-h) + clamp(10px, 3vh, 32px)) var(--gut) clamp(40px, 6vh, 52px);
+}
+.proof { align-self: center; min-width: 0; }
+.scene__hint { display: none; }
+.is-scrub .scene { height: calc((var(--len) + 1) * 100svh); }
+.is-scrub .scene__stage { position: sticky; top: 0; height: 100svh; }
+.is-scrub .scene__hint { display: block; position: absolute; left: var(--gut); bottom: 14px; font-size: 13px; color: var(--mute); }
+
+.after { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gut) 40px; font-size: 14px; color: var(--mute); }
+.ev summary { width: fit-content; padding: 6px 0; cursor: pointer; color: var(--text); }
+.ev p { max-width: 78ch; margin-top: 8px; }
+.ev b { font-weight: 600; color: var(--text); margin-right: .5em; }
+.ref { max-width: 78ch; margin-top: 14px; }

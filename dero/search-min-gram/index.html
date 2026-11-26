@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>박동규 · 검색 설정 한 줄</title>
+<script>document.documentElement.classList.add("js")</script>
 <meta name="description" content="없는 제품 이름을 쳐도 결과가 나오던 검색을, 색인 설정의 숫자 하나를 1에서 2로 바꿔 0건이 나오게 고쳤다. 오타 검색은 그대로 된다.">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -15,56 +16,129 @@
 <body>
 <nav class="bar" aria-label="위치">
   <p class="bar__left"><a href="../../">박동규</a><a href="../">DERO</a></p>
+  <p class="bar__at" data-at aria-live="off"></p>
   <p class="bar__right"><a href="../connection-pool/" aria-label="이전: 연결 풀">이전</a><span aria-hidden="true">다음</span></p>
 </nav>
-<main>
-<section class="scene" data-scene style="--len:2">
-<div class="scene__stage">
-<h1 class="say">없는 제품 이름을 쳐도 결과가 나오던 검색을, 색인 설정의 숫자 하나를 1에서 2로 바꿔 0건이 나오게 고쳤다. 오타 검색은 그대로 된다.</h1>
-<div class="proof">
-<div class="gram" data-gram data-min="2">
-  <p class="gram__dial"><code>min_gram</code><span class="swap"><b data-v1>1</b><b data-v2>2</b></span><small>제품 이름을 앞에서부터 잘라 저장해 둘 때(색인), 가장 짧은 조각의 글자 수</small></p>
+<ol class="prog" data-prog aria-label="장"></ol>
+<main class="story">
+<section class="ch ch--head" data-ch="머리">
+<p class="ch__label"><b>DERO ⑥</b>검색 설정 한 줄</p>
+<h1 class="ch__say ch__say--long">없는 제품 이름을 쳐도 결과가 나오던 검색을, 색인 설정의 숫자 하나를 1에서 2로 바꿔 0건이 나오게 고쳤다. 오타 검색은 그대로 된다.</h1>
+<p class="ch__when">2026-08-07 수정 · 2026-11-26 로컬 재현</p>
+<p class="ch__hint" aria-hidden="true">스크롤</p>
+</section>
+<section class="ch" data-ch="목적">
+  <h2 class="ch__title">제품 검색은 이름을 정확히 몰라도 찾아 줘야 했다.</h2>
+  <p class="ch__text">오타 <code>모니타</code>로도, 앞 두 글자 <code>모니</code>만으로도 「모니터 암」이 나온다. 조건은 둘이고 하나만 맞으면 결과에 나온다. 이름과 비슷한가(오타 허용), 저장해 둔 이름 조각과 같은가.</p>
+</section>
 
-  <div class="case">
-    <div class="case__body" data-match>
-      <svg class="case__link" aria-hidden="true"><line data-link/></svg>
-      <p class="case__lab">없는 이름 <code>존재하지않는제품명asdf</code>로 검색하면 이렇게 쪼개진다</p>
-      <p class="toks"><span>존재</span><span data-q>하</span><span>지</span><span>않</span><span>는</span><span>제</span><span>품명</span><span>asdf</span></p>
-      <p class="toks toks--stored"><span class="toks__grp"><span data-s data-one>하</span><span>하이</span><span>하이엔</span><span>하이엔드</span></span><span class="toks__grp"><span data-one>풋</span><span>풋레</span><span>풋레스</span><span>풋레스트</span></span></p>
-      <p class="case__lab">제품 「하이엔드 풋레스트」의 저장된 조각. 하나라도 같으면 결과에 나온다</p>
+<section class="ch ch--fig" data-ch="조각">
+  <h2 class="ch__title">제품 이름은 앞에서부터 잘라 조각으로 저장해 둔다.</h2>
+  <figure class="ch__fig">
+    <div class="cut frame" data-cut>
+      <div class="cut__word">
+        <p class="cut__name">하이엔드</p>
+        <ol class="cut__pieces"><li>하</li><li>하이</li><li>하이엔</li><li>하이엔드</li></ol>
+      </div>
+      <div class="cut__word">
+        <p class="cut__name">풋레스트</p>
+        <ol class="cut__pieces"><li>풋</li><li>풋레</li><li>풋레스</li><li>풋레스트</li></ol>
+      </div>
     </div>
-    <p class="case__res"><span>결과</span><span class="swap"><b data-r1>1건</b><b data-r0>0건</b></span></p>
-  </div>
+    <figcaption class="ch__cap">「하이엔드 풋레스트」는 처음 설정에서 조각 8개로 저장됐다. 검색어가 이 중 하나와 같으면 이 제품이 결과에 나온다.</figcaption>
+  </figure>
+</section>
 
-  <div class="case case--typo">
-    <div class="case__body">
-      <p class="case__lab">오타 <code>모니타</code>로 검색해 나오는 제품</p>
-      <p class="toks"><span>모니터 암</span><span>듀얼 모니터 받침대</span></p>
+<section class="ch" data-ch="증상">
+  <h2 class="ch__title">없는 제품 이름을 쳐도 결과가 나왔다.</h2>
+  <div class="num" data-who="block">
+    <p class="num__n"><b>1</b><span>건</span></p>
+    <p class="num__say"><code>존재하지않는제품명asdf</code>로 검색하면 「하이엔드 풋레스트」가 나왔다. 제품 4개를 넣고 2026-11-26에 로컬에서 재현한 값이다.</p>
+  </div>
+</section>
+
+<section class="ch" data-ch="원인">
+  <h2 class="ch__title">가장 짧은 조각이 한 글자였다.</h2>
+  <p class="ch__text">검색어도 조각으로 나뉜다. <code>존재하지않는제품명asdf</code>는 여덟 조각이 되고 그중 다섯이 한 글자다. 그 한 글자 <code>하</code>가 「하이엔드 풋레스트」의 한 글자 조각 <code>하</code>와 같아서 결과에 나왔다.</p>
+</section>
+
+<section class="ch ch--fig gram-ch" data-ch="동작" data-gram-ch>
+  <h2 class="ch__title">가장 짧은 조각을 두 글자로 올리면 맞는 조각이 없어진다.</h2>
+  <figure class="ch__fig">
+    <div class="gram frame frame--pins" data-gram data-min="2">
+      <p class="gram__dial"><code>min_gram</code><span class="gram__val"><b data-v1>1</b><i aria-hidden="true">→</i><b data-v2>2</b></span><small>이름을 잘라 저장할 때 가장 짧은 조각의 글자 수</small></p>
+      <div class="gram__case">
+        <div class="gram__match" data-match>
+          <svg class="gram__link" aria-hidden="true"><line data-link/></svg>
+          <p class="gram__lab">없는 이름 <code>존재하지않는제품명asdf</code>의 조각</p>
+          <p class="gram__toks"><span>존재</span><span data-q>하</span><span>지</span><span>않</span><span>는</span><span>제</span><span>품명</span><span>asdf</span></p>
+          <p class="gram__toks gram__toks--stored"><span class="gram__grp"><span data-s data-one>하</span><span>하이</span><span>하이엔</span><span>하이엔드</span></span><span class="gram__grp"><span data-one>풋</span><span>풋레</span><span>풋레스</span><span>풋레스트</span></span></p>
+          <p class="gram__lab">제품 「하이엔드 풋레스트」의 저장된 조각</p>
+        </div>
+        <p class="gram__res"><span>결과</span><b data-r1>1건</b><i data-arrow aria-hidden="true">→</i><b data-r0>0건</b></p>
+      </div>
+      <p class="gram__keep">오타 <code>모니타</code>로 찾는 「모니터 암」과 「듀얼 모니터 받침대」는 값을 바꿔도 <b>2건</b> 그대로다.</p>
     </div>
-    <p class="case__res"><span>결과</span><b>2건</b></p>
-  </div>
+    <figcaption class="ch__cap">제품 4개를 넣고 2026-11-26에 로컬에서 재현한 값이다.</figcaption>
+  </figure>
+</section>
 
-  <p class="gram__fix">문서 4개 · 2026-11-26 로컬 재현</p>
-</div>
-</div>
-<p class="scene__hint" data-hint aria-hidden="true">스크롤 ↓</p>
+<section class="ch ch--fig" data-ch="수정">
+  <h2 class="ch__title">고친 것은 설정 파일의 숫자 하나다.</h2>
+  <figure class="ch__fig">
+    <div class="fix frame">
+      <p class="fix__file">product-index.json</p>
+      <p class="fix__line fix__line--old"><i aria-hidden="true">−</i><code>"min_gram": 1</code></p>
+      <p class="fix__line fix__line--new"><i aria-hidden="true">+</i><code>"min_gram": 2</code></p>
+    </div>
+    <figcaption class="ch__cap">2026-08-07 13:03 커밋 <code>4b798fb89f</code>. 검색 코드는 그대로 두었고, 같은 커밋에 회귀 테스트 3건을 넣었다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="기간">
+  <h2 class="ch__title">한 글자 설정은 배포 브랜치에 이만큼 있었다.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="53">53</b><span>시간 20분</span></p>
+    <p class="num__say">검색이 main에 들어간 2026-08-06 12:35부터 수정이 main에 들어간 08-08 17:54까지다. develop 기준으로는 27시간 36분이다.</p>
+  </div>
+</section>
+
+<section class="ch" data-ch="확인">
+  <h2 class="ch__title">고치기 전과 후의 설정으로 같은 검색을 다시 돌렸다.</h2>
+  <div class="tbl-wrap">
+    <table class="tbl replay">
+      <thead><tr><th scope="col">검색어</th><th scope="col" class="num-cell">고치기 전</th><th scope="col" class="num-cell">고친 뒤</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>존재하지않는제품명asdf</code><small>없는 이름</small></th><td class="num-cell">1건</td><td class="num-cell replay__now">0건</td></tr>
+        <tr><th scope="row"><code>모니타</code><small>오타</small></th><td class="num-cell">2건</td><td class="num-cell">2건</td></tr>
+        <tr><th scope="row"><code>모니</code><small>앞 두 글자</small></th><td class="num-cell">2건</td><td class="num-cell">2건</td></tr>
+        <tr><th scope="row"><code>하</code><small>한 글자</small></th><td class="num-cell">1건</td><td class="num-cell replay__now">0건</td></tr>
+      </tbody>
+      <caption>2026-11-26, 로컬 Elasticsearch 9.4.2 + Nori, 제품 4개.</caption>
+    </table>
+  </div>
+</section>
+
+<section class="ch" data-ch="한계">
+  <h2 class="ch__title">운영에서 고쳐졌는지는 확인하지 못했다.</h2>
+  <p class="ch__text">이미 만든 색인은 다시 채워야 새 설정이 적용된다. 운영에서 다시 채웠는지, 지금 운영 검색이 0건을 주는지는 확인하지 못했다. 이 글의 건수는 모두 제품 4개짜리 로컬 재현의 값이고, 회귀 테스트도 다시 돌려 보지 않았다.</p>
+</section>
+<section class="ch ch--next" data-ch="다음 글">
+<h2 class="vh">다음 글</h2>
+<a class="next frame fl" href="../">
+<p class="next__lab"><b>DERO</b>목록</p>
+<p class="next__say">데스크테리어 3D 시뮬레이터 DERO에서 한 일</p>
+<p class="next__go">목록으로</p>
+</a>
+<div class="refs">
+<p>근거: dero 저장소의 커밋. 2026-08-06 09:58 <code>322407f147</code> 제품 검색이 <code>min_gram: 1</code>로 들어왔다. 2026-08-07 02:31 <code>cef2ea25b9</code> 검색어·결과 건수 로그와 「결과 0건 검색어」 패널을 넣었다. 2026-08-07 13:03 <code>4b798fb89f</code> <code>product-index.json</code> 한 줄을 <code>1</code>에서 <code>2</code>로 바꾸고 회귀 테스트 3건을 넣었다. 2026-08-08 17:54 <code>9664b46843</code> 수정이 배포 브랜치 main에 들어갔다.</p>
+<p>재현: 2026-11-26, 수정 전후의 설정 파일을 로컬 Elasticsearch 9.4.2 + Nori에 올리고 같은 제품 4개(모니터 암, 듀얼 모니터 받침대, 라이트크래프트 스탠드 조명, 하이엔드 풋레스트)에 같은 질의를 보냈다. 브랜드 사용자 사전은 비어 있는 상태였다. 비공개 저장소라 권한이 있어야 열린다.</p>
 </div>
 </section>
-<div class="after">
-<details class="ev">
-  <summary>근거 보기</summary>
-  <p>2026-08-06 09:58 <code>322407f147</code> 제품 검색이 <code>min_gram: 1</code>로 들어왔다.</p>
-  <p>2026-08-07 02:31 <code>cef2ea25b9</code> 검색어·결과 건수 로그와 「결과 0건 검색어」 패널을 넣었다.</p>
-  <p>2026-08-07 13:03 <code>4b798fb89f</code> <code>product-index.json</code> 한 줄, <code>1</code> → <code>2</code>. 질의 코드는 그대로다.</p>
-  <p>같은 커밋에서 회귀 테스트 3건 추가. 없는 이름은 0건, 오타 <code>모니타</code>는 계속 <code>모니터 암</code>을 찾는다.</p>
-  <p>2026-11-26 로컬 재현: 같은 문서 4개에서 없는 이름 1건 → 0건, <code>모니타</code> 2건 → 2건.</p>
-  <p>2026-08-08 17:54 <code>9664b46843</code> 수정이 배포 브랜치 main에 들어갔다.</p>
-</details>
-</div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="../../js/scene.js"></script>
+<script src="../../js/story.js"></script>
 <script src="../../js/dero/search-min-gram.js"></script>
 </body>
 </html>

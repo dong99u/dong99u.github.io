@@ -1,32 +1,163 @@
-<div class="intent" data-intent>
-  <div class="doc" data-doc>
-    <p class="doc__title">Intent: [만들거나 바꾸려는 것]</p>
-    <p class="doc__status">Status: open</p>
-    <p>문제 또는 기회</p>
-    <p>원하는 결과</p>
-    <p>영향받는 사람과 시스템</p>
-    <p>제약</p>
-    <p>선호와 가정</p>
-    <p>성공 기준</p>
-    <p>열린 질문</p>
-  </div>
+<section class="ch ch--fig" data-ch="의도 문서">
+  <h2 class="ch__title">의도 문서는 만들 것과 그 이유를 코드보다 먼저 적는 문서다.</h2>
+  <figure class="ch__fig">
+    <div class="tpl frame frame--pins fl">
+      <p class="tpl__path">intent/&lt;type&gt;-&lt;slug&gt;/intent.md</p>
+      <div class="tpl__body">
+        <p class="tpl__title"><span aria-hidden="true">#</span>Intent: [만들거나 바꾸려는 것]</p>
+        <p class="tpl__status"><b>Status: open</b><span>끝나면 shipped 또는 closed로 바꾼다</span></p>
+        <ol class="tpl__heads">
+          <li>문제 또는 기회</li>
+          <li>원하는 결과</li>
+          <li>영향받는 사람과 시스템</li>
+          <li>제약</li>
+          <li>선호와 가정</li>
+          <li>성공 기준</li>
+          <li>열린 질문</li>
+        </ol>
+      </div>
+    </div>
+    <figcaption class="ch__cap">dero <code>intent/_template/intent.md</code>의 제목이다. 기능 하나에 이 파일 하나를 쓴다.</figcaption>
+  </figure>
+</section>
 
-  <div class="pile">
-    <!--@intent-dots-->
-    <p class="pile__line" aria-hidden="true"><i data-line></i></p>
-    <p class="pile__foot">
-      <span>2026-10-03</span>
-      <span class="pile__key" data-key><span><i data-s="0"></i>open {{open}}</span><span><i data-s="1"></i>shipped {{shipped}}</span><span><i data-s="2"></i>closed {{closed}}</span></span>
-      <span>11-22</span>
-    </p>
+<section class="ch" data-ch="시작">
+  <h2 class="ch__title">2026-10-03, 이 문서부터 쓰는 절차를 팀에 들였다.</h2>
+  <p class="ch__text" data-words>Anthropic의 <i lang="en">AI Native SDLC Playbook</i>을 참고해 팀의 기본 개발 절차로 삼았다. 기능 하나에 폴더 하나, PR 하나에 문서 하나, 머지가 곧 승인인 짜임은 플레이북 해설 영상의 설계를 따랐고, research 단계와 훅을 보탰다.</p>
+</section>
+
+<section class="ch ch--fig ch--wide" data-ch="절차" data-flow-ch>
+  <h2 class="ch__title">절차는 이렇게 돌았다.</h2>
+  <figure class="ch__fig">
+    <div class="flow frame frame--pins" data-flow>
+      <div class="flow__rail">
+        <span class="key"><span class="key__i" data-who="agent">에이전트</span><span class="key__i" data-who="human">사람</span></span>
+        <span class="flow__rule">PR 하나에 문서 하나 · 머지가 승인 기록</span>
+      </div>
+
+      <ol class="flow__track" aria-label="의도 문서 절차의 단계">
+        <li class="flow__stage">
+          <p class="flow__no"><b>01</b>intent</p>
+          <ol class="flow__steps">
+            <li class="flow__step" data-who="human">
+              <button type="button" data-file="">제안</button>
+              <p class="flow__more">팀원이 만들거나 바꾸려는 것과 그 이유를 말로 꺼낸다. Slack에서 <code>@dero</code> 봇을 부르거나 자기 PC의 코딩 에이전트에서 <code>write-intent</code> 스킬을 쓴다.</p>
+            </li>
+            <li class="flow__step" data-who="agent">
+              <button type="button" data-file="intent/&lt;type&gt;-&lt;slug&gt;/intent.md">intent.md 초안</button>
+              <p class="flow__more">에이전트가 범위, 성공 기준, 위험이 바뀌는 질문만 묻고 초안을 쓴다. <code>Status: open</code>으로 파일 하나짜리 PR을 연다.</p>
+            </li>
+            <li class="flow__step flow__step--merge" data-who="human">
+              <button type="button" data-file="승인 기록(머지)">PO 머지</button>
+              <p class="flow__more">제품 책임자(PO)가 머지하면 승인이다. 누가 언제 승인했는지는 머지 기록에 남는다. 거절은 이유를 코멘트로 남기고 PR을 닫는다.</p>
+            </li>
+          </ol>
+        </li>
+        <li class="flow__stage">
+          <p class="flow__no"><b>02</b>spec</p>
+          <ol class="flow__steps">
+            <li class="flow__step" data-who="agent">
+              <button type="button" data-file="intent/&lt;slug&gt;/spec.md">spec.md 초안</button>
+              <p class="flow__more">intent가 머지되면 <code>@dero</code> 봇이 spec 초안 PR을 연다. 해법이 열린 intent는 research 문서로 대안을 먼저 비교한다. 정책끼리 부딪히는 곳은 우려로 적고 결정은 사람에게 맡긴다.</p>
+            </li>
+            <li class="flow__step flow__step--merge" data-who="human">
+              <button type="button" data-file="승인 기록(머지)">PO 머지</button>
+              <p class="flow__more">PO가 머지하면 요구사항이 승인된다. 봇이 Slack <code>#dero-intent</code>에 계획을 시작할 수 있다고 개발자에게 알린다.</p>
+            </li>
+          </ol>
+        </li>
+        <li class="flow__stage flow__stage--cut">
+          <p class="flow__no"><b>03</b>plan<span>10-28에 뺌</span></p>
+          <ol class="flow__steps">
+            <li class="flow__step" data-who="human">
+              <button type="button" data-file="intent/&lt;slug&gt;/plan.md">plan.md 수락</button>
+              <p class="flow__more">에이전트가 플랜 모드에서 바꿀 파일, 작업 순서, 위험, 증명 방법을 쓴다. 담당 개발자가 따져 묻고 수락해야 코드를 쓴다. 2026-10-28에 이 단계를 뺐고, 그 뒤로는 spec에서 바로 구현했다.</p>
+            </li>
+          </ol>
+        </li>
+        <li class="flow__stage">
+          <p class="flow__no"><b>04</b>코드</p>
+          <ol class="flow__steps">
+            <li class="flow__step" data-who="agent">
+              <button type="button" data-file="코드, 테스트, 구현 PR">구현 PR</button>
+              <p class="flow__more">기능 브랜치 <code>feat/dero-&lt;n&gt;-&lt;slug&gt;</code>에서 에이전트가 구현한다. spec의 「요구사항 ↔ 검증」 표를 구현 PR의 검증 절에 실행 결과로 채운다.</p>
+            </li>
+            <li class="flow__step flow__step--merge" data-who="human">
+              <button type="button" data-file="리뷰 코멘트, develop 머지">리뷰 후 머지</button>
+              <p class="flow__more"><code>reviewer</code> 서브에이전트가 코드를 쓴 세션과 다른 새 컨텍스트에서 버그, 보안, spec 준수를 지적한다. 리뷰 뒤 develop에 머지하면 배포 파이프라인이 돈다.</p>
+            </li>
+          </ol>
+        </li>
+        <li class="flow__stage flow__stage--end">
+          <p class="flow__no">그 뒤</p>
+          <ol class="flow__steps">
+            <li class="flow__step">
+              <button type="button" data-file="intent.md의 Status 한 줄">Status 바꾸기</button>
+              <p class="flow__more">출시를 확인하면 <code>intent.md</code>의 <code>Status</code>를 <code>shipped</code>로 바꾼다. 중단하거나 만들지 않기로 하면 <code>closed</code>로 바꾸고 이유를 적는다. 다음 장의 점이 세는 것이 이 한 줄이다.</p>
+            </li>
+          </ol>
+        </li>
+      </ol>
+
+      <p class="flow__line" aria-hidden="true"><span>develop</span><i data-line></i></p>
+
+      <div class="flow__read" aria-live="polite">
+        <p class="flow__at"><span class="who" data-read-who hidden></span><span data-read-n>intent → spec → plan → 코드</span></p>
+        <p class="flow__title" data-read-title>문서가 머지될 때마다 다음 단계가 열렸다.</p>
+        <p class="flow__say" data-read-say>기능 하나의 문서가 develop 브랜치에 머지되면 그다음 문서를 쓸 수 있었다. 처음에는 네 단계였고, 2026-10-28에 plan을 빼 세 단계가 됐다.</p>
+        <p class="flow__file" data-read-file><span class="flow__hint">단계를 누르면 그 자리에서 한 일이 나온다.</span></p>
+      </div>
+    </div>
+    <figcaption class="ch__cap">dero 저장소의 절차 문서 <code>intent/README.md</code> 첫 판(2026-10-03) 기준이다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch ch--fig" data-ch="쌓임" data-pile-ch>
+  <h2 class="ch__title">50일 동안 의도 문서 209개가 쌓였다.</h2>
+  <figure class="ch__fig">
+    <div class="pile frame frame--pins" data-pile>
+      <div class="pile__head">
+        <p class="pile__now"><b data-date>2026-11-22</b><span><i data-n>209</i>개</span></p>
+        <div class="pile__key" role="group" aria-label="상태별로 보기">
+          <button type="button" data-iso="0" aria-pressed="false"><i data-s="0"></i>open<b>{{open}}</b></button>
+          <button type="button" data-iso="1" aria-pressed="false"><i data-s="1"></i>shipped<b>{{shipped}}</b></button>
+          <button type="button" data-iso="2" aria-pressed="false"><i data-s="2"></i>closed<b>{{closed}}</b></button>
+        </div>
+      </div>
+      <!--@intent-dots-->
+      <p class="pile__line" aria-hidden="true"><i data-line></i></p>
+      <p class="pile__axis" aria-hidden="true"><span style="--x:0">10-04 첫 문서</span><span style="--x:57">11-01</span><span style="--x:100">11-22 폐지</span></p>
+    </div>
+    <figcaption class="ch__cap">점 하나가 문서 하나다. 문서마다 적힌 <code>Created</code> 날짜에 놓았고, 밝기는 폐지 시점의 <code>Status</code>다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="결과">
+  <h2 class="ch__title">폐지하던 날, 대부분이 열린 채였다.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="{{open}}">{{open}}</b><span>/ 209개 open</span></p>
+    <p class="num__say">2026-11-22 폐지 시점의 값이다. <code>shipped</code>는 {{shipped}}개, <code>closed</code>는 {{closed}}개였고, 상태가 적히지 않은 문서는 없었다.</p>
   </div>
-</div>
-<!--@after-->
-<details class="ev">
-  <summary>근거 보기</summary>
-  <p>2026-10-03 도입, 2026-11-22 폐지(PR #33).</p>
-  <p>절차는 intent → spec → plan → 코드 네 단계였고, 문서가 머지되면 다음 단계가 열렸다.</p>
-  <p>폐지 시점 상태는 open {{open}}, shipped {{shipped}}, closed {{closed}}. dero <code>intent/</code> 폴더를 다시 센 값이다.</p>
-  <p>템플릿 제목은 dero <code>intent/_template/intent.md</code> 그대로다.</p>
-  <p>참고 자료: 절차는 Anthropic의 <a href="https://claude.com/ko/resources/articles/the-ai-native-sdlc-playbook" target="_blank" rel="noopener">AI Native SDLC Playbook</a>을 참고했다.</p>
-</details>
+</section>
+
+<section class="ch" data-ch="테스트">
+  <h2 class="ch__title">테스트도 대부분 CI에서 돌지 않고 있었다.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="423">423</b><span>/ 433개</span></p>
+    <p class="num__say">2026-11-22 기준, 백엔드 테스트 클래스 433개 중 423개가 CI에서 돌지 않았다. PR 게이트가 돌린 것은 architecture 10개였다.</p>
+  </div>
+</section>
+
+<section class="ch" data-ch="폐지">
+  <h2 class="ch__title">2026-11-22, PR #33으로 절차를 접었다.</h2>
+  <p class="ch__text" data-words>첫째 이유는 옮겨 갈 새 구조에 의도 문서 단계가 없다는 것이었다. 의도는 문서가 아니라 대화와 도구로 넘기고, 결정은 PR의 Why와 코드에 남기기로 했다. 181개라는 숫자는 그 판단을 거드는 근거로 적혔다.</p>
+</section>
+
+<section class="ch" data-ch="근거와 한계">
+  <h2 class="ch__title">폴더는 지우지 않고, 쓰기만 막아 기록으로 남겼다.</h2>
+  <p class="ch__text">절차 문서에 남은 문장은 「상태를 끝까지 관리하지 못했다」이다. 그 문서에는 211개 중 182개라고 적혀 있는데, README와 템플릿까지 센 수이고 그날 00:56의 값이다. 왜 이 절차를 들였는지 적은 기록은 없다.</p>
+</section>
+
+<!--@refs-->
+<p>근거: dero 저장소의 <code>intent/README.md</code> 첫 판과 지금 판, PR #33, 의도 문서 209개의 <code>Status</code>와 <code>Created</code> 줄을 다시 센 값. 도입 2026-10-03, 폐지 2026-11-22. 비공개 저장소라 권한이 있어야 열린다.</p>
+<p>참고 자료: Anthropic의 <a href="https://claude.com/ko/resources/articles/the-ai-native-sdlc-playbook" target="_blank" rel="noopener"><i lang="en">AI Native SDLC Playbook</i></a>. 절차를 들일 때 참고했다.</p>

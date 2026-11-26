@@ -1,22 +1,143 @@
-<div class="scale" data-scale>
-  <div class="scale__rig" aria-hidden="true">
-    <div class="beam" data-beam>
-      <div class="sheet sheet--a"><!--@sheet-69--></div>
-      <div class="sheet sheet--b"><!--@sheet-99--></div>
-    </div>
-    <i class="fulcrum"></i>
-  </div>
+<section class="ch" data-ch="문제">
+  <h2 class="ch__title">지침 문서가 계속 불어났다.</h2>
+  <p class="ch__text" data-words><em class="c-agent">에이전트</em>가 매번 읽는 지침 파일(CLAUDE.md)에, 함정을 만날 때마다 규칙을 한 줄씩 더했다. 에이전트가 일을 시작할 때마다 읽어야 하는 양이 그만큼 불어났다.</p>
+</section>
 
-  <div class="scale__row">
-    <p class="val"><span data-lines>69줄</span><span data-tok>17,597토큰<small>69줄 문서</small></span></p>
-    <p class="val val--b"><span data-lines>99줄</span><span data-tok>4,025토큰<small>99줄 문서</small></span></p>
+<section class="ch" data-ch="줄 수 기준">
+  <h2 class="ch__title">길이는 줄 수로 봤다.</h2>
+  <p class="ch__text" data-words>지침 파일 하나는 「약 50~60줄」을 넘기지 않는다는 관례가 있었다. 넘었는지 확인하는 자동 검사는 없었다.</p>
+</section>
+
+<section class="ch" data-ch="측정">
+  <h2 class="ch__title">2026-08-10에 지침 파일 25개를 쟀다.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="8">8</b><span>/ 25개</span></p>
+    <p class="num__say">60줄을 넘는 파일이 8개였다(50줄을 넘는 파일은 12개). 그런데 줄이 많은 문서가 무거운 문서는 아니었다.</p>
   </div>
-</div>
-<!--@after-->
-<details class="ev">
-  <summary>근거 보기</summary>
-  <p>2026-08-10에 에이전트 지침 파일 25개를 잰 값이다.</p>
-  <p>69줄 파일의 가장 긴 줄은 4,725자였다.</p>
-  <p>60줄을 넘는 파일이 8개였다.</p>
-  <p>같은 날 문서 상한을 「약 50~60줄」에서 2,000토큰으로 바꿨다(GitLab MR !470).</p>
-</details>
+</section>
+
+<section class="ch ch--fig" data-ch="저울" data-scale-ch>
+  <h2 class="ch__title">같은 두 문서를 줄 수로 재고, 토큰으로 다시 쟀다.</h2>
+  <figure class="ch__fig">
+    <div class="scale frame frame--pins" data-scale data-unit="tok">
+      <div class="scale__rail">
+        <span class="scale__lab">재는 단위</span>
+        <div class="seg" role="group" aria-label="재는 단위">
+          <button type="button" data-u="lines" aria-pressed="false"><i></i>줄 수</button>
+          <button type="button" data-u="tok" aria-pressed="true"><i></i>토큰</button>
+        </div>
+      </div>
+      <div class="scale__rig" aria-hidden="true">
+        <div class="beam" data-beam>
+          <div class="sheet sheet--a"><!--@sheet-69--></div>
+          <div class="sheet sheet--b"><!--@sheet-99--></div>
+        </div>
+        <i class="fulcrum"></i>
+      </div>
+      <div class="scale__row">
+        <p class="val"><span data-v="lines">69줄</span><span data-v="tok">17,597토큰<small>69줄 문서</small></span></p>
+        <p class="val val--b"><span data-v="lines">99줄</span><span data-v="tok">4,025토큰<small>99줄 문서</small></span></p>
+      </div>
+      <p class="scale__say"><span data-v="lines">줄 수로 재면 99줄 문서가 더 무겁다.</span><span data-v="tok">토큰으로 재면 69줄 문서가 네 배 넘게 무겁다.</span></p>
+    </div>
+    <figcaption class="ch__cap">토큰은 에이전트가 실제로 읽는 양의 단위다. 69줄 문서는 가장 긴 줄 하나가 4,725자였고, 줄당 255토큰이었다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="상한">
+  <h2 class="ch__title">그래서 줄 수 대신 <em class="c-agent">토큰</em>으로 재기로 했다.</h2>
+  <div class="num" data-who="agent">
+    <p class="num__n"><b data-count="2000">2,000</b><span>토큰</span></p>
+    <p class="num__say">문서 하나의 상한을 「약 50~60줄」에서 2,000토큰으로 바꿨다(GitLab MR !470, 2026-08).</p>
+  </div>
+</section>
+
+<section class="ch" data-ch="그 뒤">
+  <h2 class="ch__title">상한만 바꾸고, 재는 명령은 없었다.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="9">9</b><span>/ 26개</span></p>
+    <p class="num__say">2026-08-13에 다시 재 보니 26개 중 9개가 2,000토큰을 넘어 있었다. 가장 큰 파일은 5,081토큰이었다.</p>
+  </div>
+</section>
+
+<section class="ch ch--fig" data-ch="후보 목록">
+  <h2 class="ch__title">새 규칙은 후보 목록에 먼저 두는 방식을 써 봤다.</h2>
+  <figure class="ch__fig">
+    <div class="queue frame fl" data-queue>
+      <div class="queue__rail">
+        <span class="key"><span class="key__i" data-who="agent">에이전트</span><span class="key__i" data-who="human">사람</span></span>
+        <span class="queue__demo">꾸민 시연이다. 규칙 이름은 A, B, C로 적었다.</span>
+      </div>
+      <div class="queue__body">
+        <div class="queue__col">
+          <h3>후보 목록</h3>
+          <p class="queue__who">에이전트가 자동으로 읽지 않는다</p>
+          <ul data-cand>
+            <li data-rule="B"><span>규칙 B</span></li>
+            <li data-rule="C"><span>규칙 C</span></li>
+          </ul>
+        </div>
+        <p class="queue__door" data-who="human">사람이 검토해 승인한 것만</p>
+        <div class="queue__col queue__col--live">
+          <h3>항상 읽는 규칙</h3>
+          <p class="queue__who" data-who="agent">에이전트가 매번 읽는다</p>
+          <ul data-live>
+            <li class="is-old"><span>있던 규칙</span></li>
+            <li class="is-old"><span>있던 규칙</span></li>
+            <li data-rule="A" data-who="human"><span>규칙 A</span><em>승인됨</em></li>
+          </ul>
+        </div>
+      </div>
+      <div class="queue__ctl">
+        <button type="button" class="btn btn--main" data-add>새 규칙 넣기</button>
+        <button type="button" class="btn" data-reset>처음부터</button>
+        <p class="queue__now" aria-live="polite" data-now>새 규칙은 후보 목록에 쌓인다. 승인을 눌러야 오른쪽으로 올라간다.</p>
+      </div>
+    </div>
+    <figcaption class="ch__cap">2026-08-19에 둔 방식이다. 새 규칙은 후보 목록에 먼저 두고, 사람이 승인한 것만 항상 읽는 규칙으로 올린다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="걷었다">
+  <h2 class="ch__title">써 봤지만 걷었다.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="18">18</b><span>일</span></p>
+    <p class="num__say">2026-09-06에 후보 목록을 없앴다. 결정 기록(ADR-0086)에 적힌 이유는 「큐가 둘 다 낡게 했다」이다. 그사이 후보를 검토한 회고는 한 번(09-03)이었고, 후보 6개를 폐기했다.</p>
+  </div>
+</section>
+
+<section class="ch ch--fig" data-ch="화면 검증">
+  <h2 class="ch__title">테스트로 못 잡는 화면은 <em class="c-agent">검증자</em>가 네 가지 폭으로 두 번 밟는다.</h2>
+  <figure class="ch__fig">
+    <div class="widths frame frame--pins" data-widths>
+      <div class="widths__rail">
+        <span class="key"><span class="key__i" data-who="agent">에이전트(화면 검증자)</span></span>
+        <span class="widths__demo">도식이다. 실제 dero 화면이 아니다.</span>
+      </div>
+      <ol class="widths__row" aria-label="화면 폭 네 가지">
+        <li style="--w:390; --ar:390/844; --cols:1"><div class="widths__scr"><i></i><i></i><i></i><i></i><i></i></div><b>390</b></li>
+        <li style="--w:768; --ar:768/844; --cols:2"><div class="widths__scr"><i></i><i></i><i></i><i></i><i></i><i></i></div><b>768</b></li>
+        <li style="--w:1280; --ar:1280/900; --cols:3"><div class="widths__scr"><i></i><i></i><i></i><i></i><i></i></div><b>1280</b></li>
+        <li style="--w:1600; --ar:1600/900; --cols:4"><div class="widths__scr"><i></i><i></i><i></i><i></i><i></i><i></i></div><b>1600</b></li>
+      </ol>
+      <div class="widths__foot">
+        <ol class="widths__runs" aria-label="여정 횟수">
+          <li>여정 1회차</li>
+          <li>여정 2회차</li>
+        </ol>
+        <p class="widths__pass"><b>화면 PASS</b><span>판정은 한 건</span></p>
+        <button type="button" class="btn btn--sm" data-replay>다시 돌리기</button>
+      </div>
+    </div>
+    <figcaption class="ch__cap">예: PR #88(2026-11-25 머지). 화면 검증자가 폭 390, 768, 1280, 1600에서 홈 여정을 2회 돌렸다. 기록에 남은 판정은 폭별이 아니라 화면 PASS 한 건이다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="근거와 한계">
+  <h2 class="ch__title">지금은 지침 파일도, 토큰 검사도 없다.</h2>
+  <p class="ch__text">2026-09-28에 CLAUDE.md를 전부 지웠고, 지금 CI에 토큰을 재는 검사는 없다. 비용이 얼마나 줄었는지 잰 숫자도 없다. PR #88의 검증 댓글에는 폭 768에서 원래 있던 가림이 후속 일로 남았다.</p>
+</section>
+
+<!--@refs-->
+<p>근거: dero 저장소의 git 이력과 PR 기록. 69줄 문서는 <code>frontend/src/three/CLAUDE.md</code>, 99줄 문서는 <code>components/product/CLAUDE.md</code>이고 둘 다 지금은 이력에만 있다. 2026-08-10 측정값은 이력에서 다시 잰 값이다. 후보 목록을 걷은 기록은 <code>docs/adr/0086-claude-md-direct-trap-capture.md</code>. 비공개 저장소라 권한이 있어야 열린다.</p>
+<p>PR #88은 정원사가 연 PR이고, 내용은 쿠키 안내의 프레임 대기 타이머를 걷는 변경이다. 화면 검증 방식을 만든 PR이 아니라 화면 검증자가 일한 사례다.</p>

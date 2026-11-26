@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>박동규 · 머지 조건</title>
+<script>document.documentElement.classList.add("js")</script>
 <meta name="description" content="코드를 쓰지 않은 검증자가 통과시킨 커밋이 PR의 최신 커밋과 같을 때만 머지된다.">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -15,55 +16,200 @@
 <body>
 <nav class="bar" aria-label="위치">
   <p class="bar__left"><a href="../../">박동규</a><a href="../">DERO</a></p>
+  <p class="bar__at" data-at aria-live="off"></p>
   <p class="bar__right"><a href="../intent-docs/" aria-label="이전: 의도 문서">이전</a><a href="../comment-gate/" aria-label="다음: 규칙을 검사로">다음</a></p>
 </nav>
-<main>
-<section class="scene" data-scene style="--len:3">
-<div class="scene__stage">
-<h1 class="say">코드를 쓰지 않은 검증자가 통과시킨 커밋이 PR의 최신 커밋과 같을 때만 머지된다.</h1>
-<div class="proof">
-<div class="gate" data-gate data-step="3">
-  <div class="slot slot--seen">
-    <p class="slot__lab">검증자가 본 커밋</p>
-    <p class="slot__hash" data-seen>69627aca</p>
-    <p class="slot__verdict" data-verdict>PASS</p>
+<ol class="prog" data-prog aria-label="장"></ol>
+<main class="story">
+<section class="ch ch--head" data-ch="머리">
+<p class="ch__label"><b>DERO ②</b>머지 조건</p>
+<h1 class="ch__say">코드를 쓰지 않은 검증자가 통과시킨 커밋이 PR의 최신 커밋과 같을 때만 머지된다.</h1>
+<p class="ch__when">2026-11-22 첫 판 · 11-24까지 지금 구성</p>
+<p class="ch__hint" aria-hidden="true">스크롤</p>
+</section>
+<section class="ch" data-ch="문제 1">
+  <h2 class="ch__title">의도 문서부터 쓰는 절차는 관리되지 않았다.</h2>
+  <div class="num">
+    <p class="num__n"><b data-count="181">181</b><span>/ 209개</span></p>
+    <p class="num__say">2026-11-22, 의도 문서 209개 중 181개가 open으로 남아 있었다. 백엔드 테스트 클래스도 433개 중 423개가 CI에서 돌지 않았다.</p>
   </div>
-  <p class="gate__sign" data-sign>=</p>
-  <div class="slot">
-    <p class="slot__lab">PR의 최신 커밋</p>
-    <p class="slot__hash" data-latest>69627aca</p>
+</section>
+
+<section class="ch ch--fig" data-ch="문제 2">
+  <h2 class="ch__title">개발 일이 전부 <em class="c-human">사람</em> 손을 거쳤다.</h2>
+  <figure class="ch__fig">
+    <ol class="hands frame" data-hands aria-label="사람이 직접 하던 단계">
+      <li><b>접수</b><span>사람</span></li>
+      <li><b>재현</b><span>사람</span></li>
+      <li><b>수정</b><span>사람</span></li>
+      <li><b>검증</b><span>사람</span></li>
+      <li><b>머지</b><span>사람</span></li>
+    </ol>
+    <figcaption class="ch__cap">단계마다 개발자가 직접 했고, 에이전트가 쓴 코드도 사람이 일일이 확인했다. 걸린 시간을 잰 숫자는 없다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="만든 것">
+  <h2 class="ch__title">그래서 <em class="c-agent">에이전트</em>가 검증하고 머지하는 루프를 짰다.</h2>
+  <p class="ch__text" data-words>오류 접수부터 재현, 수정, 검증, 머지까지 <em class="c-agent">에이전트</em>가 맡고 <em class="c-human">사람</em>은 위험한 변경만 보도록 절차를 짰다. 2026-11-22에 첫 판을 돌렸고, 11-24까지 지금 구성이 됐다.</p>
+</section>
+
+<section class="ch" data-ch="원칙">
+  <h2 class="ch__title">네 가지를 정했다.</h2>
+  <div class="tbl-wrap">
+    <table class="tbl tbl--stack">
+      <thead><tr><th scope="col">원칙</th><th scope="col">내용</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">저장소 하나</th><td>2026-11-21에 저장소를 GitHub 하나로 옮겼다.</td></tr>
+        <tr><th scope="row">절차는 저장소 안의 스킬에</th><td>스킬은 에이전트가 읽고 따르는 절차 문서다.</td></tr>
+        <tr><th scope="row">단계 신호는 하나</th><td>단계와 단계 사이를 잇는 신호는 하나만 둔다.</td></tr>
+        <tr data-who="human"><th scope="row">사람은 위험한 변경만</th><td>마이그레이션, 인증, 인프라, 결제 변경은 사람이 검토한다.</td></tr>
+      </tbody>
+    </table>
   </div>
-  <div class="lock">
-    <svg viewBox="0 0 48 58" aria-hidden="true">
-      <path class="lock__bow" data-bow d="M14 28V17a10 10 0 0 1 20 0v11" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
-      <rect x="7" y="27" width="34" height="27" rx="5" fill="currentColor"/>
-    </svg>
-    <p class="lock__lab" data-lock>머지</p>
+</section>
+
+<section class="ch ch--fig ch--wide ch--tight" data-ch="루프">
+  <div class="loop" data-loop>
+    <div class="loop__head">
+      <h2 class="ch__title">신호를 하나 넣으면 보고가 이렇게 흘러간다.</h2>
+      <div class="loop__pick" role="group" aria-label="넣을 신호">
+        <div class="seg seg--fill">
+          <button type="button" data-sc="sentry" aria-pressed="true"><i></i>Sentry 오류</button>
+          <button type="button" data-sc="slack" aria-pressed="false"><i></i>Slack 피드백</button>
+          <button type="button" data-sc="risk" data-who="human" aria-pressed="false"><i></i>위험한 변경</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="machine frame frame--pins fl">
+      <div class="machine__rail">
+        <span class="key"><span class="key__i" data-who="agent">에이전트</span><span class="key__i" data-who="human">사람</span><span class="key__i" data-who="block">막힘</span></span>
+        <span class="machine__demo">꾸민 시연이다. 커밋은 A, B로 적었다. 실제 기록은 다음 장부터 있다.</span>
+      </div>
+
+      <div class="stage">
+        <div class="stage__in">
+          <svg class="stage__svg" data-stage role="img" aria-labelledby="loop-stage-alt" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="fx" data-fx aria-hidden="true"></div>
+        </div>
+        <div class="stage__text" id="loop-stage-alt">
+          <p>루프의 순서를 글로 적으면 이렇다.</p>
+          <ol>
+            <li><b>접수</b> Sentry 오류와 Slack #dero-feedback 피드백을 Grok Bot이 Linear 이슈로 등록한다.</li>
+            <li><b>판정·재현·수정(Cursor Automations)</b> 보고를 분류하고 실제 화면에서 재현한 뒤 고친다. 수정 전후 증거(스크린샷 2장씩과 영상)가 PR에 있어야 머지된다.</li>
+            <li><b>머지 관문</b> 코드를 쓰지 않은 검증자 3명(게이트, 화면, diff)이 따로 확인한다. PASS한 커밋이 PR 최신 커밋과 같을 때만 자동 머지한다. 검증자가 문제를 짚으면 머지하지 않고 다시 고친다.</li>
+            <li><b>사람 몫</b> 마이그레이션, 인증, 인프라, 결제 변경은 사람이 검토한다. 운영 반영도 사람이 지시한다.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="deck">
+        <div class="deck__ctl">
+          <button type="button" class="btn btn--main" data-play><span data-play-label>돌리기</span></button>
+          <button type="button" class="btn" data-step>한 단계</button>
+          <button type="button" class="btn" data-reset>처음부터</button>
+        </div>
+        <div class="deck__now" aria-live="polite">
+          <p class="deck__meta"><span class="who" data-who="agent" data-who-out>에이전트</span><span class="deck__phase" data-phase>대기</span><span class="deck__note" data-note hidden></span></p>
+          <p class="deck__text" data-now>스크립트가 켜지면 보고 하나가 칸을 차례로 지난다.</p>
+        </div>
+        <ol class="deck__ticks" data-ticks aria-label="단계"></ol>
+      </div>
+    </div>
   </div>
-  <p class="gate__cap" data-cap><b>4/4</b>69627aca를 다시 검증해 PASS, 머지</p>
-</div>
-</div>
-<p class="scene__hint" data-hint aria-hidden="true">스크롤 ↓</p>
+</section>
+
+<section class="ch ch--fig" data-ch="머지 관문" data-gate-ch>
+  <h2 class="ch__title">PR #85에서는 관문이 한 번 막았다.</h2>
+  <figure class="ch__fig">
+    <div class="gate frame frame--pins" data-gate data-step="3">
+      <div class="gate__row">
+        <div class="slot slot--seen">
+          <p class="slot__lab">검증자가 본 커밋</p>
+          <p class="slot__hash" data-seen>69627aca</p>
+          <p class="slot__verdict" data-verdict>PASS</p>
+        </div>
+        <p class="gate__sign" data-sign>=</p>
+        <div class="slot">
+          <p class="slot__lab">PR의 최신 커밋</p>
+          <p class="slot__hash" data-latest>69627aca</p>
+        </div>
+        <div class="lock">
+          <svg viewBox="0 0 48 58" aria-hidden="true">
+            <path class="lock__bow" data-bow d="M14 28V17a10 10 0 0 1 20 0v11" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+            <rect x="7" y="27" width="34" height="27" rx="5" fill="currentColor"/>
+          </svg>
+          <p class="lock__lab" data-lock>머지</p>
+        </div>
+      </div>
+      <ol class="gate__steps" data-steps>
+        <li><time>16:14</time>커밋 <code>e34aced1</code>로 PR이 열린다.</li>
+        <li><time>1차 판정</time>diff 검증자가 문제를 짚는다. 머지하지 않는다.</li>
+        <li><time>16:16</time>고친 커밋 <code>69627aca</code>가 올라온다.</li>
+        <li><time>16:17</time><code>69627aca</code>를 다시 검증해 PASS, 3초 뒤 머지된다.</li>
+      </ol>
+    </div>
+    <figcaption class="ch__cap">PR #85, 2026-11-24(KST). 문서만 바꾼 PR이라 화면 칸은 건너뛰었고 검증자는 게이트와 diff 2명이었다.</figcaption>
+  </figure>
+</section>
+
+<section class="ch" data-ch="예약">
+  <h2 class="ch__title">신호가 없어도 정해진 시간에 도는 일이 있다.</h2>
+  <div class="tbl-wrap">
+    <table class="tbl tbl--stack">
+      <thead><tr><th scope="col">일</th><th scope="col">언제</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">머지 뒤 전체 테스트</th><td>하루 2회</td></tr>
+        <tr><th scope="row">정원사<small>나쁜 패턴 후보를 정리한다</small></th><td>매일</td></tr>
+        <tr><th scope="row">릴리스 퍼징</th><td>운영 배포가 성공했을 때, 그리고 매일 06:30</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="ch" data-ch="결과 1">
+  <h2 class="ch__title">머지 뒤 전체 검증이 처음으로 완전히 통과했다.</h2>
+  <div class="num" data-who="agent">
+    <p class="num__n"><b data-count="12666">12,666</b><span>개 테스트, 실패 0</span></p>
+    <p class="num__say">2026-11-23, develop <code>bea72284</code>. 프런트 8,997개와 백엔드 3,669개.</p>
+  </div>
+</section>
+
+<section class="ch" data-ch="결과 2">
+  <h2 class="ch__title">돌아간 기록 세 건.</h2>
+  <div class="tbl-wrap">
+    <table class="tbl tbl--stack">
+      <thead><tr><th scope="col">기록</th><th scope="col">있었던 일</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">보고 #22<small>2026-11-22</small></th><td>사진 12장일 때 장수 오류가 알림 띠에 뜨지 않던 버그. 17일 전에 이미 들어간 수정을 루프가 수정 전후 2회씩 확인하고 닫았다.</td></tr>
+        <tr><th scope="row">PR #85<small>2026-11-24</small></th><td>diff 검증자가 문제를 짚었고, 고친 뒤 재검증에서 PASS해 머지됐다.</td></tr>
+        <tr><th scope="row">PR #88<small>2026-11-25 머지</small></th><td>정원사가 연 PR. 화면 검증자가 폭 390, 768, 1280, 1600에서 홈 여정을 2회 돌려 PASS했다.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="ch" data-ch="근거와 한계">
+  <h2 class="ch__title">보고 하나가 접수부터 머지까지 간 사례는 아직 없다.</h2>
+  <p class="ch__text">루프가 열어 머지한 것은 정원사와 검증 지도 PR 6건(#29, #30, #47, #71, #88, #89)이다. 12,666개 통과는 기록 이슈 #17에 사람이 옮겨 적은 한 줄이 근거이고 원 실행 로그는 없다.</p>
+</section>
+<section class="ch ch--next" data-ch="다음 글">
+<h2 class="vh">다음 글</h2>
+<a class="next frame fl" href="../comment-gate/">
+<p class="next__lab"><b>DERO ③</b>규칙을 검사로</p>
+<p class="next__say">같은 지적을 두 번 하게 되면 문서에 한 줄 더 쓰지 않고, 어기면 막히는 검사로 옮긴다.</p>
+<p class="next__go">다음 글 읽기</p>
+</a>
+<div class="refs">
+<p>근거: dero 저장소(<a href="https://github.com/dong99u/dero/pull/85" target="_blank" rel="noopener">PR #85</a>, PR #88, 보고 #22, 기록 이슈 #17, <code>loop-common</code> 스킬). 비공개 저장소라 권한이 있어야 열린다. 머지 명령은 <code>--match-head-commit</code>으로 판정한 커밋과 최신 커밋이 다르면 거절된다.</p>
+<p>참고 자료: Lauren Tan의 공개 자료 <a href="https://www.youtube.com/watch?v=O_zcc6Xl12g" target="_blank" rel="noopener"><i lang="en">All Code Is Slop (Except Mine)</i></a>, <a href="https://x.com/poteto/status/2069824386283319343" target="_blank" rel="noopener"><i lang="en">Loops You Can Trust</i></a>, <a href="https://github.com/cursor/plugins/tree/main/pstack/automations/benny" target="_blank" rel="noopener"><i lang="en">pstack</i></a>. 루프를 만들 때 참고했다.</p>
 </div>
 </section>
-<div class="after">
-<details class="ev">
-  <summary>근거 보기</summary>
-  <p>PR #85, 2026-11-24. 커밋 <code>e34aced1</code> 16:13 → PR 16:14 → 커밋 <code>69627aca</code> 16:16 → 판정 16:17:28 → 머지 16:17:31(KST).</p>
-  <p>판정 댓글의 표 그대로:</p>
-  <p><b>게이트 PASS</b> <code>e34aced1</code>에서 깨끗한 체크아웃, 검사 모두 0. <code>69627aca</code>는 3줄만 바뀌어 GitHub gate 통과로 확인</p>
-  <p><b>화면 건너뜀</b> 바뀐 파일이 Markdown뿐</p>
-  <p><b>diff PASS</b> 1차 ISSUES(화면 칸 건너뛰기가 4단계·검증자 수·판정 행과 어긋남) → <code>69627aca</code>에서 해소</p>
-  <p>머지 명령은 <code>--match-head-commit</code>으로 판정한 커밋과 최신 커밋이 다르면 거절된다(dero <code>loop-common</code> 스킬 6단계).</p>
-  <p>검증자는 원래 게이트·화면·diff 세 칸이고, 이 PR은 문서만 바꿔 화면 칸을 건너뛰었다.</p>
-  <p><a href="https://github.com/dong99u/dero/pull/85" target="_blank" rel="noopener">github.com/dong99u/dero/pull/85</a> 비공개 저장소라 권한이 있어야 열린다.</p>
-</details>
-<p class="ref">참고 자료: Lauren Tan의 공개 자료 <a href="https://www.youtube.com/watch?v=O_zcc6Xl12g" target="_blank" rel="noopener"><i lang="en">All Code Is Slop (Except Mine)</i></a>, <a href="https://x.com/poteto/status/2069824386283319343" target="_blank" rel="noopener"><i lang="en">Loops You Can Trust</i></a>, <a href="https://github.com/cursor/plugins/tree/main/pstack/automations/benny" target="_blank" rel="noopener"><i lang="en">pstack</i></a>. 루프를 만들 때 참고했다.</p>
-</div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="../../js/scene.js"></script>
+<script src="../../js/story.js"></script>
 <script src="../../js/dero/merge-gate.js"></script>
 </body>
 </html>
