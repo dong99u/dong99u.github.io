@@ -266,3 +266,15 @@
     leave: () => { if (playing) { stop(); held = true; } },
   });
 })();
+
+(function () {
+  var box = document.getElementById('cases-real');
+  if (!box || !window.DERO) return;
+  var vids = [].slice.call(box.querySelectorAll('video'));
+  if (DERO.reduced && DERO.reduced()) { vids.forEach(function (v) { v.controls = true; v.loop = false; }); return; }
+  DERO.onView(box, {
+    threshold: 0.25,
+    enter: function () { vids.forEach(function (v) { var p = v.play(); if (p && p.catch) p.catch(function () { v.controls = true; }); }); },
+    leave: function () { vids.forEach(function (v) { v.pause(); }); }
+  });
+})();

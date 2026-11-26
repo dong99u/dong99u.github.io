@@ -1,3 +1,5 @@
 .shots/
 node_modules/
 .DS_Store
+media/report-22/NOTES.md
+media/report-22/record.mjs

@@ -58,11 +58,95 @@
       </div>
     </div>
 
+    <!-- 절차가 이렇게 돌았다: develop 한 줄과 그 위아래의 일 -->
+    <div class="s1-flow" data-flow>
+      <div class="s1-run__head">
+        <div class="sub">
+          <h3 class="sub__title">절차는 이렇게 돌았다</h3>
+          <p class="sub__say">기능 하나의 문서가 develop 브랜치에 머지될 때마다 다음 단계가 열린다.</p>
+        </div>
+        <p class="s1-cap">dero 저장소의 절차 문서 <code>intent/README.md</code> 첫 판 기준이다. 뒤에 바뀐 곳은 그 단계에 적었다.</p>
+      </div>
+
+      <div class="flow frame frame--pins fl">
+        <div class="flow__rail">
+          <span class="key"><span class="key__i" data-who="agent">에이전트</span><span class="key__i" data-who="human">사람</span></span>
+          <span class="flow__rules">이 폴더가 단일 진실 원천(SSOT) · PR 하나에 산출물 하나 · 머지가 승인 기록</span>
+          <button type="button" class="btn btn--sm flow__again" data-again hidden>다시 흘려 보기</button>
+        </div>
+        <ol class="flow__list" aria-label="의도 문서 절차의 단계">
+          <li class="flow__line" aria-hidden="true"><span>develop · 통합 브랜치</span></li>
+          <li class="nd" data-k="a" data-who="human" style="--col:1">
+            <button type="button" class="nd__box"><span class="nd__tag">01 의도</span><b class="nd__t">제안</b><span class="nd__s">Slack <code>@dero</code> 또는 로컬 <code>write-intent</code></span></button>
+            <p class="nd__more">팀원이 만들거나 바꾸려는 것과 그 이유를 말로 꺼낸다. Slack에서 <code>@dero</code> 봇을 부르거나, 자기 PC의 코딩 에이전트에서 <code>write-intent</code> 스킬을 쓴다.</p>
+          </li>
+          <li class="nd" data-k="b" data-who="agent" style="--col:2">
+            <button type="button" class="nd__box"><span class="nd__tag">01 의도</span><b class="nd__t">intent.md 초안</b><span class="nd__s">브랜치 <code>intent/&lt;slug&gt;</code> · 파일 하나짜리 PR</span></button>
+            <p class="nd__more">에이전트가 범위, 성공 기준, 위험이 바뀌는 질문만 묻고 초안을 쓴다. <code>Status: open</code>으로 PR을 연다.</p>
+            <p class="nd__file"><span>만든 것</span><code>intent/&lt;type&gt;-&lt;slug&gt;/intent.md</code></p>
+          </li>
+          <li class="nd nd--gate" data-k="g1" data-who="human" style="--col:2">
+            <button type="button" class="nd__box"><b class="nd__t">PO 머지</b></button>
+            <p class="nd__more">제품 책임자(PO)가 머지하면 승인이다. 누가 언제 승인했는지는 머지 기록에 남는다. 거절은 이유를 코멘트로 남기고 PR을 닫는다.</p>
+            <p class="nd__file"><span>만든 것</span>승인 기록(머지)</p>
+          </li>
+          <li class="nd" data-k="c" data-who="agent" style="--col:3">
+            <button type="button" class="nd__box"><span class="nd__tag">02 명세</span><b class="nd__t">spec.md 초안</b><span class="nd__s">브랜치 <code>spec/&lt;slug&gt;</code> · 파일 하나짜리 PR</span></button>
+            <p class="nd__more">intent가 머지되면 <code>@dero</code> 봇이 spec 초안 PR을 연다. 각자 PC의 <code>write-spec</code> 스킬로도 같은 일을 한다. 해법이 열린 intent는 research 문서로 대안을 먼저 비교한다. 정책끼리 부딪히는 곳은 우려로 적고 결정은 사람에게 맡긴다.</p>
+            <p class="nd__file"><span>만든 것</span><code>intent/&lt;slug&gt;/spec.md</code></p>
+          </li>
+          <li class="nd nd--gate" data-k="g2" data-who="human" style="--col:3">
+            <button type="button" class="nd__box"><b class="nd__t">PO 머지</b></button>
+            <p class="nd__more">PO가 머지하면 요구사항이 승인된다. 고위험 변경은 기술 책임자와 상의한다.</p>
+            <p class="nd__file"><span>만든 것</span>승인 기록(머지)</p>
+          </li>
+          <li class="nd" data-k="d" data-who="agent" style="--col:4">
+            <button type="button" class="nd__box"><b class="nd__t">개발자 알림</b><span class="nd__s">Slack <code>#dero-intent</code></span></button>
+            <p class="nd__more">spec이 머지되면 봇이 Slack <code>#dero-intent</code>에 계획을 시작할 수 있다고 알린다.</p>
+          </li>
+          <li class="nd" data-k="e" data-who="human" style="--col:5">
+            <button type="button" class="nd__box"><span class="nd__tag">03 계획</span><b class="nd__t">plan.md · 플랜 모드</b><span class="nd__s">담당 개발자가 수락</span></button>
+            <p class="nd__more">에이전트가 플랜 모드에서 바꿀 파일, 작업 순서, 위험, 증명 방법을 쓴다. 담당 개발자가 따져 묻고 수락해야 코드를 쓴다. 2026-10-28에 이 단계를 뺐고, 그 뒤로는 spec에서 바로 구현했다.</p>
+            <p class="nd__file"><span>만든 것</span><code>intent/&lt;slug&gt;/plan.md</code> (기능 브랜치 첫 커밋)</p>
+          </li>
+          <li class="nd" data-k="f" data-who="agent" style="--col:5 / span 2">
+            <button type="button" class="nd__box"><span class="nd__tag">04 구현·검증</span><b class="nd__t">기능 브랜치 <code>feat/&lt;slug&gt;</code></b><span class="nd__s">코드 + 테스트 → 구현 PR</span></button>
+            <p class="nd__more">에이전트가 구현한다. spec의 「요구사항 ↔ 검증」 표를 구현 PR의 검증 절에 실행 결과로 채운다.</p>
+            <p class="nd__file"><span>만든 것</span>코드, 테스트, 구현 PR</p>
+          </li>
+          <li class="nd" data-k="r" data-who="agent" style="--col:6">
+            <button type="button" class="nd__box"><span class="nd__tag">05 리뷰</span><b class="nd__t">리뷰</b><span class="nd__s"><code>reviewer</code> 서브에이전트</span></button>
+            <p class="nd__more">코드를 쓴 세션과 다른 새 컨텍스트에서 <code>reviewer</code> 서브에이전트가 버그, 보안, spec 준수를 본다. 지적만 남기고 승인하거나 막지 않는다.</p>
+            <p class="nd__file"><span>만든 것</span>리뷰 코멘트</p>
+          </li>
+          <li class="nd nd--gate" data-k="g3" data-who="human" style="--col:6">
+            <button type="button" class="nd__box"><b class="nd__t">리뷰 후 머지</b></button>
+            <p class="nd__more">코드 리뷰 뒤 develop에 머지한다. 머지되면 배포 파이프라인이 돈다.</p>
+          </li>
+          <li class="nd" data-k="h" style="--col:7">
+            <button type="button" class="nd__box"><span class="nd__tag">06 배포 확인</span><b class="nd__t">출시 확인</b><span class="nd__s"><code>Status: open → shipped</code></span></button>
+            <p class="nd__more">출시를 확인하면 <code>intent.md</code>의 <code>Status</code>를 <code>shipped</code>로 바꾼다. 중단하거나 만들지 않기로 하면 <code>closed</code>로 바꾸고 이유를 적는다. 그 뒤로는 파일을 고치지 않는다. 아래 그림이 세는 상태가 이 한 줄이다.</p>
+            <p class="nd__file"><span>만든 것</span><code>intent.md</code>의 <code>Status</code> 한 줄</p>
+          </li>
+          <li class="nd" data-k="i" style="--col:8">
+            <button type="button" class="nd__box"><span class="nd__tag">07 회고</span><b class="nd__t">기록 보존</b><span class="nd__s">폴더를 지우지 않는다</span></button>
+            <p class="nd__more">절차 문서에 회고는 따로 단계로 적혀 있지 않다. 완료된 폴더를 회고와 감사의 원천으로 남긴다고만 적혀 있다.</p>
+          </li>
+          <li class="flow__tok" aria-hidden="true"></li>
+        </ol>
+        <div class="flow__read" aria-live="polite">
+          <p class="flow__who"><span class="who" data-read-who hidden></span><b data-read-title>단계를 가리킨다</b></p>
+          <p class="flow__say" data-read-say>상자나 머지 표시에 포인터를 올리거나 초점을 두면 그 자리에서 한 일이 나온다.</p>
+          <p class="flow__file" data-read-file hidden></p>
+        </div>
+      </div>
+    </div>
+
     <!-- 대표 인터랙션: 절차 줄과 문서 211개 -->
     <div class="s1-run" id="intent-field" data-field>
       <div class="s1-run__head">
         <div class="sub">
-          <h3 class="sub__title">넉 달 동안 쌓인 의도 문서 211개</h3>
+          <h3 class="sub__title">넉 달 뒤, 쌓인 의도 문서 211개</h3>
           <p class="sub__say">점 하나가 문서 하나다. 문서는 의도 단계에서 쓰이고, 일곱 단계를 지나야 끝난다.</p>
         </div>
         <p class="s1-cap">문서마다 쓴 날짜와 멈춘 단계는 기록에 없다. 쌓이는 과정은 연출이고, 끝 상태(2026-11-22)만 기록이다.</p>
@@ -302,11 +386,29 @@
           <p class="stat__lab">머지 뒤 전체 검증이 처음으로 완전히 통과했다. 2026-11-23, develop <code>bea72284</code>.</p>
         </div>
         <ol class="log">
-          <li class="log__row rv" style="--i:0"><time datetime="2026-11-22">2026-11-22</time><b>보고 #22</b><p>이벤트 접수 임시저장 버그. 수정 전 2회 재현, 수정 뒤 2회 정상을 영상으로 남기고 닫혔다.</p></li>
+          <li class="log__row rv" style="--i:0"><time datetime="2026-11-22">2026-11-22</time><b>보고 #22</b><p>이벤트 접수 임시저장 버그. 수정 전 2회 재현, 수정 뒤 2회 정상을 영상으로 남기고 닫혔다. <a class="link" href="#loop-evidence">영상 보기</a></p></li>
           <li class="log__row rv" style="--i:1"><time datetime="2026-11-23">2026-11-23</time><b><code>bea72284</code></b><p>머지 뒤 전체 검증 첫 완전 통과. 프런트 8,997개와 백엔드 3,669개, 합쳐 12,666개가 실패 0.</p></li>
           <li class="log__row rv" style="--i:2"><time datetime="2026-11-24">2026-11-24</time><b>PR #85</b><p>diff 검증자가 문제를 짚었고, 고친 뒤 재검증에서 PASS해 머지됐다. <button type="button" class="link s2-js" data-run="slack">이 장면을 위에서 돌려 보기</button></p></li>
           <li class="log__row rv" style="--i:3"><time datetime="2026-11-24">2026-11-24</time><b>PR #88</b><p>화면 검증자가 폭 390, 768, 1280, 1600 네 가지에서 홈 여정을 2회 돌려 PASS했다.</p></li>
         </ol>
+
+        <div class="s2-ev" id="loop-evidence">
+          <div class="s2-ev__head">
+            <h4 class="s2-ev__title">보고 #22, 수정 전과 수정 뒤</h4>
+            <p class="note">사진 12장으로 글을 쓰고 「이벤트 접수하기」를 누른다. 수정 전에는 화면에 아무 변화가 없고, 수정 뒤에는 위쪽 알림 띠에 이유가 뜬다.</p>
+          </div>
+          <div class="s2-ev__row">
+          <figure class="s2-ev__item" data-k="before">
+            <video class="s2-ev__vid" src="media/report-22/before-1.mp4" poster="media/report-22/before-1.jpg" controls muted playsinline preload="none" aria-label="보고 #22 수정 전 영상"></video>
+            <figcaption><b>수정 전</b><span>커밋 0607c316a. 눌러도 화면이 그대로다.</span></figcaption>
+          </figure>
+          <figure class="s2-ev__item" data-k="after">
+            <video class="s2-ev__vid" src="media/report-22/after-1.mp4" poster="media/report-22/after-1.jpg" controls muted playsinline preload="none" aria-label="보고 #22 수정 뒤 영상"></video>
+            <figcaption><b>수정 뒤</b><span>커밋 2f68f2a6d. 알림 띠에 「사진 2~5장이 필요해요」가 뜬다.</span></figcaption>
+          </figure>
+          </div>
+          <p class="note">루프가 2026-11-22에 남긴 원본 영상은 증거 브랜치와 함께 지워졌다. 이 영상은 2026-11-26에 같은 두 커밋의 화면 코드를 그대로 띄워 다시 찍은 것이다. 로그인과 서버 응답은 가짜 값으로 채웠고, 계정과 사진은 시험용이다. 빨간 점은 누른 위치를 보이려고 넣은 표시다. 같은 방법으로 각각 한 번씩 더 찍어 결과가 같은 것을 확인했다(<a class="link" href="media/report-22/before-2.mp4">수정 전 2회차</a>, <a class="link" href="media/report-22/after-2.mp4">수정 뒤 2회차</a>).</p>
+        </div>
       </div>
     </div>
 
@@ -797,9 +899,30 @@
             <p>이 방식이 ②의 화면 검증자가 됐다. <a class="link" href="#loop-machine">② 루프에서 화면 검증자 보기</a></p>
             <p class="note">PR #88(2026-11-24)의 실제 내용은 쿠키 안내의 프레임 대기 타이머를 걷어 내는 변경이다. 화면 검증자가 그 변경을 폭 390·768·1280·1600에서 홈 여정을 2회 돌려 확인했고 PASS했다. 위 그림은 그 확인 순서를 도식으로 옮긴 것이다.</p>
           </div>
-          <div class="s4-slot" role="img" aria-label="실제 dero 화면 캡처가 들어갈 빈자리">
-            <p class="s4-slot__lab">빈자리</p>
-            <p class="s4-slot__say">실제 dero 화면 캡처가 들어갈 자리다. 아직 비어 있다.</p>
+        </div>
+
+        <div class="s4-real" id="cases-real">
+          <div class="s4-real__head">
+            <p class="s4-lab">실제 화면 · 네 가지 폭</p>
+            <p class="note">운영 중인 dero 홈(www.dero.life)을 같은 네 가지 폭으로 열어 아래로 내려 본 영상이다. 2026-11-26에 이 페이지를 만들며 다시 찍었다. PR #88 당시의 검증 기록 영상이 아니라, 화면 검증자가 보는 화면이 어떤 것인지 보여 주는 재현이다.</p>
+          </div>
+          <div class="s4-real__row">
+            <figure class="s4-real__item" style="--ar: 390 / 844">
+              <video class="s4-real__vid" src="media/widths/home-390.webm" poster="media/widths/home-390.jpg" muted loop playsinline preload="none" aria-label="운영 중인 dero 홈을 폭 390px로 내려 보는 영상"></video>
+              <figcaption><b>390</b><span>px</span></figcaption>
+            </figure>
+            <figure class="s4-real__item" style="--ar: 768 / 844">
+              <video class="s4-real__vid" src="media/widths/home-768.webm" poster="media/widths/home-768.jpg" muted loop playsinline preload="none" aria-label="운영 중인 dero 홈을 폭 768px로 내려 보는 영상"></video>
+              <figcaption><b>768</b><span>px</span></figcaption>
+            </figure>
+            <figure class="s4-real__item" style="--ar: 1280 / 900">
+              <video class="s4-real__vid" src="media/widths/home-1280.webm" poster="media/widths/home-1280.jpg" muted loop playsinline preload="none" aria-label="운영 중인 dero 홈을 폭 1280px로 내려 보는 영상"></video>
+              <figcaption><b>1280</b><span>px</span></figcaption>
+            </figure>
+            <figure class="s4-real__item" style="--ar: 1600 / 900">
+              <video class="s4-real__vid" src="media/widths/home-1600.webm" poster="media/widths/home-1600.jpg" muted loop playsinline preload="none" aria-label="운영 중인 dero 홈을 폭 1600px로 내려 보는 영상"></video>
+              <figcaption><b>1600</b><span>px</span></figcaption>
+            </figure>
           </div>
         </div>
       </div>

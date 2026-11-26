@@ -188,3 +188,75 @@ html:not(.js) #intent .s1-deck { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .js #intent .s1-bar { transform: none; }
 }
+
+/* ---------- 절차 도식: develop 한 줄, 그 위아래의 일 ----------
+   기본은 세로(스크립트 꺼짐, 좁은 화면). 넓은 화면에서 스크립트가 켜지면 가로로 편다. */
+#intent .s1-flow { margin-top: 26px; scroll-margin-top: calc(var(--nav-h) + 10px); }
+#intent .s1-flow + .s1-run { margin-top: var(--sp-7); }
+#intent .s1-cap code { color: var(--text); }
+#intent .flow__rail { display: flex; align-items: center; gap: 18px; min-height: 44px; padding: 4px 16px; border-bottom: 1px solid var(--line); }
+#intent .flow__rules { margin-left: auto; font: 500 var(--fs-xs)/1.4 var(--font-mono); color: var(--mute); text-align: right; }
+#intent .flow__again[hidden] { display: none; }
+
+#intent .flow__list { position: relative; display: grid; gap: 14px; padding: 18px 16px 18px 40px; }
+#intent .flow__list::before { content: ""; position: absolute; left: 24px; top: 22px; bottom: 22px; width: 2px; background: rgba(255, 255, 255, .3); }
+#intent .flow__line { display: none; }
+#intent .flow__tok { position: absolute; left: 0; top: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(255, 255, 255, .16), 0 0 16px #fff; opacity: 0; pointer-events: none; z-index: 4; }
+
+#intent .nd { position: relative; --c: #8f99a3; }
+#intent .nd[data-who="agent"] { --c: var(--agent); }
+#intent .nd[data-who="human"] { --c: var(--human); }
+#intent .nd::before { content: ""; position: absolute; left: -27px; top: 15px; width: 12px; height: 12px; border-radius: 50%; background: var(--panel); border: 2px solid var(--c); z-index: 1; }
+#intent .nd__box { display: grid; gap: 3px; width: 100%; padding: 10px 12px 11px; text-align: left; border: 1px solid color-mix(in srgb, var(--c) 36%, transparent); border-radius: var(--radius-sm); background: color-mix(in srgb, var(--c) 5%, var(--panel)); transition: border-color var(--t-ui) var(--ease-out), background var(--t-ui) var(--ease-out), box-shadow var(--t-ui) var(--ease-out), opacity var(--t-move) var(--ease-out), transform var(--t-fast); }
+#intent .nd__tag { font: 500 10.5px/1.2 var(--font-mono); letter-spacing: .05em; color: var(--mute); }
+#intent .nd__t { font-size: 15px; line-height: 1.3; font-weight: 600; letter-spacing: -.015em; color: var(--c); }
+#intent .nd:not([data-who]) .nd__t { color: var(--text); }
+#intent .nd__s { font-size: 12px; line-height: 1.4; color: var(--mute); }
+#intent .nd__box code { font-size: .95em; }
+#intent .nd__more { margin: 7px 2px 0; font-size: 13.5px; line-height: 1.55; color: #cfd5da; max-width: 68ch; }
+#intent .nd__file { margin: 5px 2px 0; font: 400 var(--fs-xs)/1.5 var(--font-mono); color: var(--text); }
+#intent .nd__file span, #intent .flow__file span { margin-right: 8px; color: var(--mute); }
+#intent .nd--gate .nd__box { display: inline-grid; width: auto; padding: 6px 12px; border-color: var(--human); background: var(--human); }
+#intent .nd--gate .nd__t { font: 600 12.5px/1.2 var(--font-mono); letter-spacing: .02em; color: var(--ink); }
+#intent .nd--gate::before { background: var(--human); }
+#intent .nd__box:hover, #intent .nd.is-now .nd__box { border-color: var(--c); background: color-mix(in srgb, var(--c) 11%, var(--panel)); box-shadow: 0 0 0 1px var(--c), 0 0 22px -6px var(--c); }
+#intent .nd--gate .nd__box:hover, #intent .nd--gate.is-now .nd__box { background: var(--human); box-shadow: 0 0 0 2px var(--panel), 0 0 0 3px var(--human), 0 0 22px -2px var(--human); }
+#intent .nd__box:active { transform: translateY(1px); }
+.js #intent .flow:not(.is-all) .nd:not(.is-on) .nd__box { opacity: .32; }
+
+#intent .flow__read { display: none; }
+
+@media (min-width: 1101px) {
+  .js #intent .flow__list { grid-template-columns: repeat(8, minmax(0, 1fr)); grid-template-rows: auto 40px auto; gap: 0 12px; padding: 14px 16px 14px; }
+  .js #intent .flow__list::before { display: none; }
+  .js #intent .flow__line { display: block; position: relative; grid-column: 1 / -1; grid-row: 2; align-self: center; height: 2px; background: rgba(255, 255, 255, .34); }
+  .js #intent .flow__line span { position: absolute; left: 0; top: 10px; font: 500 10.5px/1 var(--font-mono); letter-spacing: .05em; color: var(--mute); white-space: nowrap; }
+  .js #intent .nd { grid-column: var(--col); grid-row: 1; display: grid; }
+  .js #intent .nd__more, .js #intent .nd__file { display: none; }
+  .js #intent .nd::before { left: 50%; top: calc(100% + 20px); margin: -6px 0 0 -6px; }
+  .js #intent .nd::after { content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: 20px; margin-left: -1px; background: color-mix(in srgb, var(--c) 55%, transparent); }
+  .js #intent .nd[data-k="a"]::before { display: none; }
+  .js #intent .nd[data-k="a"]::after { left: 100%; top: 50%; width: 12px; height: 2px; margin: -1px 0 0; }
+  .js #intent .nd[data-k="e"]::after { height: 40px; }
+  .js #intent .nd--gate { grid-row: 2; justify-self: center; align-self: center; z-index: 2; }
+  .js #intent .nd--gate::before, .js #intent .nd--gate::after { display: none; }
+  .js #intent .nd--gate .nd__box { white-space: nowrap; }
+  .js #intent .nd[data-k="f"] { grid-row: 3; margin-top: 20px; }
+  .js #intent .nd[data-k="f"]::before, .js #intent .nd[data-k="f"]::after { content: ""; display: block; position: absolute; top: -40px; width: 2px; height: 40px; margin: 0; border: 0; border-radius: 0; background: color-mix(in srgb, var(--agent) 55%, transparent); }
+  .js #intent .nd[data-k="f"]::before { left: calc((100% - 12px) / 4 - 1px); height: 20px; top: -20px; }
+  .js #intent .nd[data-k="f"]::after { left: auto; right: calc((100% - 12px) / 4 - 1px); }
+  .js #intent .flow__read { display: grid; grid-template-columns: 250px minmax(0, 1fr) minmax(0, 300px); align-items: baseline; gap: 20px; min-height: 70px; padding: 11px 16px 12px; border-top: 1px solid var(--line); background: linear-gradient(180deg, rgba(255, 255, 255, .025), transparent); border-radius: 0 0 var(--radius) var(--radius); }
+  #intent .flow__who { display: flex; align-items: center; gap: 10px; }
+  #intent .flow__who b { font-size: 15px; font-weight: 600; letter-spacing: -.015em; }
+  #intent .flow__who .who[hidden] { display: none; }
+  #intent .flow__who .who:not([data-who]) { --c: #8f99a3; }
+  #intent .flow__say { font-size: 14px; line-height: 1.55; color: #cfd5da; }
+  #intent .flow__file { font: 400 var(--fs-xs)/1.6 var(--font-mono); text-align: right; }
+}
+@media (max-width: 700px) {
+  #intent .flow__rail { flex-wrap: wrap; gap: 8px 14px; padding: 10px 12px; }
+  #intent .flow__rules { margin-left: 0; text-align: left; flex-basis: 100%; order: 3; }
+  #intent .flow__again { margin-left: auto; }
+  #intent .flow__list { padding: 16px 12px 16px 40px; }
+  #intent .flow__list::before { left: 18px; }
+}

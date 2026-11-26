@@ -278,3 +278,13 @@ html:not(.js) #cases .s4-vp__hint, html:not(.js) #cases .s4-stamp, html:not(.js)
 @media (prefers-reduced-motion: reduce) {
   #cases .s4-col--live::after { display: none; }
 }
+
+#cases .s4-real { margin-top: 28px; display: grid; gap: 16px; }
+#cases .s4-real__head { display: grid; gap: 8px; max-width: 72ch; }
+#cases .s4-real__row { display: flex; align-items: flex-end; gap: 14px; overflow-x: auto; padding-bottom: 6px; }
+#cases .s4-real__item { margin: 0; flex: 0 0 auto; display: grid; gap: 8px; }
+#cases .s4-real__vid { display: block; height: 250px; aspect-ratio: var(--ar); border: 1px solid var(--line); border-radius: 6px; background: #000; object-fit: cover; }
+#cases .s4-real__item figcaption { font: 500 var(--fs-xs)/1 var(--font-mono); color: var(--mute); display: flex; gap: 4px; align-items: baseline; }
+#cases .s4-real__item figcaption b { color: inherit; font-size: var(--fs-sm); }
+#cases .s4-after { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 760px) { #cases .s4-real__vid { height: 220px; } }

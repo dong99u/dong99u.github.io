@@ -209,3 +209,86 @@
     enter: () => { if (!touched && !still() && !playing && state.t === 0) G.delayedCall(0.5, () => { if (view.visible && !touched && !playing && state.t === 0) play(); }); },
   });
 })();
+
+/* ---------- 절차 도식 ----------
+   문서 하나가 develop 줄을 따라 가며 단계를 차례로 켠다. 가리키면 그 단계의 설명이 아래에 나온다. */
+(() => {
+  const DERO = window.DERO;
+  const root = document.querySelector('#intent [data-flow]');
+  if (!DERO || !root) return;
+  const G = DERO.gsap, still = DERO.still;
+  const $ = (s, r = root) => r.querySelector(s);
+  const flow = $('.flow'), list = $('.flow__list'), line = $('.flow__line'), tok = $('.flow__tok'), again = $('[data-again]');
+  const nodes = [...root.querySelectorAll('.nd')];
+  const read = { who: $('[data-read-who]'), title: $('[data-read-title]'), say: $('[data-read-say]'), file: $('[data-read-file]') };
+  const WHO = { agent: '에이전트', human: '사람' };
+  const wideMQ = matchMedia('(min-width: 1101px)');
+
+  const show = (n) => {
+    nodes.forEach((m) => m.classList.toggle('is-now', m === n));
+    const who = n.dataset.who, file = n.querySelector('.nd__file');
+    read.who.hidden = !who;
+    if (who) { read.who.dataset.who = who; read.who.textContent = WHO[who]; }
+    read.title.innerHTML = n.querySelector('.nd__t').innerHTML;
+    read.say.innerHTML = n.querySelector('.nd__more').innerHTML;
+    read.file.hidden = !file;
+    if (file) read.file.innerHTML = file.innerHTML;
+  };
+  const anchor = (n) => {
+    const b = list.getBoundingClientRect(), r = n.getBoundingClientRect();
+    const l = line.getBoundingClientRect();
+    return { x: r.left - b.left + r.width / 2, y: n.dataset.k === 'f' ? r.top - b.top : l.top - b.top + 1 };
+  };
+
+  let tl = null, paused = false, touched = false;
+  const finish = () => {
+    if (tl) { tl.kill(); tl = null; }
+    paused = false;
+    flow.classList.add('is-all');
+    nodes.forEach((n) => n.classList.add('is-on'));
+    if (G) G.set(tok, { opacity: 0 });
+    again.hidden = still() || !wideMQ.matches;
+  };
+  const tour = () => {
+    finish();
+    if (still() || !wideMQ.matches) return;
+    again.hidden = true;
+    flow.classList.remove('is-all');
+    nodes.forEach((n) => n.classList.remove('is-on', 'is-now'));
+    const first = anchor(nodes[0]);
+    G.set(tok, { x: first.x, y: first.y, opacity: 0, scale: 0.4 });
+    tl = G.timeline({ onComplete: () => { tl = null; nodes.forEach((n) => n.classList.remove('is-now')); finish(); } });
+    tl.to(tok, { opacity: 1, scale: 1, duration: 0.25, ease: 'power2.out' });
+    nodes.forEach((n, k) => {
+      if (k) tl.to(tok, { x: () => anchor(n).x, y: () => anchor(n).y, duration: 0.42, ease: 'power2.inOut' });
+      tl.call(() => { n.classList.add('is-on'); show(n); });
+      tl.to(tok, { scale: 1.5, duration: 0.14, ease: 'power2.out' }).to(tok, { scale: 1, duration: 0.2, ease: 'power2.out' });
+      tl.to({}, { duration: 0.42 });
+    });
+    tl.to(tok, { opacity: 0, duration: 0.3 });
+  };
+
+  nodes.forEach((n) => {
+    const b = n.querySelector('.nd__box');
+    const pick = () => { touched = true; if (tl) finish(); show(n); };
+    b.addEventListener('pointerenter', (ev) => { if (ev.pointerType !== 'touch') pick(); });
+    b.addEventListener('focus', pick);
+    b.addEventListener('click', pick);
+  });
+  again.addEventListener('click', () => { touched = true; tour(); });
+  wideMQ.addEventListener('change', () => { if (tl) finish(); });
+
+  finish();
+  DERO.onView(flow, {
+    threshold: 0.1,
+    enter: () => { if (tl && paused) { paused = false; tl.resume(); } },
+    leave: () => { if (tl) { tl.pause(); paused = true; } },
+  });
+  if (wideMQ.matches) {
+    DERO.onView(list, { threshold: 0.6, once: true, flag: false, enter: () => { if (!touched && !still()) tour(); } });
+  } else if (!still()) {
+    /* 세로 배치에서는 문서가 내려가는 대신, 스크롤해 닿는 단계가 차례로 켜진다. */
+    flow.classList.remove('is-all');
+    nodes.forEach((n) => { n.classList.remove('is-on'); DERO.onView(n, { threshold: 0.6, once: true, flag: false, enter: () => n.classList.add('is-on') }); });
+  }
+})();

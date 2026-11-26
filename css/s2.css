@@ -249,3 +249,16 @@ html:not(.js) #loop .s2-js, html:not(.js) #loop .s2-pick, html:not(.js) #loop .d
 @media (prefers-reduced-motion: reduce) {
   .js #loop .s2-split i { transform: none; }
 }
+
+#loop .s2-ev { margin-top: 28px; display: grid; gap: 14px; scroll-margin-top: 80px; }
+#loop .s2-ev__head { display: grid; gap: 6px; max-width: 72ch; }
+#loop .s2-ev__title { margin: 0; font-size: var(--fs-lg); font-weight: 600; }
+#loop .s2-ev__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+#loop .s2-ev__item { margin: 0; display: grid; gap: 8px; }
+#loop .s2-ev__vid { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--line); border-radius: 6px; }
+#loop .s2-ev__item[data-k="before"] .s2-ev__vid { border-color: rgba(255, 255, 255, .22); }
+#loop .s2-ev__item[data-k="after"] .s2-ev__vid { border-color: var(--agent, rgba(255, 255, 255, .22)); }
+#loop .s2-ev__item figcaption { display: flex; gap: 10px; align-items: baseline; font-size: var(--fs-sm); color: var(--mute); }
+#loop .s2-ev__item figcaption b { color: var(--text); font-weight: 600; white-space: nowrap; }
+@media (max-width: 760px) { #loop .s2-ev__row { grid-template-columns: minmax(0, 1fr); } }
+#loop .s2-ev { grid-column: 1 / -1; }
