@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>DERO 기여 8</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;display=swap">
+<style>
+body{margin:0}
+.hl{background:linear-gradient(transparent 50%, #ffe47a 50%);padding:0 2px}
+a{color:#2563d9;text-decoration:none}a:hover{color:#1747a6}
+.sec{font-style:italic;font-weight:800;font-size:19px;letter-spacing:-0.01em;margin:0 0 10px;padding-bottom:7px;border-bottom:1px solid #dfe2e7;color:#1f2329}
+.mark{display:inline-block;margin:0 0 6px;font-size:14.5px;font-weight:800;line-height:1.45;background:linear-gradient(transparent 52%, #ffe47a 52%);padding:0 3px}
+.ul{margin:0;padding:0;list-style:none}
+.ul li{position:relative;padding-left:14px;margin:4px 0}
+.ul li::before{content:"";position:absolute;left:3px;top:9px;width:4px;height:4px;border-radius:50%;background:#aeb3bd}
+.ul li.ar{color:#5f6570;padding-left:30px;margin-top:1px}
+.ul li.ar::before{content:"→";background:none;width:auto;height:auto;border-radius:0;top:0;left:14px;color:#8a909c}
+.b{color:#2563d9;font-weight:700}
+.fig{border:1.5px dashed #b9bec8;border-radius:8px;background:#f6f7f9;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px 20px;box-sizing:border-box;color:#4a4f5a;font-size:12px;line-height:1.6}
+.card{border:1px solid #e3e5ea;border-radius:8px;padding:10px 11px;display:flex;flex-direction:column;gap:5px}
+.card h4{margin:0;font-size:13px;font-weight:800}
+.card .p{font-size:12px;color:#5f6570;line-height:1.5}
+.card .s{font-size:12px;line-height:1.5}
+.ts{margin:0;padding:0;list-style:none}
+.ts li{margin:5px 0;font-weight:700;color:#2563d9}
+.sk{display:grid;grid-template-columns:96px minmax(0,1fr);row-gap:5px;font-size:12.5px}
+.sk .l{font-weight:800;text-align:right;padding-right:10px;border-right:1px solid #dfe2e7}
+.sk .v{padding-left:10px}
+</style>
+</helmet>
+<div style="width: 794px; height: 1123px; box-sizing: border-box; padding: 56px 72px 52px; position: relative; overflow: hidden; background: #ffffff; font-family: Inter, 'Noto Sans KR', sans-serif; color: #1f2329; font-size: 13px; line-height: 1.55; letter-spacing: -0.01em">
+
+  <h3 class="mark">(9) 사용자 피드백과 에러 로그 수집, 사용자 활동 데이터를 수집해 지속 개선&nbsp;</h3>
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 10px">
+    <div class="card">
+      <h4>첫 화면을 가린 안내</h4>
+      <div class="p">Clarity에서 홈 모바일의 탭 1위가 매거진 안내의 <span class="b">닫기(17%)</span>였음</div>
+      <div class="s"><span class="b">→</span> 좁은 화면에서는 안내를 띄우지 않고, 입구를 상단 링크로 옮김</div>
+    </div>
+    <div class="card">
+      <h4>눌러도 반응 없는 접수</h4>
+      <div class="p">접수가 안 된다는 피드백인데 서버 요청은 0건. 녹화에서 사진 12장을 넣고 버튼을 <span class="b">10번 넘게</span> 누르는 장면을 확인</div>
+      <div class="s"><span class="b">→</span> 접힌 칸 안에만 뜨던 오류를 화면 위 알림으로 올리고, 사진 장수를 미리 안내</div>
+    </div>
+    <div class="card">
+      <h4>검색 유입의 이탈</h4>
+      <div class="p">검색으로 들어온 제품 상세 <span class="b">46세션 중 시뮬레이터 진입 0</span>. 쿠키 안내 모달이 가격과 구매 버튼을 덮고 있었음</div>
+      <div class="s"><span class="b">→</span> 안내를 하단 카드로 바꾸고, PC에도 구매 막대를 두고, 제품이 기본 책상에 바로 놓이게 함</div>
+    </div>
+  </div>
+  <ul class="ul">
+    <li><b>사용자 단위 로그</b>: 움짤이 안 올라간다는 제보를 로그로 찾지 못한 일을 계기로, 요청 로그에 사용자 ID와 오류 코드를 남기고 Filebeat → Elasticsearch → Kibana에서 한 사람의 요청을 시간순으로 조회. 이메일과 본문은 남기지 않음</li>
+    <li class="ar">제품 검색용 Elasticsearch를 로그에도 재사용. 로그가 이미 JSON이고 하루 100MB 수준이라 Logstash와 Kafka는 넣지 않음</li>
+    <li class="ar">이 로그로 좋아요 30개부터 막히던 투표(분당 한도 30 → 120회)와 전화번호 입력 검증 오류를 찾아 수정</li>
+    <li><b>Sentry 오류 수집</b>: 프런트와 백엔드의 5xx, 미처리 예외를 모으고 소스맵을 연결. WebGPU 오류 한 건은 GPU 프로세스가 사라질 때만 난다는 것을 재현해 수정</li>
+    <li class="ar">지금은 Sentry 오류와 사용자 피드백이 이슈로 자동 등록되어 (2)의 루프가 받아 고침</li>
+    <li><b>추적 순서</b>: 피드백 기록에서 사용자를 찾고, 서버 로그를 보고, 요청이 없으면 녹화를 확인</li>
+    <li><b>수정 뒤 확인</b>: 접수 오류는 배포 당일 새 접수가 성공하고 이벤트 경로의 오류 응답이 0건임을 확인</li>
+    <li><b>녹화의 한계</b>: 동의한 방문자만 남아, 모달에서 나간 사람은 데이터에 없음. 그래서 Search Console, 서버 로그와 함께 봄</li>
+    
+  </ul>
+  
+
+  <h2 class="sec" style="margin-top: 22px">Trouble Shooting <span style="font-size: 14px">(클릭하면 이동)</span>.</h2>
+  <ul class="ts">
+    
+    
+    <li><a href="https://dong99u.github.io/dero/connection-pool/" style="color: inherit">외부 응답을 기다리며 DB 연결을 쥐던 호출 3곳을 찾아, 기다리는 구간을 연결 밖으로 뺀 과정 ↗</a></li>
+    <li><a href="https://dong99u.github.io/dero/search-min-gram/" style="color: inherit">없는 제품 이름에도 결과가 나오던 검색을 min_gram 설정 하나로 고친 일 ↗</a></li>
+    <li><a href="https://dong99u.github.io/dero/queue-kept/" style="color: inherit">이미지 생성기를 바꾼 날, 큐를 둔 이유는 사라졌는데도 큐를 남긴 판단 ↗</a></li>
+    <li><a href="https://dong99u.github.io/dero/gardener/" style="color: inherit">에이전트가 쌓는 임시방편을 숫자로 묶고, 정원사가 하루에 하나씩 줄이게 한 일 ↗</a></li>
+  </ul>
+  
+
+  <h2 class="sec" style="margin-top: 20px">Skill.</h2>
+  <div class="sk">
+    <div class="l">AI 개발</div><div class="v">Cursor Automations, Linear, Grok Bot, Claude Code, 훅과 CI 게이트, 스웜 검증</div>
+    <div class="l">Frontend, 3D</div><div class="v">Next.js 16, React 19, TypeScript, Three.js, WebGPU, Zustand</div>
+    <div class="l">Backend</div><div class="v">Java 21, Spring Boot 4.1, JPA, QueryDSL, Spring Security(OAuth2), Flyway</div>
+    <div class="l">Data, Search</div><div class="v">PostgreSQL 18, Redis 8, Elasticsearch 9.4(Nori)</div>
+    <div class="l">Infra</div><div class="v">Docker Compose, nginx, GitHub Actions(블루그린), Terraform, Prometheus, Grafana</div>
+  </div>
+
+  <div style="position: absolute; right: 72px; bottom: 28px; font-size: 11px; color: #767676">DERO | 5p</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":794,"height":1123}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

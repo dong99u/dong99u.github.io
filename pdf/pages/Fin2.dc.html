@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>떠먹는 금융 기여</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2563d9;text-decoration:none}a:hover{color:#1747a6}
+.sec{font-style:italic;font-weight:800;font-size:19px;letter-spacing:-0.01em;margin:0 0 10px;padding-bottom:7px;border-bottom:1px solid #dfe2e7;color:#1f2329}
+.mark{display:inline-block;margin:0 0 6px;font-size:14.5px;font-weight:800;line-height:1.45;background:linear-gradient(transparent 52%, #ffe47a 52%);padding:0 3px}
+.ul{margin:0;padding:0;list-style:none}
+.ul li{position:relative;padding-left:14px;margin:4px 0}
+.ul li::before{content:"";position:absolute;left:3px;top:9px;width:4px;height:4px;border-radius:50%;background:#aeb3bd}
+.ul li.ar{color:#5f6570;padding-left:30px;margin-top:1px}
+.ul li.ar::before{content:"→";background:none;width:auto;height:auto;border-radius:0;top:0;left:14px;color:#8a909c}
+.b{color:#2563d9;font-weight:700}
+.fig{border:1.5px dashed #b9bec8;border-radius:8px;background:#f6f7f9;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px 20px;box-sizing:border-box;color:#4a4f5a;font-size:12px;line-height:1.6}
+.tt{margin:12px 0 2px;font-size:13.5px;font-weight:800;color:#2563d9}
+.td{margin:0;color:#3d424b}
+.sk{display:grid;grid-template-columns:96px minmax(0,1fr);row-gap:5px;font-size:12.5px}
+.sk .l{font-weight:800;text-align:right;padding-right:10px;border-right:1px solid #dfe2e7}
+.sk .v{padding-left:10px}
+</style>
+</helmet>
+<div style="width: 794px; height: 1123px; box-sizing: border-box; padding: 56px 72px 52px; position: relative; overflow: hidden; background: #ffffff; font-family: Inter, 'Noto Sans KR', sans-serif; color: #1f2329; font-size: 13px; line-height: 1.55; letter-spacing: -0.01em">
+
+    <h3 class="mark">(2) 같은 기사가 여러 번 들어와도 결과가 같고, 실패한 행만 표시하고 계속 가는 인덱싱</h3>
+  <ul class="ul">
+    <li>"딱 한 번 전달" 대신 "여러 번 들어와도 결과가 같게"를 목표로 함. 식별자를 계산해 고정하고, 본문이 바뀐 경우에만 다시 임베딩</li>
+    <li>원본(PostgreSQL)과 임베딩(Qdrant)은 한 트랜잭션으로 묶을 수 없음</li>
+    <li class="ar">원본 행의 상태 칸을 작업 대기열로 쓰는 <b>outbox relay</b>를 만듦. 실패한 행만 failed로 표시해 3회까지 다시 시도하고, 나머지 배치는 계속 진행 <a href="https://github.com/dong99u/de_pjt/blob/main/services/flink-jobs/flink_jobs/outbox/relay.py" style="font-size: 12px">(관련 코드)</a></li>
+  </ul>
+  <div style="position: relative; width: 650px; height: 122px; margin-top: 8px; font-size: 11px; line-height: 1.35; color: #1f2329">
+<svg role="img" aria-label="Kafka에서 뉴스 인덱서로" width="23" height="8" viewBox="0 0 23 8" preserveAspectRatio="none" style="position: absolute; left: 96px; top: 24px; width: 23px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-1" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"/></marker></defs><path d="M 0 4 L 19 4" marker-end="url(#dc-arrow-head-filled-1)"></path></svg>
+<svg role="img" aria-label="뉴스 인덱서에서 PostgreSQL로" width="23" height="8" viewBox="0 0 23 8" preserveAspectRatio="none" style="position: absolute; left: 240px; top: 24px; width: 23px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-2" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"/></marker></defs><path d="M 0 4 L 19 4" marker-end="url(#dc-arrow-head-filled-2)"></path></svg>
+<svg role="img" aria-label="PostgreSQL의 pending 행을 outbox relay가 가져감" width="23" height="8" viewBox="0 0 23 8" preserveAspectRatio="none" style="position: absolute; left: 374px; top: 24px; width: 23px; height: 8px; overflow: visible; fill: none; stroke: #2563d9; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-3" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9; fill: context-stroke"/></marker></defs><path d="M 0 4 L 19 4" marker-end="url(#dc-arrow-head-filled-3)"></path></svg>
+<svg role="img" aria-label="outbox relay가 임베딩한 뒤 Qdrant와 Elasticsearch에 씀" width="23" height="8" viewBox="0 0 23 8" preserveAspectRatio="none" style="position: absolute; left: 508px; top: 24px; width: 23px; height: 8px; overflow: visible; fill: none; stroke: #2563d9; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-4" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9; fill: context-stroke"/></marker></defs><path d="M 0 4 L 19 4" marker-end="url(#dc-arrow-head-filled-4)"></path></svg>
+<svg role="img" aria-label="쓰기에 성공하면 indexed로 기록" width="8" height="29" viewBox="0 0 8 29" preserveAspectRatio="none" style="position: absolute; left: 587px; top: 56px; width: 8px; height: 29px; overflow: visible; fill: none; stroke: #23784f; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-5" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#23784f" stroke="none" style="stroke: none; fill: #23784f; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 25" marker-end="url(#dc-arrow-head-filled-5)"></path></svg>
+<svg role="img" aria-label="한 행이 실패하면 그 행만 failed로 표시" width="8" height="29" viewBox="0 0 8 29" preserveAspectRatio="none" style="position: absolute; left: 449px; top: 56px; width: 8px; height: 29px; overflow: visible; fill: none; stroke: #b3402e; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 4 4"><defs><marker id="dc-arrow-head-filled-6" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#b3402e" stroke="none" style="stroke: none; fill: #b3402e; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 25" marker-end="url(#dc-arrow-head-filled-6)"></path></svg>
+<div style="position: absolute; left: 0px; top: 0px; width: 96px; height: 56px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>Kafka</b><br>news.raw</span></div>
+<div style="position: absolute; left: 120px; top: 0px; width: 120px; height: 56px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>뉴스 인덱서</b><br>기사와 청크를<br>한 트랜잭션으로</span></div>
+<div style="position: absolute; left: 264px; top: 0px; width: 110px; height: 56px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>PostgreSQL</b><br>상태 칸 = pending</span></div>
+<div style="position: absolute; left: 398px; top: 0px; width: 110px; height: 56px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1.5px solid #2563d9; border-radius: 6px"><span><b>outbox relay</b><br>5초마다 100행</span></div>
+<div style="position: absolute; left: 532px; top: 0px; width: 118px; height: 56px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>임베딩 → Qdrant<br>→ Elasticsearch</b></span></div>
+<div style="position: absolute; left: 532px; top: 86px; width: 118px; height: 36px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #23784f; border-radius: 6px"><span>성공: <b style="color: #23784f">indexed</b> 기록</span></div>
+<div style="position: absolute; left: 398px; top: 86px; width: 110px; height: 36px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #b3402e; border-radius: 6px"><span>실패: 그 행만 <b style="color: #b3402e">failed</b></span></div>
+<div style="position: absolute; left: 0px; top: 66px; width: 384px; text-align: left; font-size: 11px; line-height: 14px; color: #5f6570">식별자는 계산으로 고정: 기사 = URL 해시, 청크 = 기사 id + 순번</div>
+<div style="position: absolute; left: 240px; top: 97px; width: 150px; text-align: right; font-size: 10.5px; line-height: 14px; color: #b3402e">3회까지 다음 주기에 재시도</div>
+  </div>
+  <p style="margin: 5px 0 16px; text-align: center; font-size: 12px; color: #767676">원본은 PostgreSQL에 먼저 쓰고, relay가 그 행의 상태 칸을 대기열 삼아 두 검색 저장소를 채움</p>
+
+  <h3 class="mark">(3) 기준이 다른 두 점수를 순위로 합친 테마 검색</h3>
+  <ul class="ul">
+    <li>BM25 점수와 코사인 유사도는 기준이 달라 그냥 더할 수 없어, 점수 대신 순위로 합치는 <b>RRF(k=60)</b>를 씀</li>
+    <li>리뷰에서 가장 큰 결함을 찾음. 기사 태그는 종목명, 화면 필터는 종목코드라 둘이 겹치는 결과가 늘 0건이었음</li>
+    <li class="ar">검색 로직이 아니라 <span class="b">데이터 문제</span>로 보고, 종목명과 코드 대응표를 만들어 기존 데이터를 채워 넣음(백필)</li>
+  </ul>
+  <div style="position: relative; width: 650px; height: 108px; margin: 10px 0 0">
+<svg role="img" aria-label="유사도 점수 축 위에 관련 기사 36건의 점수가 0.53에서 0.72 사이에 찍혀 있고, 옛 기준값 0.30과 새 기준값 0.44가 세로선으로 그어져 있음" width="650" height="90" viewBox="0 0 650 90" style="position: absolute; left: 0px; top: 0px; width: 650px; height: 90px; overflow: visible; fill: none; stroke: #2563d9; stroke-width: 2; stroke-linecap: round"><path d="M40 84 L610 84" stroke="#aeb3bd" stroke-width="1" style="stroke: #aeb3bd; stroke-width: 1"></path><path d="M40.0 84 L40.0 88" stroke="#aeb3bd" stroke-width="1" style="stroke: #aeb3bd; stroke-width: 1"></path><path d="M135.0 84 L135.0 88" stroke="#aeb3bd" stroke-width="1" style="stroke: #aeb3bd; stroke-width: 1"></path><path d="M230.0 84 L230.0 88" stroke="#aeb3bd" stroke-width="1" style="stroke: #aeb3bd; stroke-width: 1"></path><path d="M325.0 84 L325.0 88" stroke="#aeb3bd" stroke-width="1" style="stroke: #aeb3bd; stroke-width: 1"></path><path d="M420.0 84 L420.0 88" stroke="#aeb3bd" stroke-width="1" style="stroke: #aeb3bd; stroke-width: 1"></path><path d="M515.0 84 L515.0 88" stroke="#aeb3bd" stroke-width="1" style="stroke: #aeb3bd; stroke-width: 1"></path><path d="M610.0 84 L610.0 88" stroke="#aeb3bd" stroke-width="1" style="stroke: #aeb3bd; stroke-width: 1"></path><path d="M135.0 22 L135.0 84" stroke="#8a909c" stroke-width="1.5" stroke-dasharray="4 4" style="stroke: #8a909c; stroke-width: 1.5; stroke-dasharray: 4 4"></path><path d="M268.0 22 L268.0 84"></path><circle cx="352" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="368" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="368" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="368" cy="61" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="368" cy="53" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="384" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="384" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="384" cy="61" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="400" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="408" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="408" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="416" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="416" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="424" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="424" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="424" cy="61" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="432" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="432" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="432" cy="61" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="440" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="440" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="440" cy="61" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="440" cy="53" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="448" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="456" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="456" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="456" cy="61" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="464" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="464" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="464" cy="61" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="464" cy="53" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="496" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="496" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="528" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="528" cy="69" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="536" cy="77" r="3.2" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle></svg>
+<div style="position: absolute; left: 24.0px; top: 90px; width: 32px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">0.2</div><div style="position: absolute; left: 119.0px; top: 90px; width: 32px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">0.3</div><div style="position: absolute; left: 214.0px; top: 90px; width: 32px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">0.4</div><div style="position: absolute; left: 309.0px; top: 90px; width: 32px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">0.5</div><div style="position: absolute; left: 404.0px; top: 90px; width: 32px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">0.6</div><div style="position: absolute; left: 499.0px; top: 90px; width: 32px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">0.7</div><div style="position: absolute; left: 594.0px; top: 90px; width: 32px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">0.8</div>
+<div style="position: absolute; left: 75.0px; top: 4px; width: 120px; text-align: center; font-size: 11.5px; line-height: 14px; color: #5f6570">옛 기준값 0.30</div>
+<div style="position: absolute; left: 208.0px; top: 4px; width: 120px; text-align: center; font-size: 11.5px; line-height: 14px; font-weight: 800; color: #2563d9">새 기준값 0.44</div>
+<div style="position: absolute; left: 372px; top: 4px; width: 250px; text-align: center; font-size: 11.5px; line-height: 14px; color: #1f2329">관련 기사 36건의 점수 0.53~0.72</div>
+<div style="position: absolute; left: 143px; top: 34px; width: 118px; font-size: 11px; line-height: 15px; color: #767676">무관한 기사 60건 중 59건이 0.44 미만 (점수 원자료 없음)</div>
+  </div>
+  <p style="margin: 4px 0 16px; text-align: center; font-size: 12px; color: #767676">(1)의 알림 기준값. 0.05~0.95를 0.01 간격으로 훑어 고름. 0.44에서 정밀도 0.973, 재현율 1.000, F1 0.986 (기준값을 고른 같은 96쌍에서 잰 값)</p>
+
+  <h2 class="sec">Trouble Shooting <span style="font-size: 14px">(클릭하면 이동)</span>.</h2>
+  <p class="tt"><a href="https://dong99u.github.io/fin/qa-sources/" style="color: inherit">답은 "관련 근거 기사를 찾지 못했습니다"인데 화면에는 출처가 뜨던 Q&amp;A ↗</a></p>
+  <p class="td">검색이 유사도 기준 없이 늘 5건을 돌려줘 엉뚱한 기사가 출처로 떴음. 검색 뒤 두 번, 답변 뒤 한 번 걸러 답과 출처를 맞춤.</p>
+  <p class="tt"><a href="https://dong99u.github.io/fin/sent-before-confirm/" style="color: inherit">전달을 확인하기 전에 "보냈음"으로 기록하던 크롤러 ↗</a></p>
+  <p class="td">전송이 실패해도 그 기사가 다시 시도되지 않는 순서였음(계획 검토에서 발견). 보내고, 확인하고, 기록하는 순서로 바로잡음.</p>
+  <p class="tt"><a href="https://dong99u.github.io/fin/llm-provider/" style="color: inherit">LLM 공급자를 바꾸려면 여러 파일을 고쳐야 했던 문제 ↗</a></p>
+  <p class="td">클라이언트를 만드는 곳이 5곳이던 것을 한 곳으로 모아, 공급자는 환경변수로 바꿈. 모델마다 다른 출력은 따로 고쳐야 했음.</p>
+
+  <h2 class="sec" style="margin-top: 22px">Skill.</h2>
+  <div class="sk">
+    <div class="l">스트리밍</div><div class="v">Kafka, PyFlink(잡 작성. 운영 경로는 Python 소비자)</div>
+    <div class="l">저장소, 임베딩</div><div class="v">PostgreSQL, Qdrant, Elasticsearch, BGE-M3</div>
+    <div class="l">백엔드</div><div class="v">Python, Django(팀원과 공동)</div>
+    <div class="l">배치</div><div class="v">Airflow, Spark (구현은 팀원)</div>
+  </div>
+
+  <div style="position: absolute; right: 72px; bottom: 28px; font-size: 11px; color: #767676">떠먹는 금융 | 2p</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":794,"height":1123}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

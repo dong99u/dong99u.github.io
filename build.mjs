@@ -85,6 +85,7 @@ made.push(page('index.html', {
     `<main class="home">`,
     `<h1 class="home__name">${owner.name}</h1>`,
     `<p class="home__line">${owner.line}</p>`,
+    owner.pdf ? `<p class="home__line"><a href="${encodeURI(owner.pdf)}">PDF 포트폴리오 (A4 10쪽)</a></p>` : '',
     ...projects.map((p) => [
       `<h2 class="home__project"><a href="${p.slug}/">${p.name}</a></h2>`,
       entryList(entries.filter((e) => e.project === p.slug), (e) => `${e.project}/${e.slug}/`),

@@ -2,7 +2,7 @@
 // 프로젝트 하나 더하기: projects 에 객체 하나(slug, name, line)를 더한다. 목록 순서가 곧 화면 순서이고 이전·다음 순서다.
 // 그다음 `node build.mjs`. 메인, 프로젝트 페이지, <project>/<slug>/index.html 이 모두 다시 만들어진다.
 
-export const owner = { name: '박동규', line: '포트폴리오에서 더 보여 주고 싶은 것들' };
+export const owner = { name: '박동규', line: '포트폴리오에서 더 보여 주고 싶은 것들', pdf: 'pdf/박동규_포트폴리오.pdf' };
 
 export const projects = [
   { slug: 'dero', name: 'DERO', line: '데스크테리어 3D 시뮬레이터 DERO에서 한 일' },

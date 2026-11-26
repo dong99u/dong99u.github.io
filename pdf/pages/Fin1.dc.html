@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>떠먹는 금융 표지</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;display=swap">
+<style>
+body{margin:0}
+.hl{background:linear-gradient(transparent 50%, #ffe47a 50%);padding:0 2px}
+a{color:#2563d9;text-decoration:none}a:hover{color:#1747a6}
+.sec{font-style:italic;font-weight:800;font-size:19px;letter-spacing:-0.01em;margin:0 0 10px;padding-bottom:7px;border-bottom:1px solid #dfe2e7;color:#1f2329}
+.mark{display:inline-block;margin:0 0 6px;font-size:14.5px;font-weight:800;line-height:1.45;background:linear-gradient(transparent 52%, #ffe47a 52%);padding:0 3px}
+.ul{margin:0;padding:0;list-style:none}
+.ul li{position:relative;padding-left:14px;margin:4px 0}
+.ul li::before{content:"";position:absolute;left:3px;top:9px;width:4px;height:4px;border-radius:50%;background:#aeb3bd}
+.ul li.ar{color:#5f6570;padding-left:30px;margin-top:1px}
+.ul li.ar::before{content:"→";background:none;width:auto;height:auto;border-radius:0;top:0;left:14px;color:#8a909c}
+.b{color:#2563d9;font-weight:700}
+.k{font-weight:800}
+.bar{color:#c4c8cf;padding:0 12px}
+.fig{border:1.5px dashed #b9bec8;border-radius:8px;background:#f6f7f9;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px 20px;box-sizing:border-box;color:#4a4f5a;font-size:12px;line-height:1.6}
+</style>
+</helmet>
+<div style="width: 794px; height: 1123px; box-sizing: border-box; padding: 64px 72px 52px; position: relative; overflow: hidden; background: #ffffff; font-family: Inter, 'Noto Sans KR', sans-serif; color: #1f2329; font-size: 13px; line-height: 1.55; letter-spacing: -0.01em">
+
+  <div style="text-align: center">
+    <h1 style="margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2">떠먹는 금융</h1>
+    <p style="margin: 6px 0 0; font-size: 16px; font-weight: 700; color: #2563d9">국내 개인 트레이더에게 필요한 금융 뉴스를 골라 주는 AI 플랫폼</p>
+  </div>
+
+  <div style="margin-top: 22px; border-top: 1px solid #dfe2e7; padding-top: 14px; display: grid; grid-template-columns: 52px minmax(0, 1fr); row-gap: 8px">
+    <div class="k">기간</div><div><span class="bar">|</span>2026.05 ~ 2026.07</div>
+    <div class="k">구성</div><div><span class="bar">|</span>3인</div>
+    <div class="k">역할</div><div style="display: flex"><span class="bar">|</span><span>데이터 엔지니어. 시스템 구조와 ERD, 파이프라인 설계 <span class="b">100%</span>, 수집과 인덱싱, 데이터 정합성 <span class="b">100%</span>, <br>Q&amp;A RAG <font color="#2563d9"><b>100%</b></font></span></div>
+    <div class="k" style="padding-top: 3px">Link</div>
+    <div style="display: flex; align-items: center"><span class="bar">|</span><a href="https://github.com/dong99u/de_pjt/tree/main/services/flink-jobs/flink_jobs" style="padding: 2px 12px; border: 1px solid #2563d9; border-radius: 999px; font-size: 12px">GitHub 저장소 바로가기</a><span style="font-size: 12px; color: #6b717c; margin-left: 8px">멱등 인덱서와 outbox relay 코드</span></div>
+    <div class="k">성과</div>
+    <div style="display: flex"><span class="bar">|</span>
+      <div style="display: flex; flex-direction: column; gap: 3px">
+        <span>🏆 알림 기준값을 96쌍 라벨 데이터로 직접 재서 <b class="hl">0.30에서 0.44로</b> 조정 (같은 96쌍에서 F1 0.986)</span>
+        <span>🏆 수집부터 서빙까지의 파이프라인과 역할별로 나눈 저장소 3개(PostgreSQL, Qdrant, Elasticsearch)</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sec" style="margin-top: 22px">Introduce.</h2>
+  <p style="margin: 0">금융 뉴스를 모아 뜻으로 검색할 수 있게 색인하고, 시장 Q&amp;A, 알림, 자연어 종목 검색, 개장 전 브리핑으로 보여 주는 플랫폼입니다. 저는 <span class="b">수집, 인덱싱, 정합성, 의미 검색, Q&amp;A RAG, 데이터 모델</span>을 맡았고, 배치와 KRX 연동, 자연어 종목 검색은 팀원이 구현했습니다.</p>
+
+  <h2 class="sec" style="margin-top: 20px">System Architecture.</h2>
+  <div style="position: relative; width: 650px; height: 208px; font-size: 11px; line-height: 1.35; color: #1f2329">
+<div style="position: absolute; left: 428px; top: 0px; width: 222px; height: 208px; box-sizing: border-box; background: #f3f6fc; border: 1px solid #cdd8ee; border-radius: 10px"></div>
+<svg role="img" aria-label="RSS 6개 매체에서 크롤러로" width="19" height="8" viewBox="0 0 19 8" preserveAspectRatio="none" style="position: absolute; left: 78px; top: 48px; width: 19px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-1" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"/></marker></defs><path d="M 0 4 L 15 4" marker-end="url(#dc-arrow-head-filled-1)"></path></svg>
+<svg role="img" aria-label="크롤러에서 Kafka news.raw 토픽으로" width="19" height="8" viewBox="0 0 19 8" preserveAspectRatio="none" style="position: absolute; left: 198px; top: 48px; width: 19px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-2" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"/></marker></defs><path d="M 0 4 L 15 4" marker-end="url(#dc-arrow-head-filled-2)"></path></svg>
+<svg role="img" aria-label="Kafka에서 뉴스 인덱서로" width="19" height="8" viewBox="0 0 19 8" preserveAspectRatio="none" style="position: absolute; left: 296px; top: 48px; width: 19px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-3" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"/></marker></defs><path d="M 0 4 L 15 4" marker-end="url(#dc-arrow-head-filled-3)"></path></svg>
+<svg role="img" aria-label="뉴스 인덱서에서 PostgreSQL로, 기사와 청크를 한 트랜잭션으로" width="31" height="8" viewBox="0 0 31 8" preserveAspectRatio="none" style="position: absolute; left: 408px; top: 48px; width: 31px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-4" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"/></marker></defs><path d="M 0 4 L 27 4" marker-end="url(#dc-arrow-head-filled-4)"></path></svg>
+<svg role="img" aria-label="PostgreSQL의 pending 행을 outbox relay가 가져감" width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 496px; top: 78px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #2563d9; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-5" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 19" marker-end="url(#dc-arrow-head-filled-5)"></path></svg>
+<svg role="img" aria-label="outbox relay에서 Qdrant로 벡터 저장" width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 482px; top: 146px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #2563d9; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-6" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 19" marker-end="url(#dc-arrow-head-filled-6)"></path></svg>
+<svg role="img" aria-label="outbox relay에서 Elasticsearch로 색인" width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 548px; top: 146px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #2563d9; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-7" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 19" marker-end="url(#dc-arrow-head-filled-7)"></path></svg>
+<svg role="img" aria-label="web에서 Django API로" width="41" height="8" viewBox="0 0 41 8" preserveAspectRatio="none" style="position: absolute; left: 176px; top: 180px; width: 41px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-8" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"/></marker></defs><path d="M 0 4 L 37 4" marker-end="url(#dc-arrow-head-filled-8)"></path></svg>
+<svg role="img" aria-label="Django API에서 저장소 3개로 검색과 조회" width="89" height="8" viewBox="0 0 89 8" preserveAspectRatio="none" style="position: absolute; left: 348px; top: 180px; width: 89px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-9" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"/></marker></defs><path d="M 0 4 L 85 4" marker-end="url(#dc-arrow-head-filled-9)"></path></svg>
+<svg role="img" aria-label="Django API에서 LLM으로 답변 생성과 채점 요청" width="8" height="21" viewBox="0 0 8 21" preserveAspectRatio="none" style="position: absolute; left: 279px; top: 139px; width: 8px; height: 21px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-10" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"/></marker></defs><path d="M 4 21 L 4 4" marker-end="url(#dc-arrow-head-filled-10)"></path></svg>
+<div style="position: absolute; left: 0px; top: 26px; width: 78px; height: 52px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>RSS</b><br>6개 매체</span></div>
+<div style="position: absolute; left: 98px; top: 26px; width: 100px; height: 52px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>크롤러</b><br>Airflow 10분마다<br>URL 중복 장부</span></div>
+<div style="position: absolute; left: 218px; top: 26px; width: 78px; height: 52px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>Kafka</b><br>news.raw</span></div>
+<div style="position: absolute; left: 316px; top: 26px; width: 92px; height: 52px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>뉴스 인덱서</b><br>Python 소비자</span></div>
+<div style="position: absolute; left: 440px; top: 26px; width: 120px; height: 52px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>PostgreSQL</b><br>원본 · 상태 칸</span></div>
+<div style="position: absolute; left: 440px; top: 102px; width: 120px; height: 44px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1.5px solid #2563d9; border-radius: 6px"><span><b>outbox relay</b><br>임베딩 BGE-M3</span></div>
+<div style="position: absolute; left: 438px; top: 170px; width: 96px; height: 28px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>Qdrant</b> 벡터</span></div>
+<div style="position: absolute; left: 544px; top: 170px; width: 100px; height: 28px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>Elasticsearch</b></span></div>
+<div style="position: absolute; left: 218px; top: 160px; width: 130px; height: 48px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>Django API</b><br>Q&amp;A RAG · 알림 · 검색</span></div>
+<div style="position: absolute; left: 98px; top: 166px; width: 78px; height: 36px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>web</b><br>Vue 3</span></div>
+<div style="position: absolute; left: 218px; top: 102px; width: 130px; height: 36px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>LLM</b> 답변 · 채점</span></div>
+<div style="position: absolute; left: 0px; top: 98px; width: 198px; height: 44px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px dashed #b9bec8; border-radius: 6px"><span><b>배치</b> <span style="color: #6b717c">(팀원 구현)</span><br>KRX 일봉 → MinIO → Spark</span></div>
+<div style="position: absolute; left: 438px; top: 5px; width: 120px; text-align: left; font-size: 10.5px; line-height: 14px; color: #2563d9; font-weight: 700">저장소 3개</div>
+<div style="position: absolute; left: 512px; top: 83px; width: 64px; text-align: left; font-size: 10.5px; line-height: 14px; color: #2563d9">pending 행</div>
+<div style="position: absolute; left: 354px; top: 166px; width: 74px; text-align: center; font-size: 10.5px; line-height: 14px; color: #5f6570">검색 · 조회</div>
+  </div>
+  <p style="margin: 6px 0 0; text-align: center; font-size: 12px; color: #767676">파란 선이 제가 만든 인덱싱 경로. 원본을 먼저 쓰고, relay가 그 행의 상태를 보고 두 검색 저장소를 채움</p>
+
+  <h2 class="sec" style="margin-top: 20px">Contributions.</h2>
+  <h3 class="mark">(1) LLM 답변을 믿을 수 있도록 근거와 기준값을 데이터로 정함</h3>
+  <ul class="ul">
+    <li>답은 "관련 근거 기사를 찾지 못했습니다"인데 화면에는 엉뚱한 기사가 출처로 뜨던 Q&amp;A</li>
+    <li class="ar">검색이 유사도 기준 없이 늘 5건을 돌려준 것이 원인. 검색 뒤 두 번(점수 바닥, 1등의 85%), 답변 뒤 한 번, <b>세 번 걸러</b> 답과 출처가 맞게 함</li>
+    <li>임베딩 모델을 바꾸자 유사도 점수가 전반적으로 올라 예전 기준값이 맞지 않게 됨</li>
+    <li class="ar">감으로 정하지 않고 96쌍 라벨 데이터에서 F1이 가장 높은 값을 찾아 <span class="b hl">0.30에서 0.44로</span> 바꿈</li>
+    <li>답변 품질은 LLM이 4가지 기준으로 채점해 통과 여부를 정함. 온도를 0으로 고정해 두 번 돌려도 결과가 같고, 품질이 나빠지는 것을 막는 관문으로 씀 <a href="https://github.com/dong99u/de_pjt/blob/main/services/django-api/apps/qa/eval/gate.py" style="font-size: 12px">(관련 코드)</a></li>
+  </ul>
+
+
+  <div style="position: absolute; right: 72px; bottom: 28px; font-size: 11px; color: #767676">떠먹는 금융 | 1p</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":794,"height":1123}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

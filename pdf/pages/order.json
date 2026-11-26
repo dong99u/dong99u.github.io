@@ -1,0 +1,26 @@
+{
+  "order": [
+    "Main.dc.html",
+    "Dero1.dc.html",
+    "Dero2.dc.html",
+    "Dero3.dc.html",
+    "Dero4.dc.html",
+    "Dero5.dc.html",
+    "Fin1.dc.html",
+    "Fin2.dc.html",
+    "Tpt1.dc.html",
+    "Tpt2.dc.html"
+  ],
+  "titles": {
+    "Dero1.dc.html": "2 · DERO 표지",
+    "Dero2.dc.html": "3 · DERO 기여 ①②③",
+    "Dero3.dc.html": "4 · DERO 기여 ④⑤⑥",
+    "Dero4.dc.html": "5 · DERO 기여 ⑦⑧",
+    "Dero5.dc.html": "6 · DERO 기여 ⑨",
+    "Fin1.dc.html": "7 · 떠먹는 금융 표지",
+    "Fin2.dc.html": "8 · 떠먹는 금융 기여",
+    "Main.dc.html": "1 · 프로필",
+    "Tpt1.dc.html": "9 · TradingPT 표지",
+    "Tpt2.dc.html": "10 · TradingPT 기여·강점"
+  }
+}

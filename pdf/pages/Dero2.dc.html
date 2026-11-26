@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>DERO 기여 1·2·3</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;family=Gaegu:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+.hl{background:linear-gradient(transparent 50%, #ffe47a 50%);padding:0 2px}
+a{color:#2563d9;text-decoration:none}a:hover{color:#1747a6}
+.sec{font-style:italic;font-weight:800;font-size:19px;letter-spacing:-0.01em;margin:0 0 10px;padding-bottom:7px;border-bottom:1px solid #dfe2e7;color:#1f2329}
+.mark{display:inline-block;margin:0 0 6px;font-size:14.5px;font-weight:800;line-height:1.45;background:linear-gradient(transparent 52%, #ffe47a 52%);padding:0 3px}
+.ul{margin:0;padding:0;list-style:none}
+.ul li{position:relative;padding-left:14px;margin:4px 0}
+.ul li::before{content:"";position:absolute;left:3px;top:9px;width:4px;height:4px;border-radius:50%;background:#aeb3bd}
+.ul li.ar{color:#5f6570;padding-left:30px;margin-top:1px}
+.ul li.ar::before{content:"→";background:none;width:auto;height:auto;border-radius:0;top:0;left:14px;color:#8a909c}
+.b{color:#2563d9;font-weight:700}
+.mt th,.mt td{padding:3px 8px;border-bottom:1px solid #eceef2;font-size:12px;text-align:right}
+.mt th{background:#f4f5f8;color:#4a4f5a;font-weight:700}
+.mt td:first-child,.mt th:first-child{text-align:left}
+</style>
+</helmet>
+<div style="width: 794px; height: 1123px; box-sizing: border-box; padding: 56px 72px 52px; position: relative; overflow: hidden; background: #ffffff; font-family: Inter, 'Noto Sans KR', sans-serif; color: #1f2329; font-size: 13px; line-height: 1.55; letter-spacing: -0.01em">
+
+  <h2 class="sec">Contributions.</h2>
+
+  <h3 class="mark">(1) 1세대: Anthropic의 AI Native SDLC Playbook을 보고 만든 의도 기반 개발 절차 <a href="https://dong99u.github.io/dero/intent-docs/" style="font-size: 11.5px; font-weight: 700; white-space: nowrap">인터랙티브 설명 ↗</a></h3>
+  <ul class="ul">
+    <li><b>만든 이유</b>: 기능의 의도를 남기고, 마케팅팀과 사용자의 요구사항을 개발팀에 다시 설명하는 병목을 줄이려 함</li>
+    <li><b>절차</b>(2026.10~11, 50일): <a href="https://claude.com/ko/resources/articles/the-ai-native-sdlc-playbook">AI Native SDLC Playbook</a>을 참고해 의도(intent) → 명세(spec) → 계획(plan, 사람 승인) → 구현 순서로, 문서가 머지되면 다음 단계가 열리게 해 팀의 기본 개발 절차로 채택</li>
+    <li><b>숫자로 확인한 한계</b>: intent <span class="b hl">209개 중 181개</span>가 open으로 남았고, 백엔드 테스트 클래스 433개 중 423개는 CI에서 돌지 않고 있었음</li>
+    <li class="ar">문서의 상태를 끝까지 관리하지 못했다고 보고 2026-11-22에 1세대를 접음</li>
+  </ul>
+
+  <h3 class="mark" style="margin-top: 10px">(2) 2세대: 머지까지 에이전트가 맡는 개발 루프 <a href="https://dong99u.github.io/dero/merge-gate/" style="font-size: 11.5px; font-weight: 700; white-space: nowrap">인터랙티브 설명 ↗</a></h3>
+  <ul class="ul">
+    <li><b>만든 이유</b>: 1세대는 문서가 방치됐고 개발 일마다 사람이 확인해야 해 사람이 병목이었음 (2026-11-22 첫 판)</li>
+    <li><b>접수</b>(Outer Loop): Sentry 오류와 Slack에 올라온 사용자 피드백을 Grok Bot이 Linear 이슈로 자동 등록</li>
+    <li><b>수정</b>(Inner Loop, Cursor Automations): 보고를 분류하고 재현해 고침. 수정 전후 증거가 PR에 있어야 머지됨</li>
+    <li><b>머지 조건</b>: 코드를 쓰지 않은 <span class="b">검증자 3명</span>(게이트, 화면, diff 담당)이 통과시킨 커밋이 PR의 최신 커밋과 같을 때만 자동 머지. 마이그레이션, 인증, 인프라, 결제는 사람이 검토</li>
+    <li><b>실제 사례</b>: 보고 #22는 이미 들어간 수정을 수정 전후 두 번씩 영상으로 확인하고 닫음. PR #85는 검증자가 짚은 문제를 고쳐 통과. 머지 뒤 첫 전체 검증에서 <span class="b hl">테스트 12,666개 중 실패 0개</span></li>
+  </ul>
+  <div style="position: relative; width: 650px; height: 172px; margin: 2px 0 6px; font-family: Gaegu, 'Noto Sans KR', sans-serif; color: #141414">
+<svg role="img" aria-label="신호가 Grok Bot을 깨워 Linear 이슈가 되고, 안쪽 고리에서 재현하고 수정, 검증자 3명, 문제 발견을 돌다가 통과하면 자동 머지, 위험한 변경은 사람이 검토" width="650" height="172" viewBox="0 0 650 172" style="position: absolute; left: 0px; top: 0px; width: 650px; height: 172px; overflow: visible; fill: none; stroke: #141414; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-21" orient="auto" markerWidth="7" markerHeight="7" refX="5" refY="3.5" overflow="visible"><path d="M0 0 L7 3.5 L0 7 Z" fill="#141414" stroke="none" style="stroke: none; fill: #141414"></path></marker></defs><path d="M190 30 Q240 16 284 38" marker-end="url(#dc-arrow-head-filled-21)"></path><circle cx="302" cy="48" r="14" fill="#141414" style="fill: #141414"></circle><path d="M312 62 Q330 78 348 82" marker-end="url(#dc-arrow-head-filled-21)"></path><path d="M380 78 A50 50 0 0 1 462 78" marker-end="url(#dc-arrow-head-filled-21)"></path><path d="M470 108 A50 50 0 0 1 438 146" marker-end="url(#dc-arrow-head-filled-21)"></path><path d="M404 146 A50 50 0 0 1 372 108" marker-end="url(#dc-arrow-head-filled-21)"></path><path d="M520 86 L548 72" marker-end="url(#dc-arrow-head-filled-21)"></path><path d="M520 110 L548 126" marker-end="url(#dc-arrow-head-filled-21)"></path></svg>
+<div style="position: absolute; left: 8px; top: 20px; width: 190px; font-size: 14.5px; font-weight: 700; line-height: 22px"><span>• Sentry 오류<br>• Slack 사용자 피드백<br>• 예약 실행 (테스트, 정리)<br>• 릴리스 (퍼징)</span></div>
+<div style="position: absolute; left: 202px; top: 2px; width: 60px; text-align: center; font-size: 13px; line-height: 16px; color: #6b717c">Outer Loop</div>
+<div style="position: absolute; left: 322px; top: 26px; width: 190px; font-size: 13px; line-height: 16px; color: #6b717c">Grok Bot이 Linear 이슈로 등록</div>
+<div style="position: absolute; left: 318px; top: 86px; width: 96px; text-align: center; font-size: 15.5px; font-weight: 700; line-height: 20px; background: #ffffff">재현하고 수정</div>
+<div style="position: absolute; left: 440px; top: 86px; width: 76px; text-align: center; font-size: 15.5px; font-weight: 700; line-height: 20px; background: #ffffff">검증자 3명</div>
+<div style="position: absolute; left: 386px; top: 142px; width: 70px; text-align: center; font-size: 15.5px; font-weight: 700; line-height: 20px; background: #ffffff">문제 발견</div>
+<div style="position: absolute; left: 391px; top: 112px; width: 60px; text-align: center; font-size: 13px; line-height: 16px; color: #6b717c">Inner Loop</div>
+<div style="position: absolute; left: 554px; top: 52px; width: 96px; font-size: 15px; font-weight: 700; line-height: 18px"><span>자동 머지<br><span style="font-size: 12.5px; font-weight: 400; color: #6b717c">통과 커밋 = 최신</span></span></div>
+<div style="position: absolute; left: 554px; top: 116px; width: 96px; font-size: 15px; font-weight: 700; line-height: 18px"><span><u>사람</u>이 검토<br><span style="font-size: 12.5px; font-weight: 400; color: #6b717c">위험한 변경만</span></span></div>
+<div style="position: absolute; left: 8px; top: 150px; width: 300px; font-family: Inter, 'Noto Sans KR', sans-serif; font-size: 10.5px; line-height: 14px; color: #767676">구성 참고: Lauren Tan, All Code Is Slop (Except Mine)</div>
+  </div>
+
+  <h3 class="mark">(3) 글로 부탁하던 규칙을 검사와 구조로 옮겨, 어기면 막히게 함 <a href="https://dong99u.github.io/dero/comment-gate/" style="font-size: 11.5px; font-weight: 700; white-space: nowrap">인터랙티브 설명 ↗</a></h3>
+  <ul class="ul">
+    <li><b>이유</b>: 에이전트는 통과하는 가장 짧은 길로 가서 임시방편을 쌓고, 다음 에이전트가 그것을 관례로 복사함. 그래서 맞는 길을 가장 짧게 만들고 지름길은 검사로 막음. 장치가 생긴 규칙은 지워 AGENTS.md를 <span class="b hl">69줄에서 22줄로</span> 줄임</li>
+    <li><b>정원사</b>: 매일 도는 에이전트가 임시방편(잡초)을 후보 이슈로 올리고, 사람이 고른 것을 하루에 하나씩 치움. 예: 한 프레임 기다리기 땜질을 lint로 18곳에 묶은 뒤, 정원사가 PR #88, #89로 16곳까지 줄임 <a href="https://dong99u.github.io/dero/gardener/" style="font-size: 11.5px; font-weight: 700; white-space: nowrap">자세히 ↗</a></li>  </ul>
+  <div style="position: relative; width: 650px; height: 146px; margin: 6px 0 8px; font-family: Gaegu, 'Noto Sans KR', sans-serif; color: #141414">
+<svg role="img" aria-label="역삼각형 다섯 칸. 위에서부터 코드 구조, 정적 검사, 검증, 글 규칙, 사람. 아래로 갈수록 비용이 큼" width="650" height="146" viewBox="0 0 650 146" style="position: absolute; left: 0px; top: 0px; width: 650px; height: 146px; overflow: visible; fill: none; stroke: #141414; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-22" orient="auto" markerWidth="7" markerHeight="7" refX="5" refY="3.5" overflow="visible"><path d="M0 0 L7 3.5 L0 7 Z" fill="#141414" stroke="none" style="stroke: none; fill: #141414"></path></marker></defs><path d="M44 10 L44 132" marker-end="url(#dc-arrow-head-filled-22)"></path><path d="M70 8 L390 8 L230 138 Z"></path><path d="M102 34 L358 34"></path><path d="M134 60 L326 60"></path><path d="M166 86 L294 86"></path><path d="M198 112 L262 112"></path></svg>
+<div style="position: absolute; left: 6px; top: 62px; width: 30px; text-align: center; font-size: 13px; line-height: 16px; color: #6b717c">비용</div>
+<div style="position: absolute; left: 170px; top: 11px; width: 120px; text-align: center; font-size: 15px; font-weight: 700; line-height: 20px">코드 구조</div>
+<div style="position: absolute; left: 170px; top: 37px; width: 120px; text-align: center; font-size: 15px; font-weight: 700; line-height: 20px">정적 검사</div>
+<div style="position: absolute; left: 190px; top: 63px; width: 80px; text-align: center; font-size: 15px; font-weight: 700; line-height: 20px">검증</div>
+<div style="position: absolute; left: 200px; top: 90px; width: 60px; text-align: center; font-size: 13.5px; font-weight: 700; line-height: 18px">글 규칙</div>
+<div style="position: absolute; left: 215px; top: 113px; width: 30px; text-align: center; font-size: 11.5px; font-weight: 700; line-height: 14px">사람</div>
+<div style="position: absolute; left: 408px; top: 11px; width: 242px; font-size: 14px; line-height: 20px">모듈 경계, 쿼리 계층 아키텍처 테스트</div>
+<div style="position: absolute; left: 408px; top: 37px; width: 242px; font-size: 14px; line-height: 20px">CI 검사 29개 → 88개, PR 게이트</div>
+<div style="position: absolute; left: 408px; top: 63px; width: 242px; font-size: 14px; line-height: 20px">검증자 3명, 머지 뒤 테스트 12,666개</div>
+<div style="position: absolute; left: 408px; top: 89px; width: 242px; font-size: 14px; line-height: 20px">AGENTS.md 69줄 → 22줄</div>
+<div style="position: absolute; left: 408px; top: 113px; width: 242px; font-size: 14px; line-height: 20px">위험한 변경만 검토</div>
+<div style="position: absolute; left: 408px; top: 132px; width: 242px; font-family: Inter, 'Noto Sans KR', sans-serif; font-size: 10.5px; line-height: 14px; color: #767676">구성 참고: Lauren Tan의 poteto pyramid</div>
+  </div>
+
+  <table class="mt" style="width: 100%; border-collapse: collapse">
+    <thead><tr><th>PR이 늘어도 지킨 품질 (팀 전체)</th><th>머지 PR</th><th>되돌림</th><th>운영 릴리스</th><th>검사 수</th></tr></thead>
+    <tbody>
+      <tr><td>2026.07</td><td>178</td><td>0.22%</td><td>–</td><td>29</td></tr>
+      <tr><td>2026.10</td><td>892</td><td>0.61%</td><td>38회</td><td>70</td></tr>
+      <tr><td>2026.11</td><td>784</td><td>0.2%</td><td>62회</td><td>88</td></tr>
+    </tbody>
+  </table>
+  <p style="margin: 4px 0 0; font-size: 11px; color: #767676">2026-11-25에 eng-metrics.py로 측정. 표에 없는 8월은 364건에 1.04%, 9월은 38건에 2.5%. 11월 릴리스 간격 중앙값은 3.1시간</p>
+
+  <div style="position: absolute; right: 72px; bottom: 28px; font-size: 11px; color: #767676">DERO | 2p</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":794,"height":1123}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

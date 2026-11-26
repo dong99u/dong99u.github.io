@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>DERO 기여 7·8</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;display=swap">
+<style>
+body{margin:0}
+.hl{background:linear-gradient(transparent 50%, #ffe47a 50%);padding:0 2px}
+a{color:#2563d9;text-decoration:none}a:hover{color:#1747a6}
+.sec{font-style:italic;font-weight:800;font-size:19px;letter-spacing:-0.01em;margin:0 0 10px;padding-bottom:7px;border-bottom:1px solid #dfe2e7;color:#1f2329}
+.mark{display:inline-block;margin:0 0 6px;font-size:14.5px;font-weight:800;line-height:1.45;background:linear-gradient(transparent 52%, #ffe47a 52%);padding:0 3px}
+.ul{margin:0;padding:0;list-style:none}
+.ul li{position:relative;padding-left:14px;margin:4px 0}
+.ul li::before{content:"";position:absolute;left:3px;top:9px;width:4px;height:4px;border-radius:50%;background:#aeb3bd}
+.ul li.ar{color:#5f6570;padding-left:30px;margin-top:1px}
+.ul li.ar::before{content:"→";background:none;width:auto;height:auto;border-radius:0;top:0;left:14px;color:#8a909c}
+.b{color:#2563d9;font-weight:700}
+.mt th,.mt td{padding:3px 8px;border-bottom:1px solid #eceef2;font-size:12px;text-align:right}
+.mt th{background:#f4f5f8;color:#4a4f5a;font-weight:700}
+.mt td:first-child,.mt th:first-child{text-align:left}
+.ts{margin:0;padding:0;list-style:none}
+.ts li{margin:5px 0;font-weight:700;color:#2563d9}
+.sk{display:grid;grid-template-columns:96px minmax(0,1fr);row-gap:5px;font-size:12.5px}
+.sk .l{font-weight:800;text-align:right;padding-right:10px;border-right:1px solid #dfe2e7}
+.sk .v{padding-left:10px}
+</style>
+</helmet>
+<div style="width: 794px; height: 1123px; box-sizing: border-box; padding: 56px 72px 52px; position: relative; overflow: hidden; background: #ffffff; font-family: Inter, 'Noto Sans KR', sans-serif; color: #1f2329; font-size: 13px; line-height: 1.55; letter-spacing: -0.01em">
+
+  <h3 class="mark">(7) Core Web Vitals 개선</h3>
+  <ul class="ul">
+    <li><b>첫 로드 줄이기</b>: 홈 HTML 234KB → 42KB(gzip), 첫 화면 사진 우선 로드, 레이아웃 밀림(CLS) 0.37 → 0</li>
+    <li><b>실험 9개가 안 먹힌 원인 분석</b>: Lighthouse의 LCP 계산(Lantern)을 분해. 점수용 LCP는 첫 표시 전에 끝난 모든 요청이 대역폭을 나눠 쓴 결과였고, LCP 사진은 이미 0.6초에 도착해 있었음</li>
+    <li class="ar">후보를 미리 재는 도구를 만들어 가장 큰 요인이 스크립트(−2,017ms)임을 확인</li>
+    <li><b>해결</b>: nginx가 HTML의 스크립트 태그를 바꿔 첫 표시 뒤에 실행. 프런트 코드는 그대로</li>
+    <li class="ar">데스크톱은 <span class="b hl">100점</span>, PageSpeed 모바일 홈이 84~88점에서 <span class="b hl">93~94점</span>으로</li>
+    <li><b>틀린 가설도 기록</b>: 글꼴 preload는 LCP를 늘려 되돌림. 화면 밖 사진 지연은 로컬에서만 좋아져, 검증 기준을 Google의 요청 순서로 바꿈</li>
+  </ul>
+  <table class="mt" style="width: 100%; border-collapse: collapse; margin-top: 8px">
+    <thead><tr><th>운영 모바일 LCP (Lighthouse)</th><th>제품 목록</th><th>제품 상세</th><th>홈</th></tr></thead>
+    <tbody>
+      <tr><td>반영 전</td><td>13.2초</td><td>6.3초</td><td>5.9초</td></tr>
+      <tr><td>반영 후</td><td><span class="b hl">4.1초</span></td><td>2.1초</td><td>2.4초</td></tr>
+    </tbody>
+  </table>
+  <p style="margin: 4px 0 14px; font-size: 11px; color: #767676">반영 전 3회, 반영 후 5회 측정의 중앙값 (2026.11.13)</p>
+
+  <h3 class="mark">(8) 검색 엔진 최적화(SEO)</h3>
+  <ul class="ul">
+    <li><b>결과</b>: 브랜드 검색을 뺀 주간 노출 187회 → <span class="b hl">6,942회</span>, 주간 클릭 12회 → 117회 (Search Console, 2026.10.06~11.23)</li>
+    <li><b>검색어에서 출발</b>: 제품 상세 검색어의 87%가 모델명이고, 이름에 제품 종류가 든 페이지의 노출이 약 4배임을 확인</li>
+    <li class="ar">title에 제품 종류, 실측 크기, 한글 브랜드를 넣고 JSON-LD에 sku, model, 분류를 추가</li>
+    <li><b>색인 정리</b>: 404 225개를 URL 검사 API로 모두 확인해 이미 색인 밖임을 밝히고 삭제 요청은 하지 않음. 글 1개짜리 태그 106개는 noindex, 분류별 랜딩 19개 신설</li>
+    <li><b>전수 감사 도구</b>: 사이트맵 2,561개 주소의 상태 코드, canonical, hreflang, 구조화 데이터를 검사하는 스크립트를 만들어 결함 0을 확인</li>
+    <li><b>매일 관찰</b>: Search Console 데이터를 PostHog로 가져와 노출, 클릭, 순위를 대시보드로 확인</li>
+  </ul>
+
+  <div style="display: flex; gap: 10px; margin: 10px 0 0"><div style="flex: 1; border: 1px solid #e3e5ea; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px"><div style="font-size: 12.5px; font-weight: 800">운영 모바일 LCP <span style="font-weight: 400; color: #767676; font-size: 11px">(초, 회색 반영 전 · 파랑 반영 후)</span></div><div style="display: flex; gap: 8px"><div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px"><div style="display: flex; align-items: flex-end; gap: 5px; height: 112px"><div style="display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="font-size: 11px; color: #4a4f5a">13.2</span><div style="width: 26px; height: 96px; border-radius: 3px 3px 0 0; background: #c9ced8"></div></div><div style="display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="font-size: 11.5px; font-weight: 800; color: #2563d9">4.1</span><div style="width: 26px; height: 30px; border-radius: 3px 3px 0 0; background: #2563d9"></div></div></div><span style="font-size: 11.5px; color: #4a4f5a; border-top: 1px solid #dfe2e7; padding-top: 3px; width: 100%; text-align: center">제품 목록</span></div><div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px"><div style="display: flex; align-items: flex-end; gap: 5px; height: 112px"><div style="display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="font-size: 11px; color: #4a4f5a">6.3</span><div style="width: 26px; height: 46px; border-radius: 3px 3px 0 0; background: #c9ced8"></div></div><div style="display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="font-size: 11.5px; font-weight: 800; color: #2563d9">2.1</span><div style="width: 26px; height: 15px; border-radius: 3px 3px 0 0; background: #2563d9"></div></div></div><span style="font-size: 11.5px; color: #4a4f5a; border-top: 1px solid #dfe2e7; padding-top: 3px; width: 100%; text-align: center">제품 상세</span></div><div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px"><div style="display: flex; align-items: flex-end; gap: 5px; height: 112px"><div style="display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="font-size: 11px; color: #4a4f5a">5.9</span><div style="width: 26px; height: 43px; border-radius: 3px 3px 0 0; background: #c9ced8"></div></div><div style="display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="font-size: 11.5px; font-weight: 800; color: #2563d9">2.4</span><div style="width: 26px; height: 17px; border-radius: 3px 3px 0 0; background: #2563d9"></div></div></div><span style="font-size: 11.5px; color: #4a4f5a; border-top: 1px solid #dfe2e7; padding-top: 3px; width: 100%; text-align: center">홈</span></div></div></div><div style="flex: 1; border: 1px solid #e3e5ea; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px"><div style="font-size: 12.5px; font-weight: 800">브랜드 검색을 뺀 주간 노출 <span style="font-weight: 400; color: #767676; font-size: 11px">(회, 주 시작일)</span></div><div style="position: relative; width: 298px; height: 140px"><svg role="img" aria-label="주간 노출이 187회에서 249, 453, 1,084, 1,974, 3,324를 거쳐 6,942회로 늘어난 꺾은선그래프" width="298" height="122" viewBox="0 0 298 122" style="position: absolute; left: 0px; top: 0px; width: 298px; height: 122px; overflow: visible; fill: none; stroke: #2563d9; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M0 118 L298 118" stroke="#dfe2e7" stroke-width="1" style="stroke: #dfe2e7; stroke-width: 1"></path><polyline points="14,115.2 59,114.3 104,111.3 149,101.9 194,88.7 239,68.6 284,14.9"></polyline><circle cx="14" cy="115.2" r="2.6" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="59" cy="114.3" r="2.6" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="104" cy="111.3" r="2.6" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="149" cy="101.9" r="2.6" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="194" cy="88.7" r="2.6" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="239" cy="68.6" r="2.6" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle><circle cx="284" cy="14.9" r="2.6" fill="#2563d9" stroke="none" style="stroke: none; fill: #2563d9"></circle></svg><div style="position: absolute; left: -4px; top: 124px; width: 36px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">10.06</div><div style="position: absolute; left: 41px; top: 124px; width: 36px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">10.13</div><div style="position: absolute; left: 86px; top: 124px; width: 36px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">10.20</div><div style="position: absolute; left: 131px; top: 124px; width: 36px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">10.27</div><div style="position: absolute; left: 176px; top: 124px; width: 36px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">11.03</div><div style="position: absolute; left: 221px; top: 124px; width: 36px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">11.10</div><div style="position: absolute; left: 266px; top: 124px; width: 36px; text-align: center; font-size: 10.5px; line-height: 14px; color: #767676">11.17</div><div style="position: absolute; left: 4px; top: 96px; width: 40px; font-size: 11.5px; line-height: 14px; color: #4a4f5a">187</div><div style="position: absolute; left: 196px; top: 54px; width: 44px; text-align: right; font-size: 11px; line-height: 14px; color: #4a4f5a">3,324</div><div style="position: absolute; left: 222px; top: 6px; width: 52px; text-align: right; font-size: 12.5px; line-height: 16px; font-weight: 800; color: #2563d9">6,942</div></div></div></div>
+  <p style="margin: 4px 0 0; font-size: 11px; color: #767676">LCP는 Lighthouse 실험실 값(2026.11.13). 노출은 Search Console 전체에서 검색어 dero를 뺀 값(2026.11.26 조회)</p>
+
+  <div style="position: absolute; right: 72px; bottom: 28px; font-size: 11px; color: #767676">DERO | 4p</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":794,"height":1123}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

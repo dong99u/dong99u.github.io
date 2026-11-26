@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>TradingPT 기여와 강점</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2563d9;text-decoration:none}a:hover{color:#1747a6}
+.sec{font-style:italic;font-weight:800;font-size:19px;letter-spacing:-0.01em;margin:0 0 10px;padding-bottom:7px;border-bottom:1px solid #dfe2e7;color:#1f2329}
+.mark{display:inline-block;margin:0 0 6px;font-size:14.5px;font-weight:800;line-height:1.45;background:linear-gradient(transparent 52%, #ffe47a 52%);padding:0 3px}
+.ul{margin:0;padding:0;list-style:none}
+.ul li{position:relative;padding-left:14px;margin:4px 0}
+.ul li::before{content:"";position:absolute;left:3px;top:9px;width:4px;height:4px;border-radius:50%;background:#aeb3bd}
+.b{color:#2563d9;font-weight:700}
+.stage{flex:1;border:1px solid #e3e5ea;border-radius:8px;padding:9px 11px;display:flex;flex-direction:column;gap:3px}
+.stage .n{font-size:11px;font-weight:800;color:#2563d9;letter-spacing:0.04em}
+.stage .t{font-size:12.5px;font-weight:800}
+.stage .d{font-size:11.5px;color:#5f6570;line-height:1.45}
+.ts{margin:0;padding:0;list-style:none}
+.ts li{margin:4px 0;font-weight:700;color:#2563d9}
+.sk{display:grid;grid-template-columns:96px minmax(0,1fr);row-gap:4px;font-size:12.5px}
+.sk .l{font-weight:800;text-align:right;padding-right:10px;border-right:1px solid #dfe2e7}
+.sk .v{padding-left:10px}
+.st{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;margin-top:9px}
+.st .num{font-size:20px;font-weight:800;color:#2563d9;line-height:1.1;font-style:italic}
+.st h3{margin:0 0 2px;font-size:13.5px;font-weight:800}
+.st p{margin:0;font-size:12.5px;color:#3d424b}
+.st .from{font-size:11px;color:#767676;margin-top:1px}
+</style>
+</helmet>
+<div style="width: 794px; height: 1123px; box-sizing: border-box; padding: 56px 72px 52px; position: relative; overflow: hidden; background: #ffffff; font-family: Inter, 'Noto Sans KR', sans-serif; color: #1f2329; font-size: 13px; line-height: 1.55; letter-spacing: -0.01em">
+
+  <h3 class="mark">(2) 서버가 카드 정보를 받지 않는 정기결제</h3>
+  <ul class="ul">
+    <li>카드 번호는 <span class="b">NicePay 인증창</span>에서만 입력받고, 서버와 DB에는 빌링키와 가린 카드 번호만 저장</li>
+    <li>매일 자정 스케줄러가 결제할 구독을 모아 자동 결제. 서버가 여러 대라 생길 수 있는 중복 결제는 <span class="b">MySQL 기반 ShedLock</span>으로 막음 <a href="https://github.com/dong99u/tradingpt-docs/blob/main/docs/features/RECURRING_PAYMENT.md" style="font-size: 12px">(관련 문서)</a></li>
+  </ul>
+
+  <h3 class="mark" style="margin-top: 14px">(3) 강의 영상 접근 보안을 세 번에 걸쳐 강화</h3>
+  <div style="display: flex; align-items: stretch; gap: 6px; margin-top: 2px">
+    <div class="stage"><span class="n">1단계 (처음)</span><span class="t">Public Bucket</span><span class="d">링크에 만료가 없어 한 번 퍼지면 비회원도 받을 수 있었음</span></div>
+    <div style="align-self: center; color: #2563d9; font-weight: 800">→</div>
+    <div class="stage"><span class="n">2단계</span><span class="t">Private + Presigned URL</span><span class="d">요청마다 권한을 확인. 다만 링크를 넘겨주면 만료 전까지는 열림</span></div>
+    <div style="align-self: center; color: #2563d9; font-weight: 800">→</div>
+    <div class="stage" style="border-color: #2563d9; background: #f3f7ff"><span class="n">3단계 (현재)</span><span class="t">CloudFront 서명 URL과 IP 제한</span><span class="d">접속 IP를 서명에 넣어, 발급받은 IP에서만 재생됨</span></div>
+  </div>
+
+  <h2 class="sec" style="margin-top: 18px">Trouble Shooting <span style="font-size: 14px">(클릭하면 이동)</span>.</h2>
+  <ul class="ts">
+    <li><a href="https://github.com/dong99u/tradingpt-docs/blob/main/docs/troubleshooting/OAUTH2_LOGIN_FAILURE.md">운영 환경에서만 소셜 로그인이 안 되던 원인을 찾아 없앤 과정 ↗</a></li>
+    <li><a href="https://github.com/dong99u/tradingpt-docs/blob/main/docs/troubleshooting/REPEATABLE_READ_ISOLATION.md">REQUIRES_NEW로 저장한 행을 바깥 트랜잭션이 못 보던 문제 ↗</a></li>
+    <li><a href="https://github.com/dong99u/tradingpt-docs/blob/main/docs/performance/LOAD_TEST_ANALYSIS.md">1,000명 부하 테스트에서 느려지는 원인을 단계를 하나씩 빼 보며 찾은 과정 ↗</a></li>
+    <li><a href="https://github.com/dong99u/tradingpt-docs/blob/main/docs/architecture/BLUEGREEN_DEPLOYMENT.md">배포 중 헬스체크가 오락가락해 새 서버가 계속 내려가던 문제 ↗</a></li>
+  </ul>
+
+  <h2 class="sec" style="margin-top: 18px">Skill.</h2>
+  <div class="sk">
+    <div class="l">Backend</div><div class="v">Java 17, Spring Boot, Spring Security, JPA, QueryDSL</div>
+    <div class="l">Database</div><div class="v">MySQL(RDS), Redis(ElastiCache)</div>
+    <div class="l">Infra</div><div class="v">AWS(ALB, ASG, EC2, CloudFront, S3), GitHub Actions, CodeDeploy, Docker</div>
+    <div class="l" style="font-size: 12px">결제, 부하 테스트</div><div class="v">NicePay, k6</div>
+  </div>
+
+  <div style="margin-top: 26px; border-top: 2px solid #1f2329; padding-top: 14px">
+    <h2 style="margin: 0; font-style: italic; font-weight: 800; font-size: 22px; letter-spacing: -0.01em">Strength.</h2>
+    <div class="st">
+      <div class="num">01</div>
+      <div><h3><span class="b">패기</span>&nbsp; 새로운 건 가장 먼저 해 보고, 팀의 방식으로 만듭니다</h3><p>AI 에이전트가 오류 접수부터 머지까지 맡는 루프를 팀에 들였고, 직접 쓴 WebGPU 렌더러로 첫 화면을 15.2초에서 0.71초로 줄였습니다.</p><div class="from">DERO (2), (5)</div></div>
+    </div>
+    <div class="st">
+      <div class="num">02</div>
+      <div><h3><span class="b">끈기</span>&nbsp; 제가 만든 방식도 숫자로 따져 보고 다시 만듭니다</h3><p>직접 설계한 1세대 개발 절차도 intent 209개 중 181개가 open으로 남은 걸 보고 접었고, 알림 기준값도 감이 아니라 라벨 데이터로 정했습니다.</p><div class="from">DERO (1), 떠먹는 금융 (1)</div></div>
+    </div>
+    <div class="st">
+      <div class="num">03</div>
+      <div><h3><span class="b">오너십</span>&nbsp; 서비스에 필요한 일이면 끝까지 책임집니다</h3><p>운영 중인 서비스의 결제와 인프라를 혼자 구축했고, 팀장으로서 백엔드와 ERD를 맡았습니다. 그래서 에이전트가 짠 코드에서 어디가 위험한지 압니다.</p><div class="from">TradingPT (1), (2), DERO 역할</div></div>
+    </div>
+    <p style="margin: 16px 0 0; font-size: 15px; font-weight: 800; text-align: center"><span class="b">빨리 만들어도 무너지지 않는 구조</span>를 계속 만들겠습니다.</p>
+  </div>
+
+  <div style="position: absolute; right: 72px; bottom: 28px; font-size: 11px; color: #767676">TradingPT | 2p</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":794,"height":1123}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

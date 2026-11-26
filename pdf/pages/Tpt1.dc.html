@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>TradingPT 표지</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;display=swap">
+<style>
+body{margin:0}
+.hl{background:linear-gradient(transparent 50%, #ffe47a 50%);padding:0 2px}
+a{color:#2563d9;text-decoration:none}a:hover{color:#1747a6}
+.sec{font-style:italic;font-weight:800;font-size:19px;letter-spacing:-0.01em;margin:0 0 10px;padding-bottom:7px;border-bottom:1px solid #dfe2e7;color:#1f2329}
+.mark{display:inline-block;margin:0 0 6px;font-size:14.5px;font-weight:800;line-height:1.45;background:linear-gradient(transparent 52%, #ffe47a 52%);padding:0 3px}
+.ul{margin:0;padding:0;list-style:none}
+.ul li{position:relative;padding-left:14px;margin:4px 0}
+.ul li::before{content:"";position:absolute;left:3px;top:9px;width:4px;height:4px;border-radius:50%;background:#aeb3bd}
+.b{color:#2563d9;font-weight:700}
+.k{font-weight:800}
+.bar{color:#c4c8cf;padding:0 12px}
+.fig{border:1.5px dashed #b9bec8;border-radius:8px;background:#f6f7f9;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px 20px;box-sizing:border-box;color:#4a4f5a;font-size:12px;line-height:1.6}
+</style>
+</helmet>
+<div style="width: 794px; height: 1123px; box-sizing: border-box; padding: 64px 72px 52px; position: relative; overflow: hidden; background: #ffffff; font-family: Inter, 'Noto Sans KR', sans-serif; color: #1f2329; font-size: 13px; line-height: 1.55; letter-spacing: -0.01em">
+
+  <div style="text-align: center">
+    <h1 style="margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2">TradingPT</h1>
+    <p style="margin: 6px 0 0; font-size: 16px; font-weight: 700; color: #2563d9">트레이딩 교육과 매매일지 피드백 플랫폼</p>
+  </div>
+
+  <div style="margin-top: 22px; border-top: 1px solid #dfe2e7; padding-top: 14px; display: grid; grid-template-columns: 52px minmax(0, 1fr); row-gap: 8px">
+    <div class="k">기간</div><div><span class="bar">|</span>2025.07 ~ 2025.12 <span style="color: #6b717c">(주식회사 티피티, 프리랜서 백엔드)</span></div>
+    <div class="k">구성</div><div><span class="bar">|</span>백엔드 2명, 프론트엔드 1명</div>
+    <div class="k">역할</div><div style="display: flex"><span class="bar">|</span><span>백엔드. 운영 인프라와 CI/CD <span class="b">100%</span>, 데이터 모델(20개 도메인) <span class="b">100%</span>, 결제와 구독, 강의 영상, 피드백, 매매 통계 구현 <span class="b">100%</span></span></div>
+    <div class="k" style="padding-top: 3px">Link</div>
+    <div style="display: flex; align-items: center"><span class="bar">|</span><a href="https://github.com/dong99u/tradingpt-docs/tree/main/docs" style="padding: 2px 12px; border: 1px solid #2563d9; border-radius: 999px; font-size: 12px">설계 문서 바로가기</a><span style="font-size: 12px; color: #6b717c; margin-left: 8px">인프라, 결제, 트러블슈팅 문서 (코드 저장소는 비공개)</span></div>
+    <div class="k">성과</div><div><span class="bar">|</span>🏆 가입자 약 <b class="hl">1100명</b>, 누적 매매일지 <b class="hl">10,383건</b> <span style="color: rgb(107, 113, 124)">(실제 운영 중인 서비스 기준)</span></div>
+  </div>
+
+  <h2 class="sec" style="margin-top: 22px">Introduce.</h2>
+  <div style="display: flex; justify-content: center">
+    <img src="/_blob/996036bd0f851c4d59f93464a58c5cac" alt="TradingPT 서비스 메인 화면. 누적 매매일지 10,383건과 BEST 매매일지 카드" style="width: 344px; height: 206px; object-fit: cover; border: 1px solid #e3e5ea; border-radius: 6px">
+  </div>
+  <p style="margin: 5px 0 0; text-align: center; font-size: 12px; color: #767676">서비스 메인 화면. 매매일지가 10,383건 쌓여 있음 (이용자 닉네임은 가림)</p>
+
+  <h2 class="sec" style="margin-top: 18px">Contributions.</h2>
+  <h3 class="mark">(1) 운영 인프라와 무중단 배포 단독 구축</h3>
+  <ul class="ul" style="margin-bottom: 10px">
+    <li>AWS VPC 하나에 구성. 요청 분배는 ALB, 부하 대응은 ASG와 EC2, 저장소는 RDS(MySQL)와 ElastiCache(Redis), 영상과 정적 파일은 CloudFront와 S3가 맡음</li>
+    <li>GitHub Actions로 빌드하고, CodeDeploy의 <span class="b">블루그린 배포로 서비스 중단 없이 교체</span> <a href="https://github.com/dong99u/tradingpt-docs/blob/main/docs/architecture/BLUEGREEN_DEPLOYMENT.md" style="font-size: 12px">(관련 문서)</a></li>
+  </ul>
+  <div style="position: relative; width: 650px; height: 216px; font-size: 11px; line-height: 1.35; color: #1f2329">
+<div style="position: absolute; left: 124px; top: 44px; width: 398px; height: 124px; box-sizing: border-box; background: #f3f6fc; border: 1px solid #cdd8ee; border-radius: 10px"></div>
+<svg role="img" aria-label="클라이언트에서 ALB로 HTTPS 요청" width="39" height="8" viewBox="0 0 39 8" preserveAspectRatio="none" style="position: absolute; left: 96px; top: 104px; width: 39px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-1" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 35 4" marker-end="url(#dc-arrow-head-filled-1)"></path></svg>
+<svg role="img" aria-label="ALB에서 오토 스케일링 그룹의 Spring Boot로 부하 분산" width="27" height="8" viewBox="0 0 27 8" preserveAspectRatio="none" style="position: absolute; left: 220px; top: 104px; width: 27px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-2" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 23 4" marker-end="url(#dc-arrow-head-filled-2)"></path></svg>
+<svg role="img" aria-label="Spring Boot에서 RDS로" width="27" height="8" viewBox="0 0 27 8" preserveAspectRatio="none" style="position: absolute; left: 380px; top: 81px; width: 27px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-3" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 23 4" marker-end="url(#dc-arrow-head-filled-3)"></path></svg>
+<svg role="img" aria-label="Spring Boot에서 ElastiCache로" width="27" height="8" viewBox="0 0 27 8" preserveAspectRatio="none" style="position: absolute; left: 380px; top: 127px; width: 27px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-4" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 23 4" marker-end="url(#dc-arrow-head-filled-4)"></path></svg>
+<svg aria-hidden="true" width="8" height="59" viewBox="0 0 8 59" preserveAspectRatio="none" style="position: absolute; left: 44px; top: 17px; width: 8px; height: 59px; overflow: visible; fill: none; stroke: #2f6f73; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M 4 59 L 4 0"></path></svg>
+<svg role="img" aria-label="클라이언트에서 CloudFront로, 강의 영상 서명 URL 요청" width="199" height="8" viewBox="0 0 199 8" preserveAspectRatio="none" style="position: absolute; left: 48px; top: 13px; width: 199px; height: 8px; overflow: visible; fill: none; stroke: #2f6f73; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-5" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#2f6f73" stroke="none" style="stroke: none; fill: #2f6f73; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 195 4" marker-end="url(#dc-arrow-head-filled-5)"></path></svg>
+<svg role="img" aria-label="CloudFront에서 비공개 S3로" width="27" height="8" viewBox="0 0 27 8" preserveAspectRatio="none" style="position: absolute; left: 380px; top: 13px; width: 27px; height: 8px; overflow: visible; fill: none; stroke: #2f6f73; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-6" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#2f6f73" stroke="none" style="stroke: none; fill: #2f6f73; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 23 4" marker-end="url(#dc-arrow-head-filled-6)"></path></svg>
+<svg role="img" aria-label="VPC의 Spring Boot에서 NicePay로 결제 요청" width="25" height="8" viewBox="0 0 25 8" preserveAspectRatio="none" style="position: absolute; left: 522px; top: 81px; width: 25px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 4 4"><defs><marker id="dc-arrow-head-filled-7" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 21 4" marker-end="url(#dc-arrow-head-filled-7)"></path></svg>
+<svg role="img" aria-label="VPC의 Spring Boot에서 Kakao로 소셜 로그인" width="25" height="8" viewBox="0 0 25 8" preserveAspectRatio="none" style="position: absolute; left: 522px; top: 127px; width: 25px; height: 8px; overflow: visible; fill: none; stroke: #7a808b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 4 4"><defs><marker id="dc-arrow-head-filled-8" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#7a808b" stroke="none" style="stroke: none; fill: #7a808b; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 21 4" marker-end="url(#dc-arrow-head-filled-8)"></path></svg>
+<svg role="img" aria-label="GitHub에서 GitHub Actions로" width="39" height="8" viewBox="0 0 39 8" preserveAspectRatio="none" style="position: absolute; left: 96px; top: 192px; width: 39px; height: 8px; overflow: visible; fill: none; stroke: #23784f; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 4 4"><defs><marker id="dc-arrow-head-filled-9" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#23784f" stroke="none" style="stroke: none; fill: #23784f; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 35 4" marker-end="url(#dc-arrow-head-filled-9)"></path></svg>
+<svg role="img" aria-label="GitHub Actions에서 CodeDeploy로" width="27" height="8" viewBox="0 0 27 8" preserveAspectRatio="none" style="position: absolute; left: 220px; top: 192px; width: 27px; height: 8px; overflow: visible; fill: none; stroke: #23784f; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 4 4"><defs><marker id="dc-arrow-head-filled-10" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#23784f" stroke="none" style="stroke: none; fill: #23784f; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 23 4" marker-end="url(#dc-arrow-head-filled-10)"></path></svg>
+<svg role="img" aria-label="CodeDeploy가 오토 스케일링 그룹을 블루그린으로 교체" width="8" height="35" viewBox="0 0 8 35" preserveAspectRatio="none" style="position: absolute; left: 310px; top: 147px; width: 8px; height: 35px; overflow: visible; fill: none; stroke: #23784f; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 4 4"><defs><marker id="dc-arrow-head-filled-11" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#23784f" stroke="none" style="stroke: none; fill: #23784f; fill: context-stroke"></path></marker></defs><path d="M 4 35 L 4 4" marker-end="url(#dc-arrow-head-filled-11)"></path></svg>
+<div style="position: absolute; left: 0px; top: 76px; width: 96px; height: 64px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>클라이언트</b><br>Web · Admin<br>Mobile WebView</span></div>
+<div style="position: absolute; left: 136px; top: 88px; width: 84px; height: 40px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>ALB</b><br>HTTPS:443</span></div>
+<div style="position: absolute; left: 248px; top: 70px; width: 132px; height: 76px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1.5px solid #2563d9; border-radius: 6px"><span><b>Auto Scaling Group</b><br>Spring Boot × 2<br>EC2 · Docker</span></div>
+<div style="position: absolute; left: 408px; top: 66px; width: 102px; height: 38px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>RDS (MySQL)</b><br>ShedLock 분산 락</span></div>
+<div style="position: absolute; left: 408px; top: 112px; width: 102px; height: 38px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>ElastiCache</b><br>Redis 세션</span></div>
+<div style="position: absolute; left: 248px; top: 0px; width: 132px; height: 34px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #b9d3d5; border-radius: 6px"><span><b>CloudFront</b><br>서명 URL · IP 제한</span></div>
+<div style="position: absolute; left: 408px; top: 0px; width: 102px; height: 34px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #b9d3d5; border-radius: 6px"><span><b>S3</b> 비공개</span></div>
+<div style="position: absolute; left: 548px; top: 66px; width: 102px; height: 38px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #dcc9a8; border-radius: 6px"><span><b>NicePay</b><br>정기결제</span></div>
+<div style="position: absolute; left: 548px; top: 112px; width: 102px; height: 38px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #dcc9a8; border-radius: 6px"><span><b>Kakao</b><br>소셜 로그인</span></div>
+<div style="position: absolute; left: 0px; top: 179px; width: 96px; height: 34px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>GitHub</b> 소스</span></div>
+<div style="position: absolute; left: 136px; top: 179px; width: 84px; height: 34px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #cfd5df; border-radius: 6px"><span><b>Actions</b><br>빌드 · 테스트</span></div>
+<div style="position: absolute; left: 248px; top: 182px; width: 132px; height: 28px; box-sizing: border-box; padding: 2px 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px solid #23784f; border-radius: 6px"><span><b>CodeDeploy</b> 블루그린</span></div>
+<div style="position: absolute; left: 134px; top: 48px; width: 180px; text-align: left; font-size: 10.5px; line-height: 14px; color: #2563d9; font-weight: 700">AWS VPC · ap-northeast-2</div>
+<div style="position: absolute; left: 97px; top: 90px; width: 38px; text-align: center; font-size: 10.5px; line-height: 14px; color: #5f6570">HTTPS</div>
+<div style="position: absolute; left: 96px; top: 0px; width: 150px; text-align: center; font-size: 10.5px; line-height: 14px; color: #2f6f73">강의 영상 서명 URL</div>
+<div style="position: absolute; left: 322px; top: 152px; width: 70px; text-align: left; font-size: 10.5px; line-height: 14px; color: #23784f">무중단 교체</div>
+<div style="position: absolute; left: 532px; top: 48px; width: 118px; text-align: right; font-size: 10.5px; line-height: 14px; color: #8a5a12; font-weight: 700">외부 연동</div>
+  </div>
+  <p style="margin: 6px 0 0; text-align: center; font-size: 12px; color: #767676">단일 VPC 안의 운영 구성. 초록 점선은 CodeDeploy 블루그린 배포 경로</p>
+
+  <div style="position: absolute; right: 72px; bottom: 28px; font-size: 11px; color: #767676">TradingPT | 1p</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":794,"height":1123}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
