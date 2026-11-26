@@ -1,0 +1,32 @@
+/* --w 저울 폭, --p 문서 한 줄의 높이. 69줄 문서는 69 × --p, 99줄 문서는 99 × --p 만큼 높다. */
+.scale {
+  --w: min(860px, 100vw - 2 * var(--gut));
+  --p: calc(var(--w) * .0023);
+  --rise: calc(var(--w) * .075);
+  --foot: calc(var(--w) * .078);
+  width: var(--w);
+}
+.scale__rig { position: relative; height: calc(107 * var(--p) + var(--rise) + var(--foot)); }
+.beam {
+  position: absolute; left: 7%; right: 7%; bottom: var(--foot); height: 3px;
+  background: var(--text); transform: rotate(-9deg); will-change: transform;
+}
+.sheet { position: absolute; bottom: 3px; background: var(--paper); color: var(--text); }
+.sheet svg { display: block; width: 100%; height: 100%; fill: currentColor; opacity: .7; }
+.sheet--a { left: 0; width: calc(160 * var(--p)); height: calc(77 * var(--p)); }
+.sheet--b { right: 0; width: calc(40 * var(--p)); height: calc(107 * var(--p)); }
+.fulcrum {
+  position: absolute; left: 50%; bottom: 0; width: 0; height: 0; margin-left: calc(var(--foot) * -.6);
+  border: solid transparent; border-width: 0 calc(var(--foot) * .6) var(--foot); border-bottom-color: var(--dim);
+}
+
+.scale__row { display: flex; justify-content: space-between; align-items: start; margin-top: 18px; }
+.val { display: grid; font: 600 clamp(24px, 3.2vw, 42px)/1.15 var(--font-sans); letter-spacing: -.02em; }
+.val > span { grid-area: 1 / 1; }
+.val > [data-lines] { opacity: 0; }
+.val small { display: block; margin-top: 6px; font: 400 14px/1.3 var(--font-sans); letter-spacing: 0; color: var(--mute); }
+.val--b { text-align: right; }
+
+@media (max-width: 640px) {
+  .scale { --p: calc(var(--w) * .0029); }
+}

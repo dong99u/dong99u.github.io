@@ -1,0 +1,28 @@
+<div class="ed" data-ed>
+  <span class="ed__tag">예시 코드</span>
+  <div class="ed__stack">
+    <div class="ed__code ed__code--before" data-before>
+      <p class="ed__ln">function calc(p) {</p>
+      <p class="ed__ln ed__ln--new" data-new>  <span data-typed>// 5만 원 이상 주문은 배송비 무료</span><i class="ed__caret" data-caret></i></p>
+      <p class="ed__ln">  return p &gt;= 50000 ? 0 : 3000;</p>
+      <p class="ed__ln">}</p>
+    </div>
+    <div class="ed__code ed__code--after" data-after>
+      <p class="ed__ln">function <b>shippingFee</b>(<b>orderTotal</b>) {</p>
+      <p class="ed__ln">  const <b>isFree</b> = <b>orderTotal</b> &gt;= 50000;</p>
+      <p class="ed__ln">  return <b>isFree</b> ? 0 : 3000;</p>
+      <p class="ed__ln">}</p>
+    </div>
+  </div>
+  <p class="ed__msg ed__msg--block" data-blocked>✗ 위 주석을 지운다. 이름·타입·검사로 코드가 말하게 한다.</p>
+  <p class="ed__msg" data-passed>✓ 통과</p>
+</div>
+<!--@after-->
+<details class="ev">
+  <summary>근거 보기</summary>
+  <p>새 주석이 CI에서야 걸린 일이 11번 반복됐다(2026-10-31 ~ 11-20).</p>
+  <p>그래서 같은 검사를 에이전트가 파일을 고치는 순간에도 돌게 했다(dero <code>scripts/agent-hooks/block-new-comments.sh</code> → <code>scripts/ci/check-new-comments.sh</code>).</p>
+  <p>새 주석을 막는 검사는 2026-10-30에 들어갔다.</p>
+  <p>주석 줄 수는 22,856줄(2026-09 말) → 2,330줄(2026-10 말).</p>
+  <p>바깥 사정을 적는 주석은 첫 줄에 「유지:」를 붙이면 남길 수 있다.</p>
+</details>

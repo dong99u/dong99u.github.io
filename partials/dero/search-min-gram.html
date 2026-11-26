@@ -1,0 +1,34 @@
+<div class="gram" data-gram data-min="2">
+  <p class="gram__dial"><code>min_gram</code><span class="swap"><b data-v1>1</b><b data-v2>2</b></span><small>제품 이름을 앞에서부터 잘라 저장해 둘 때(색인), 가장 짧은 조각의 글자 수</small></p>
+
+  <div class="case">
+    <div class="case__body" data-match>
+      <svg class="case__link" aria-hidden="true"><line data-link/></svg>
+      <p class="case__lab">없는 이름 <code>존재하지않는제품명asdf</code>로 검색하면 이렇게 쪼개진다</p>
+      <p class="toks"><span>존재</span><span data-q>하</span><span>지</span><span>않</span><span>는</span><span>제</span><span>품명</span><span>asdf</span></p>
+      <p class="toks toks--stored"><span class="toks__grp"><span data-s data-one>하</span><span>하이</span><span>하이엔</span><span>하이엔드</span></span><span class="toks__grp"><span data-one>풋</span><span>풋레</span><span>풋레스</span><span>풋레스트</span></span></p>
+      <p class="case__lab">제품 「하이엔드 풋레스트」의 저장된 조각. 하나라도 같으면 결과에 나온다</p>
+    </div>
+    <p class="case__res"><span>결과</span><span class="swap"><b data-r1>1건</b><b data-r0>0건</b></span></p>
+  </div>
+
+  <div class="case case--typo">
+    <div class="case__body">
+      <p class="case__lab">오타 <code>모니타</code>로 검색해 나오는 제품</p>
+      <p class="toks"><span>모니터 암</span><span>듀얼 모니터 받침대</span></p>
+    </div>
+    <p class="case__res"><span>결과</span><b>2건</b></p>
+  </div>
+
+  <p class="gram__fix">문서 4개 · 2026-11-26 로컬 재현</p>
+</div>
+<!--@after-->
+<details class="ev">
+  <summary>근거 보기</summary>
+  <p>2026-08-06 09:58 <code>322407f147</code> 제품 검색이 <code>min_gram: 1</code>로 들어왔다.</p>
+  <p>2026-08-07 02:31 <code>cef2ea25b9</code> 검색어·결과 건수 로그와 「결과 0건 검색어」 패널을 넣었다.</p>
+  <p>2026-08-07 13:03 <code>4b798fb89f</code> <code>product-index.json</code> 한 줄, <code>1</code> → <code>2</code>. 질의 코드는 그대로다.</p>
+  <p>같은 커밋에서 회귀 테스트 3건 추가. 없는 이름은 0건, 오타 <code>모니타</code>는 계속 <code>모니터 암</code>을 찾는다.</p>
+  <p>2026-11-26 로컬 재현: 같은 문서 4개에서 없는 이름 1건 → 0건, <code>모니타</code> 2건 → 2건.</p>
+  <p>2026-08-08 17:54 <code>9664b46843</code> 수정이 배포 브랜치 main에 들어갔다.</p>
+</details>

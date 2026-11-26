@@ -1,0 +1,39 @@
+.gate {
+  --hash: clamp(44px, 6.2vw, 84px);
+  display: grid; grid-template-columns: auto auto auto 1fr; column-gap: clamp(20px, 3vw, 48px);
+  align-items: start;
+}
+.slot__lab { font-size: 14px; color: var(--mute); margin-bottom: 10px; }
+.slot__hash, .gate__sign { font: 500 var(--hash)/1 var(--font-mono); letter-spacing: -.04em; }
+.slot__hash { min-width: 8ch; }
+.slot--seen .slot__hash { color: var(--agent); }
+.slot__verdict { min-height: 1.5em; margin-top: 12px; font: 500 16px/1.5 var(--font-mono); color: var(--agent); }
+.gate__sign { padding-top: 32px; }
+
+.lock { justify-self: end; width: clamp(56px, 6vw, 80px); padding-top: 14px; text-align: center; }
+.lock svg { display: block; width: 100%; height: auto; overflow: visible; }
+.lock__bow { transform-box: view-box; transform-origin: 34px 28px; transform: translateY(-3px) rotate(30deg); }
+.lock__lab { margin-top: 8px; font-size: 14px; }
+
+.gate__cap { grid-column: 1 / -1; margin-top: clamp(24px, 6vh, 56px); color: var(--mute); }
+.gate__cap b { margin-right: 12px; font: 500 14px var(--font-mono); color: var(--text); }
+
+/* 단계마다 달라지는 색. 0 = PR 이 열림, 1·2 = 잠김, 3 = 열림 */
+.gate[data-step="0"] .slot--seen .slot__hash,
+.gate[data-step="0"] .lock { color: var(--dim); }
+.gate[data-step="0"] .gate__sign,
+.gate[data-step="2"] .gate__sign,
+.gate[data-step="1"] .slot__verdict,
+.gate[data-step="2"] .slot__verdict,
+.gate[data-step="1"] .lock,
+.gate[data-step="2"] .lock { color: var(--block); }
+
+@media (max-width: 760px) {
+  .gate { --hash: clamp(44px, 14vw, 60px); grid-template-columns: 1fr auto; row-gap: 10px; }
+  .slot { grid-column: 1; }
+  .slot__lab { margin-bottom: 6px; }
+  .slot__verdict { margin-top: 6px; }
+  .gate__sign { grid-column: 1; padding-top: 0; }
+  .lock { grid-column: 2; grid-row: 1 / 4; align-self: center; padding-top: 0; }
+  .gate__cap { margin-top: 20px; }
+}

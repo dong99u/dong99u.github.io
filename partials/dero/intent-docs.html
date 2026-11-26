@@ -1,0 +1,32 @@
+<div class="intent" data-intent>
+  <div class="doc" data-doc>
+    <p class="doc__title">Intent: [만들거나 바꾸려는 것]</p>
+    <p class="doc__status">Status: open</p>
+    <p>문제 또는 기회</p>
+    <p>원하는 결과</p>
+    <p>영향받는 사람과 시스템</p>
+    <p>제약</p>
+    <p>선호와 가정</p>
+    <p>성공 기준</p>
+    <p>열린 질문</p>
+  </div>
+
+  <div class="pile">
+    <!--@intent-dots-->
+    <p class="pile__line" aria-hidden="true"><i data-line></i></p>
+    <p class="pile__foot">
+      <span>2026-10-03</span>
+      <span class="pile__key" data-key><span><i data-s="0"></i>open {{open}}</span><span><i data-s="1"></i>shipped {{shipped}}</span><span><i data-s="2"></i>closed {{closed}}</span></span>
+      <span>11-22</span>
+    </p>
+  </div>
+</div>
+<!--@after-->
+<details class="ev">
+  <summary>근거 보기</summary>
+  <p>2026-10-03 도입, 2026-11-22 폐지(PR #33).</p>
+  <p>절차는 intent → spec → plan → 코드 네 단계였고, 문서가 머지되면 다음 단계가 열렸다.</p>
+  <p>폐지 시점 상태는 open {{open}}, shipped {{shipped}}, closed {{closed}}. dero <code>intent/</code> 폴더를 다시 센 값이다.</p>
+  <p>템플릿 제목은 dero <code>intent/_template/intent.md</code> 그대로다.</p>
+  <p>참고 자료: 절차는 Anthropic의 <a href="https://claude.com/ko/resources/articles/the-ai-native-sdlc-playbook" target="_blank" rel="noopener">AI Native SDLC Playbook</a>을 참고했다.</p>
+</details>

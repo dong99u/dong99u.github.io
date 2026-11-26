@@ -1,0 +1,33 @@
+<div class="gate" data-gate data-step="3">
+  <div class="slot slot--seen">
+    <p class="slot__lab">검증자가 본 커밋</p>
+    <p class="slot__hash" data-seen>69627aca</p>
+    <p class="slot__verdict" data-verdict>PASS</p>
+  </div>
+  <p class="gate__sign" data-sign>=</p>
+  <div class="slot">
+    <p class="slot__lab">PR의 최신 커밋</p>
+    <p class="slot__hash" data-latest>69627aca</p>
+  </div>
+  <div class="lock">
+    <svg viewBox="0 0 48 58" aria-hidden="true">
+      <path class="lock__bow" data-bow d="M14 28V17a10 10 0 0 1 20 0v11" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+      <rect x="7" y="27" width="34" height="27" rx="5" fill="currentColor"/>
+    </svg>
+    <p class="lock__lab" data-lock>머지</p>
+  </div>
+  <p class="gate__cap" data-cap><b>4/4</b>69627aca를 다시 검증해 PASS, 머지</p>
+</div>
+<!--@after-->
+<details class="ev">
+  <summary>근거 보기</summary>
+  <p>PR #85, 2026-11-24. 커밋 <code>e34aced1</code> 16:13 → PR 16:14 → 커밋 <code>69627aca</code> 16:16 → 판정 16:17:28 → 머지 16:17:31(KST).</p>
+  <p>판정 댓글의 표 그대로:</p>
+  <p><b>게이트 PASS</b> <code>e34aced1</code>에서 깨끗한 체크아웃, 검사 모두 0. <code>69627aca</code>는 3줄만 바뀌어 GitHub gate 통과로 확인</p>
+  <p><b>화면 건너뜀</b> 바뀐 파일이 Markdown뿐</p>
+  <p><b>diff PASS</b> 1차 ISSUES(화면 칸 건너뛰기가 4단계·검증자 수·판정 행과 어긋남) → <code>69627aca</code>에서 해소</p>
+  <p>머지 명령은 <code>--match-head-commit</code>으로 판정한 커밋과 최신 커밋이 다르면 거절된다(dero <code>loop-common</code> 스킬 6단계).</p>
+  <p>검증자는 원래 게이트·화면·diff 세 칸이고, 이 PR은 문서만 바꿔 화면 칸을 건너뛰었다.</p>
+  <p><a href="https://github.com/dong99u/dero/pull/85" target="_blank" rel="noopener">github.com/dong99u/dero/pull/85</a> 비공개 저장소라 권한이 있어야 열린다.</p>
+</details>
+<p class="ref">참고 자료: Lauren Tan의 공개 자료 <a href="https://www.youtube.com/watch?v=O_zcc6Xl12g" target="_blank" rel="noopener"><i lang="en">All Code Is Slop (Except Mine)</i></a>, <a href="https://x.com/poteto/status/2069824386283319343" target="_blank" rel="noopener"><i lang="en">Loops You Can Trust</i></a>, <a href="https://github.com/cursor/plugins/tree/main/pstack/automations/benny" target="_blank" rel="noopener"><i lang="en">pstack</i></a>. 루프를 만들 때 참고했다.</p>

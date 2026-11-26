@@ -1,0 +1,19 @@
+.ed {
+  position: relative; max-width: 36em; padding: 1.5em 1.6em 1.2em;
+  background: var(--paper); border-radius: 4px;
+  font: 400 clamp(13px, 1.95vw, 25px)/1.8 var(--font-mono); color: var(--mute);
+}
+.ed__tag { position: absolute; top: 10px; right: 14px; font: 400 12px/1 var(--font-sans); color: var(--dim); }
+
+.ed__stack { display: grid; }
+.ed__code { grid-area: 1 / 1; }
+.ed__code--before { opacity: 0; }
+.ed__ln { position: relative; margin: 0 -1.6em; padding: 0 1.6em; white-space: pre; }
+.ed__ln b { font-weight: 500; color: var(--text); }
+.ed__ln--new::before { content: ""; position: absolute; inset: 0; background: var(--block); opacity: var(--red, .14); }
+.ed__ln--new.is-blocked { color: var(--block); }
+.ed__caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 1px; vertical-align: -.18em; background: var(--text); opacity: 0; }
+
+.ed__msg { margin-top: .5em; font-size: max(12px, .68em); line-height: 1.6; color: var(--text); white-space: normal; }
+.ed__stack + .ed__msg { margin-top: 1.4em; }
+.ed__msg--block { color: var(--block); opacity: .45; }

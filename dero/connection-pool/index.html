@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>박동규 · 연결 풀</title>
+<meta name="description" content="외부 응답을 기다리는 동안 DB 연결을 쥐고 있으면, 연결 10개에 동시 요청 16개만으로 상관없는 조회가 1ms에서 5초대로 느려진다(재현 프로그램으로 잰 값). 그런 호출 3곳에서 기다리는 구간을 연결 밖으로 뺐다.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5.3.0/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.3.0/index.css">
+<link rel="stylesheet" href="../../css/base.css">
+<link rel="stylesheet" href="../../css/dero/connection-pool.css">
+</head>
+<body>
+<nav class="bar" aria-label="위치">
+  <p class="bar__left"><a href="../../">박동규</a><a href="../">DERO</a></p>
+  <p class="bar__right"><a href="../doc-weight/" aria-label="이전: 줄 수와 토큰">이전</a><a href="../search-min-gram/" aria-label="다음: 검색 설정 한 줄">다음</a></p>
+</nav>
+<main>
+<section class="scene" data-scene style="--len:2">
+<div class="scene__stage">
+<h1 class="say">외부 응답을 기다리는 동안 DB 연결을 쥐고 있으면, 연결 10개에 동시 요청 16개만으로 상관없는 조회가 1ms에서 5초대로 느려진다(재현 프로그램으로 잰 값). 그런 호출 3곳에서 기다리는 구간을 연결 밖으로 뺐다.</h1>
+<div class="proof">
+<div class="pool" data-pool data-step="2">
+  <p class="pool__n">동시 요청 <b data-n>16</b>개</p>
+  <p class="pool__gloss"><i class="slot"></i>DB 연결 하나. 서버가 DB와 통신할 때 돌려 쓰는 통로이고, 여기서는 10개다(연결 풀). <b class="req"></b>요청 하나.</p>
+
+  <div class="lane lane--hold">
+    <p class="lane__name">기다리는 동안 연결을 쥔다</p>
+    <p class="lane__track"><span class="slots"><i class="slot"><b class="req" data-req="1"></b></i><i class="slot"><b class="req" data-req="2"></b></i><i class="slot"><b class="req" data-req="3"></b></i><i class="slot"><b class="req" data-req="4"></b></i><i class="slot"><b class="req" data-req="5"></b></i><i class="slot"><b class="req" data-req="6"></b></i><i class="slot"><b class="req" data-req="7"></b></i><i class="slot"><b class="req" data-req="8"></b></i><i class="slot"><b class="req" data-req="9"></b></i><i class="slot"><b class="req" data-req="10"></b></i></span><span class="outside" data-queue><b class="req" data-req="11"></b><b class="req" data-req="12"></b><b class="req" data-req="13"></b><b class="req" data-req="14"></b><b class="req" data-req="15"></b><b class="req" data-req="16"></b><em data-note>연결을 못 받은 요청 6개</em></span></p>
+    <p class="lane__res"><span>상관없는 조회</span><b data-res>5초대</b></p>
+  </div>
+
+  <div class="lane lane--free">
+    <p class="lane__name">기다리는 동안 연결을 놓는다</p>
+    <p class="lane__track"><span class="slots"><i class="slot"></i><i class="slot"></i><i class="slot"></i><i class="slot"></i><i class="slot"></i><i class="slot"></i><i class="slot"></i><i class="slot"></i><i class="slot"></i><i class="slot"></i></span><span class="outside"><b class="req" data-req="1"></b><b class="req" data-req="2"></b><b class="req" data-req="3"></b><b class="req" data-req="4"></b><b class="req" data-req="5"></b><b class="req" data-req="6"></b><b class="req" data-req="7"></b><b class="req" data-req="8"></b><b class="req" data-req="9"></b><b class="req" data-req="10"></b><b class="req" data-req="11"></b><b class="req" data-req="12"></b><b class="req" data-req="13"></b><b class="req" data-req="14"></b><b class="req" data-req="15"></b><b class="req" data-req="16"></b></span></p>
+    <p class="lane__res"><span>상관없는 조회</span><b>1ms 이하</b></p>
+  </div>
+
+  <p class="pool__fix">재현 프로그램으로 잰 값이며 운영 측정이 아니다 · 외부 대기 300ms · 2026-11-26 재실행</p>
+</div>
+</div>
+<p class="scene__hint" data-hint aria-hidden="true">스크롤 ↓</p>
+</div>
+</section>
+<div class="after">
+<details class="ev">
+  <summary>근거 보기</summary>
+  <p>2026-08-02 01:42 <code>f7674fc337</code> 이미지 생성 호출이 DB 트랜잭션 안에 들어갔다.</p>
+  <p>2026-08-06 19:01 <code>4f7e8f3a84</code> 읽기 / 생성 / 쓰기 세 구간으로 나눴다. 생성 구간에는 트랜잭션이 없다.</p>
+  <p>2026-08-06 19:59 <code>0fd1648243</code> 바깥에 트랜잭션이 있으면 예외로 멈추게 했다(<code>NEVER</code>).</p>
+  <p>2026-08-07 02:56 <code>f789625f60</code> 검색·추천어의 Elasticsearch 조회 2곳을 같은 방식으로 뺐다.</p>
+  <p>색인·삭제·전량 재색인 3곳은 지금도 트랜잭션 안에서 Elasticsearch를 부른다.</p>
+  <p>당시 운영 설정에는 풀 크기가 없었다. HikariCP 기본값은 10이다. 2026-10-30 <code>9097e71691</code>에서 24로 올렸다.</p>
+  <p>2026-11-26 재실행: 연결 10·대기 300ms에서 동시 8은 1ms, 동시 16은 5,789ms(쥔다) 대 1ms(놓는다). 무관한 조회의 중앙값이고, 실행마다 달라진다.</p>
+  <p>재현 프로그램은 DERO 코드가 아니라 JDBC 호출과 <code>Thread.sleep</code>으로 만든 모형이다(dero <code>docs/retrospective/evidence/repro/PoolHoldRepro.java</code>). 동시 4·8·16에서 잰 값만 그렸다.</p>
+</details>
+</div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="../../js/scene.js"></script>
+<script src="../../js/dero/connection-pool.js"></script>
+</body>
+</html>

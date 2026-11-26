@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>박동규 · DERO</title>
+<meta name="description" content="데스크테리어 3D 시뮬레이터 DERO에서 한 일">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5.3.0/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.3.0/index.css">
+<link rel="stylesheet" href="../css/base.css">
+
+</head>
+<body>
+<nav class="bar" aria-label="위치">
+  <p class="bar__left"><a href="../">박동규</a></p>
+  <p class="bar__right"></p>
+</nav>
+<main class="home">
+<h1 class="home__name">DERO</h1>
+<p class="home__line">데스크테리어 3D 시뮬레이터 DERO에서 한 일</p>
+<ul class="list">
+  <li><a href="intent-docs/"><span class="list__lab">DERO ①</span><span class="list__say">의도 문서부터 쓰는 절차를 50일 운영했고, 문서 209개 중 181개가 끝내 open으로 남았다.</span></a></li>
+  <li><a href="merge-gate/"><span class="list__lab">DERO ②</span><span class="list__say">코드를 쓰지 않은 검증자가 통과시킨 커밋이 PR의 최신 커밋과 같을 때만 머지된다.</span></a></li>
+  <li><a href="comment-gate/"><span class="list__lab">DERO ③</span><span class="list__say">같은 지적을 두 번 하게 되면 문서에 한 줄 더 쓰지 않고, 어기면 막히는 검사로 옮긴다.</span></a></li>
+  <li><a href="doc-weight/"><span class="list__lab">DERO ④</span><span class="list__say">줄 수로는 문서의 무게를 알 수 없었다. 69줄 문서가 17,597토큰, 99줄 문서가 4,025토큰이었다.</span></a></li>
+  <li><a href="connection-pool/"><span class="list__lab">DERO ⑤</span><span class="list__say">외부 응답을 기다리는 동안 DB 연결을 쥐고 있으면, 연결 10개에 동시 요청 16개만으로 상관없는 조회가 1ms에서 5초대로 느려진다(재현 프로그램으로 잰 값). 그런 호출 3곳에서 기다리는 구간을 연결 밖으로 뺐다.</span></a></li>
+  <li><a href="search-min-gram/"><span class="list__lab">DERO ⑥</span><span class="list__say">없는 제품 이름을 쳐도 결과가 나오던 검색을, 색인 설정의 숫자 하나를 1에서 2로 바꿔 0건이 나오게 고쳤다. 오타 검색은 그대로 된다.</span></a></li>
+</ul>
+</main>
+
+</body>
+</html>

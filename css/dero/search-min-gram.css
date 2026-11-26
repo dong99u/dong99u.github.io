@@ -1,0 +1,41 @@
+.gram { max-width: 1120px; }
+.swap { display: inline-grid; }
+.swap > b { grid-area: 1 / 1; font-weight: inherit; }
+.swap > b:first-child { opacity: 0; }
+
+.gram__dial { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 16px; row-gap: 6px; }
+.gram__dial code { font-size: clamp(17px, 1.7vw, 22px); color: var(--mute); }
+.gram__dial .swap { font: 500 clamp(46px, 5.4vw, 72px)/1 var(--font-mono); }
+.gram__dial small { font-size: 14px; color: var(--mute); }
+
+.case {
+  display: grid; grid-template-columns: minmax(0, 1fr) 7em; column-gap: 24px; align-items: center;
+  margin-top: clamp(20px, 4.4vh, 40px);
+}
+.case__body { position: relative; min-width: 0; }
+.case__lab { font-size: 14px; color: var(--mute); }
+.case__lab code { color: var(--text); }
+
+.toks { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; font: 400 clamp(15px, 1.75vw, 22px)/1.2 var(--font-mono); }
+.toks__grp { display: flex; gap: 6px; }
+.toks span:not(.toks__grp) { padding: .32em .55em; border-radius: 3px; background: var(--paper); white-space: nowrap; }
+.toks--stored { margin-top: clamp(30px, 5.4vh, 46px); }
+.toks--stored [data-one] { opacity: .16; }
+.gram[data-min="1"] :is([data-q], [data-s]) { color: var(--block); }
+
+.case__link { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.case__link line { stroke: var(--block); stroke-width: 2; stroke-linecap: round; opacity: 0; }
+
+.case__res { display: grid; gap: 4px; font-size: 14px; color: var(--mute); }
+.case__res b { font: 600 clamp(30px, 3.6vw, 46px)/1.1 var(--font-sans); letter-spacing: -.02em; color: var(--text); }
+.case__res [data-r1] { color: var(--block); }
+.case--typo .case__res b { color: var(--agent); }
+
+.gram__fix { margin-top: clamp(18px, 4vh, 36px); font-size: 13px; color: var(--mute); }
+
+@media (max-width: 640px) {
+  .case { grid-template-columns: minmax(0, 1fr); row-gap: 4px; }
+  .case__res { display: flex; align-items: baseline; gap: 10px; }
+  .case__res b { font-size: 28px; }
+  .toks--stored { margin-top: 30px; }
+}
